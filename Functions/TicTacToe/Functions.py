@@ -31,12 +31,15 @@ def localization_display(data_publisher, camera, last_results, is_debug=False):
             pieces = np.uint16(np.around(pieces))  # shape (1, n, 3)
             for i in range(pieces.shape[1]):
                 u, v, r = pieces[0, i]
-                if min_u<=u and u<=max_u and min_v<=v and v<=max_v:
+                if u<min_u or max_u<u or v<min_v or max_v<v:
                     uvr.append([u, v, r])
                     if is_debug:
                         cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
-                        data_publisher.setData(color_image)
 
+            if is_debug:
+                data_publisher.setData(color_image)
+                cv2.imshow('pieces', color_image)
+                cv2.waitKey(1000)
             return uvr
 
 def identification_display(data_publisher, camera, last_results, is_debug=False):
@@ -49,31 +52,43 @@ def identification_display(data_publisher, camera, last_results, is_debug=False)
             print('identifying...')
         color_image, _ = camera.getImage()
         gray = CA.color2gray(color_image)
-        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22, maxRadius=25)
+        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=20, maxRadius=25)
         x_uvr, o_uvr = [], []
         if o_pieces is not None:
             o_pieces = np.uint16(np.around(o_pieces))  # shape (1, n, 3)
             for i in range(o_pieces.shape[1]):
                 u, v, r = o_pieces[0, i]
-                if min_u<=u and u<=max_u and min_v<=v and v<=max_v:
+                if u<min_u or max_u<u and v<min_v and max_v<v:
                     o_uvr.append([u, v, r])
-                if is_debug:
-                    cv2.circle(color_image, (u, v), r, (255, 0, 0), 2)
-                    data_publisher.setData(color_image)
 
             for i in range(len(uvr)):
                 flag = True
                 u, v, r = uvr[i][0], uvr[i][1], uvr[i][2]
                 for j in range(len(o_uvr)):
                     uo, vo, ro = o_uvr[j][0], o_uvr[j][1], o_uvr[j][2]
-                    if (np.abs(u-uo)+np.abs(v-vo)) <= 20:
+                    # print((u-uo), (v-vo))
+                    if (np.square(u-uo)+np.square(v-vo)) <= 100:
                         flag = False
                         break
                 if flag:
                     x_uvr.append([u, v, r])
             if piece_type==0:
+                if is_debug:
+                    for xxx in x_uvr:
+                        u, v, r = xxx[0], xxx[1], xxx[2]
+                        cv2.circle(color_image, (u, v), r, (0, 0, 255), 2)
+                    data_publisher.setData(color_image)
+                    cv2.imshow('red_pieces', color_image)
+                    cv2.waitKey(1000)
                 return x_uvr
             else:
+                if is_debug:
+                    for xxx in o_uvr:
+                        u, v, r = xxx[0], xxx[1], xxx[2]
+                        cv2.circle(color_image, (u, v), r, (255, 0, 0), 2)
+                    data_publisher.setData(color_image)
+                    cv2.imshow('blue_pieces', color_image)
+                    cv2.waitKey(1000)
                 return o_uvr
 
 def multiple_points_motion_planning(data_publisher, robot, last_results, is_debug=False):
@@ -114,7 +129,7 @@ def execution_display(data_publisher, robot, end_effector, last_results, is_debu
 def board_detect(camera):
     centers = []
     while len(centers)!=4:
-        color_background, depth_image, image_L, image_R = camera.getImage()
+        color_background, _ = camera.getImage()
         contours = CA.find_contours(color_background, threshold=50)
         contours = CA.contours_area_filter(contours, 4000, 4500)
         centers = CA.find_contours_center(contours)

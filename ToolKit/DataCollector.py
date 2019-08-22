@@ -97,7 +97,7 @@ class Monitor(AbstractObserver):
         self.display()
 
     def display(self):
-        path = root_path+'/Data/'+time.strftime("%Y%m%d-%H%M%S", time.localtime())
+        path = root_path+'/Data/'+self.name
         stamp = int(time.time())
         if not os.path.exists(path):
             os.makedirs(path)
@@ -107,7 +107,7 @@ class Monitor(AbstractObserver):
             # return self.data['Image']
 
         if self.data.has_key('Time'):
-            file_path = path+'/'+self.id+'.csv'
+            file_path = path+'/'+self.name+'.csv'
             name = self.data['Time'][0]
             executing_time = self.data['Time'][1]
             csvFile = open(file_path, "a")

@@ -68,16 +68,39 @@ def aubo_display():
     tic_tac_toe.auto_display(aubo, aubo, realsense)
     # tic_tac_toe.display(aubo, aubo, realsense)
 
+def circle_detect():
+    from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
+    CA = CVAlgorithm()
+    realsense = RealsenseController()
+    i = 0
+    while i <= 5:
+        color_image, _ = realsense.getImage()
+        i += 1
+    gray = CA.color2gray(color_image)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28,
+                               maxRadius=35)
+    uvr = []
+    if circles is not None:
+        circles = np.uint16(np.around(circles))  # shape (1, n, 3)
+        for i in range(circles.shape[1]):
+            u, v, r = circles[0, i]
+            uvr.append([u, v, r])
+            cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
+            print(u, v)
+    cv2.imshow('c', color_image)
+    cv2.waitKey(0)
+
 def denso_display():
     from Driver.Cobotta.CobottaController import CobottaController
     realsense = RealsenseController()
-    cobotta = CobottaController()
-    c2d = Calibration2D()
-    cobotta.calibrating(xy_set=[[0.13, 0.1], [0.13, -0.15],
-                                [0.3, 0.1], [0.3, -0.15]],
-                        uv_set=[[596, 332], [619, 823],
-                                [265, 339], [280, 835]],
-                        c2d=c2d)
+    cobotta = ''
+    # cobotta = CobottaController()
+    # c2d = Calibration2D()
+    # cobotta.calibrating(xy_set=[[0.13, 0.1], [0.13, -0.15],
+    #                             [0.3, 0.1], [0.3, -0.15]],
+    #                     uv_set=[[596, 332], [619, 823],
+    #                             [265, 339], [280, 835]],
+    #                     c2d=c2d)
     perception_system = {'Camera': realsense}
     maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
     tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
@@ -88,3 +111,4 @@ if __name__ == '__main__':
     # aubo_display()
     # realsense_test()
     denso_display()
+    # circle_detect()
