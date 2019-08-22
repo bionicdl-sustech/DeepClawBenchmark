@@ -1,4 +1,5 @@
 import cv2
+import csv
 import os
 import sys
 import time
@@ -96,11 +97,22 @@ class Monitor(AbstractObserver):
         self.display()
 
     def display(self):
-        print(self.data)
-        # path = root_path+'/Data/'+time.strftime("%Y%m%d-%H%M%S", time.localtime())
-        # stamp = int(time.time())
-        # if not os.path.exists(path):
-        #     os.makedirs(path)
-        # cv2.imwrite(path+'/'+str(stamp)+'.jpg', self.data['Image'])
-        # # cv2.imshow('Monitor', self.data['Image'])
+        path = root_path+'/Data/'+time.strftime("%Y%m%d-%H%M%S", time.localtime())
+        stamp = int(time.time())
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        if self.data.has_key('Image'):
+            cv2.imwrite(path+'/'+str(stamp)+'.jpg', self.data['Image'])
+            # return self.data['Image']
+
+        if self.data.has_key('Time'):
+            file_path = path+'/'+self.id+'.csv'
+            name = self.data['Time'][0]
+            executing_time = self.data['Time'][1]
+            csvFile = open(file_path, "a")
+            writer = csv.writer(csvFile)
+            writer.writerow([name, executing_time])
+            csvFile.close()
+            # return [name, executing_time]
 

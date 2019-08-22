@@ -37,10 +37,4 @@ class RealsenseController(object):
         color_image = np.asanyarray(color_frame.get_data())
         image_L = np.asanyarray(irL_frame.get_data())
         image_R = np.asanyarray(irR_frame.get_data())
-        return color_image,depth_image,image_L,image_R
-
-
-if __name__ == '__main__':
-    camera_controller = RealsenseController()
-    color_image,_,_,_ = camera_controller.getImage()
-    cv2.imwrite('dog_stand_redbox_ref.png',color_image)
+        return color_image,[depth_image,image_L,image_R]

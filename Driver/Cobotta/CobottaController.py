@@ -111,11 +111,9 @@ class CobottaController:
         cv2.imshow('c', color_image)
         cv2.waitKey(0)
 
-    def denso_calibration(self):
-        ox, oy, oz = 0.13, 0.1, 0.15
-        for i in range(2):
-            for j in range(2):
-                self.move([[ox + i * 0.17, oy - j * 0.25, oz], [pi, 0, 0]])
-                # robot.goHome()
-                time.sleep(1)
+    def calibrating(self, xy_set, uv_set, c2d):
+        self.calibration_tool = c2d
+        self.calibration_tool.xy_set = xy_set
+        self.calibration_tool.uv_set = uv_set
+        self.calibration_tool.matrix_update()
 

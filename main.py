@@ -73,22 +73,18 @@ def denso_display():
     realsense = RealsenseController()
     cobotta = CobottaController()
     c2d = Calibration2D()
-
-    cobotta.calibration_tool = c2d
-    cobotta.calibration_tool.xy_set = [[0.13, 0.1], [0.13, -0.15],
-                                      [0.3, 0.1], [0.3, -0.15]]
-    cobotta.calibration_tool.uv_set = [[596, 332], [619, 823],
-                                      [265, 339], [280, 835]]
-    cobotta.calibration_tool.matrix_update()
-
-    tic_tac_toe.auto_display(cobotta, cobotta, realsense)
-    # cobotta.goHome()
-    # denso_calibration(cobotta)
-    # cobotta.goHome()
+    cobotta.calibrating(xy_set=[[0.13, 0.1], [0.13, -0.15],
+                                [0.3, 0.1], [0.3, -0.15]],
+                        uv_set=[[596, 332], [619, 823],
+                                [265, 339], [280, 835]],
+                        c2d=c2d)
+    perception_system = {'Camera': realsense}
+    maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
+    tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
     # franka_display()
     # ur10_display()
     # aubo_display()
-    realsense_test()
-    # denso_display()
+    # realsense_test()
+    denso_display()
