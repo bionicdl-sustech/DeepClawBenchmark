@@ -5,6 +5,19 @@ from Driver.Camera.RealsenseController import RealsenseController
 from ToolKit.Calibration2D import Calibration2D
 import Examples.TicTacToe as tic_tac_toe
 
+def ur5_display():
+    from Driver.UR5.UR5Controller import UR5Controller
+    realsense = RealsenseController()
+    ur5 = UR5Controller()
+    c2d = Calibration2D()
+
+    ur5.calibration_tool = c2d
+    ur5.calibration_tool.xy_set = [[-0.25318,-0.32069], [-0.26039,-0.70754],
+                                   [0.23002, -0.71088], [0.23564,-0.32275]]
+    ur5.calibration_tool.uv_set = [[437,254], [435,599],
+                                   [875,601], [874,253]]
+    ur5.calibration_tool.matrix_update()
+
 def ur10_display():
     from Driver.UR10e.UrController import URController
     from Driver.UR10e.handE_controller.gripper_controller import HandEController
@@ -45,7 +58,7 @@ def realsense_test():
     realsense = RealsenseController()
     i=0
     while i<=5:
-        c, d, l, r = realsense.getImage()
+        c, _ = realsense.getImage()
         # _, cc, uvr = tic_tac_toe.pieces_detect(c, 'O')
         # cc = cc[100:400, 400:800]
         cv2.imshow('c', c)
@@ -68,27 +81,27 @@ def aubo_display():
     tic_tac_toe.auto_display(aubo, aubo, realsense)
     # tic_tac_toe.display(aubo, aubo, realsense)
 
-def circle_detect():
-    from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
-    CA = CVAlgorithm()
-    realsense = RealsenseController()
-    i = 0
-    while i <= 5:
-        color_image, _ = realsense.getImage()
-        i += 1
-    gray = CA.color2gray(color_image)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28,
-                               maxRadius=35)
-    uvr = []
-    if circles is not None:
-        circles = np.uint16(np.around(circles))  # shape (1, n, 3)
-        for i in range(circles.shape[1]):
-            u, v, r = circles[0, i]
-            uvr.append([u, v, r])
-            cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
-            print(u, v)
-    cv2.imshow('c', color_image)
-    cv2.waitKey(0)
+# def circle_detect():
+#     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
+#     CA = CVAlgorithm()
+#     realsense = RealsenseController()
+#     i = 0
+#     while i <= 5:
+#         color_image, _ = realsense.getImage()
+#         i += 1
+#     gray = CA.color2gray(color_image)
+#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28,
+#                                maxRadius=35)
+#     uvr = []
+#     if circles is not None:
+#         circles = np.uint16(np.around(circles))  # shape (1, n, 3)
+#         for i in range(circles.shape[1]):
+#             u, v, r = circles[0, i]
+#             uvr.append([u, v, r])
+#             cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
+#             print(u, v)
+#     cv2.imshow('c', color_image)
+#     cv2.waitKey(0)
 
 def denso_display():
     from Driver.Cobotta.CobottaController import CobottaController
@@ -109,6 +122,6 @@ if __name__ == '__main__':
     # franka_display()
     # ur10_display()
     # aubo_display()
-    # realsense_test()
-    denso_display()
+    realsense_test()
+    # denso_display()
     # circle_detect()
