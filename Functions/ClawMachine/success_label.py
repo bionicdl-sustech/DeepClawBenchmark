@@ -1,10 +1,12 @@
-import cv2
 import sys
-import numpy as np
-from matplotlib import pyplot as plt
 import time
-sys.path.append('/home/yang/Git/CobotBenchmark/Driver')
-from realsense_controller import RealsenseController
+import os
+
+root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+sys.path.append(root_path)
+
+from Driver.Camera.RealsenseController import RealsenseController
 import DetectForeground as df
 def success_label(img1,img2):
 

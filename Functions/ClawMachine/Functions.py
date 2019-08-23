@@ -2,7 +2,7 @@ import numpy as np
 from math import pi
 import os
 import sys
-from PIL import Image, ImageDraw
+from PIL import ImageDraw
 
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_path)
