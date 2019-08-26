@@ -14,7 +14,7 @@ from ToolKit.DataCollector import ImagePublisher, TimePublisher, Monitor
 
 image_publisher = ImagePublisher('image_pub')
 time_publisher = TimePublisher('time_pub')
-data_collector = Monitor('ClawMachineTask2')
+data_collector = Monitor('ClawMachineTask4')
 image_publisher.registerObserver(data_collector)
 time_publisher.registerObserver(data_collector)
 
@@ -82,7 +82,7 @@ def task_display(perception_system, manipulation_system, is_debug=False):
     # sensors
     camera = perception_system['Camera']
 
-    for i in range(10):
+    for i in range(18):
         subtask_display([camera], [robot_arm, robot_gripper],
                         [Network, NUM_BOXES, WIDTH, crop_box, WorkSpace, i], is_debug)
         grasp_label = raw_input('grasp label[0/1/2]:')

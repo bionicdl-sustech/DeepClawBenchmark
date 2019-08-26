@@ -139,8 +139,8 @@ def denso_display():
                         c2d=c2d)
     perception_system = {'Camera': realsense}
     maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
-    tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
-    # clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
+    # tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
+    clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
     # franka_display()
