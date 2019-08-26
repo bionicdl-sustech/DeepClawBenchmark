@@ -1,9 +1,8 @@
-import cv2, time
-import numpy as np
-from math import pi
+import cv2
 from Driver.Camera.RealsenseController import RealsenseController
 from ToolKit.Calibration2D import Calibration2D
 import Examples.TicTacToe as tic_tac_toe
+import Examples.ClawMachine as clawmachine
 
 def ur5_display():
     from Driver.UR5.UR5Controller import UR5Controller
@@ -90,8 +89,8 @@ def aubo_display():
 #         color_image, _ = realsense.getImage()
 #         i += 1
 #     gray = CA.color2gray(color_image)
-#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28,
-#                                maxRadius=35)
+#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22,
+#                                maxRadius=28)
 #     uvr = []
 #     if circles is not None:
 #         circles = np.uint16(np.around(circles))  # shape (1, n, 3)
@@ -103,25 +102,50 @@ def aubo_display():
 #     cv2.imshow('c', color_image)
 #     cv2.waitKey(0)
 
+# def board_detect():
+#     camera = RealsenseController()
+#     centers = []
+#     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
+#     CA = CVAlgorithm()
+#     while 1:
+#         color_background, _ = camera.getImage()
+#         contours = CA.find_contours(color_background, threshold=50)
+#         # cv2.drawContours(color_background, contours, -1, (0, 255, 0), 1)
+#         # cv2.imshow('background', color_background)
+#         # cv2.waitKey(1)
+#         contours = CA.contours_area_filter(contours, 5000, 6000)
+#         cv2.drawContours(color_background, contours, -1, (0, 255, 0), 1)
+#         cv2.imshow('background2', color_background)
+#         cv2.waitKey(1)
+#         centers = CA.find_contours_center(contours)
+#         # cv2.drawContours(c, contours, -1, (0, 255, 0), 1)
+#         cx, cy = 0, 0
+#         for center in centers:
+#             # cv2.circle(color_background, (center[0], center[1]), 1, (0, 255, 0), 2)
+#             cx+=center[0]
+#             cy+=center[1]
+
 def denso_display():
     from Driver.Cobotta.CobottaController import CobottaController
     realsense = RealsenseController()
-    cobotta = ''
-    # cobotta = CobottaController()
-    # c2d = Calibration2D()
-    # cobotta.calibrating(xy_set=[[0.13, 0.1], [0.13, -0.15],
-    #                             [0.3, 0.1], [0.3, -0.15]],
-    #                     uv_set=[[596, 332], [619, 823],
-    #                             [265, 339], [280, 835]],
-    #                     c2d=c2d)
+    # cobotta = ''
+    cobotta = CobottaController()
+    c2d = Calibration2D()
+    cobotta.calibrating(xy_set=[[0.1634, 0.16309], [0.29218, 0.1588],
+                                [0.15783, -0.16825], [0.28415, -0.17014]],
+                        uv_set=[[1121, 52], [1135, 375],
+                                [331, 97], [338, 400]],
+                        c2d=c2d)
     perception_system = {'Camera': realsense}
     maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
-    tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
+    # tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
+    clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
     # franka_display()
     # ur10_display()
     # aubo_display()
-    realsense_test()
-    # denso_display()
+    # realsense_test()
+    denso_display()
     # circle_detect()
+    # board_detect()

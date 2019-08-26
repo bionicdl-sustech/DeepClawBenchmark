@@ -1,5 +1,6 @@
 import numpy as np
 from math import pi
+import cv2
 import os
 import sys
 from PIL import ImageDraw
@@ -37,14 +38,17 @@ def multiple_points_motion_planning(data_publisher, manipulation_system, last_re
                 draw.line([(x - r * np.cos(best_theta), y + r * np.sin(best_theta)),
                            (x + r * np.cos(best_theta), y - r * np.sin(best_theta))],
                           fill=(255, 255, 255, 125), width=10)
-        data_publisher.setData(croped_image)
+        data_publisher.setData(np.array(croped_image))
+        # print('save image')
+        # croped_image.save('/home/h/result.jpg')
 
-    x = (boxes[best_idx][0] + boxes[best_idx][2]) / 2 + crop_box[0]
-    y = (boxes[best_idx][1] + boxes[best_idx][3]) / 2 + crop_box[1]
-    best_theta = (-1.57 + (candidates_theta[best_idx] - 0.5) * (1.57 / 9))
+    x = (boxes[best_idx][0] + boxes[best_idx][2]) / 2 + crop_box[1]
+    y = (boxes[best_idx][1] + boxes[best_idx][3]) / 2 + crop_box[0]
+    # best_theta = (-1.57 + (candidates_theta[best_idx] - 0.5) * (1.57 / 9))
+    best_theta = ((candidates_theta[best_idx] - 0.5) * (1.57 / 9))
 
     pick_location = robot_arm.calibration_tool.cvt(x, y)
-    place_location = [robot_arm.HOME_POSITION[0], robot_arm.HOME_POSITION[1]]
+    place_location = [robot_arm.HOME_POSE[0][0], robot_arm.HOME_POSE[0][1]]
     return pick_location, place_location, best_theta
 
 
@@ -52,10 +56,10 @@ def execution_display(data_publisher, manipulation_system, last_results, is_debu
     '''Execution'''
     robot_arm = manipulation_system[0]
     robot_gripper = manipulation_system[1]
-    pick_location, place_location = last_results[0], last_results[1]
+    pick_location, place_location, best_theta = last_results[0], last_results[1], last_results[2]
 
-    robot_arm.movej(pick_location[0], pick_location[1], robot_arm.PICK_Z + 0.01, pi, 0, 0)
-    robot_arm.movej(pick_location[0], pick_location[1], robot_arm.PICK_Z, pi, 0, 0)
+    robot_arm.movej(pick_location[0], pick_location[1], robot_arm.PICK_Z + 0.05, pi, 0, best_theta)
+    robot_arm.movej(pick_location[0], pick_location[1], robot_arm.PICK_Z, pi, 0, best_theta)
     robot_gripper.closeGripper()
 
     robot_arm.movej(place_location[0], place_location[1], robot_arm.PLACE_Z + 0.01, pi, 0, 0)

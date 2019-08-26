@@ -14,8 +14,8 @@ class CobottaController:
     def __init__(self):
         self.HOME_JOINT_VALUES = []
         self.HOME_POSE = [[0.1, 0.1, 0.15], [pi, 0, 0]]
-        self.PICK_Z = 0.1
-        self.PLACE_Z = 0.1
+        self.PICK_Z = 0.075
+        self.PLACE_Z = 0.12
         self.pose = Pose()
 
         # ROS node initialization
@@ -44,7 +44,7 @@ class CobottaController:
         self.move(self.HOME_POSE)
 
     def execute(self, group, plan):
-        input = raw_input("wait...")
+        # input = raw_input("waiting for confirm...")
         res = group.execute(plan)
         time.sleep(0.1)
 
@@ -77,10 +77,28 @@ class CobottaController:
             self.execute(self.group, plan)
 
     def openGripper(self):
-        self.end_effector.openGripper()
+        '''
+        Open the gripper.
+        :return: True or False
+        '''
+        try:
+            os.system('sh '+root_path+'/Cobotta/open.sh')
+        except:
+            print("Can't open gripper, please check the location of open.sh!")
+            return False
+        return True
 
     def closeGripper(self):
-        self.end_effector.closeGripper()
+        '''
+        Open the gripper.
+        :return: True or False
+        '''
+        try:
+            os.system('sh ' + root_path + '/Cobotta/close.sh')
+        except:
+            print("Can't open gripper, please check the location of close.sh!")
+            return False
+        return True
 
     def rpy2orientation(self, row, pitch, yaw):
         q = tf.transformations.quaternion_from_euler(row, pitch, yaw, axes='sxyz')

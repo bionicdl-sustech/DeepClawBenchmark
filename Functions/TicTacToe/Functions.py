@@ -25,7 +25,7 @@ def localization_display(data_publisher, camera, last_results, is_debug=False):
         gray = CA.color2gray(color_image)
         # o_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22,
         #                              maxRadius=25)
-        pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28, maxRadius=35)
+        pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=33, maxRadius=38)
         uvr = []
         if pieces is not None:
             pieces = np.uint16(np.around(pieces))  # shape (1, n, 3)
@@ -52,7 +52,7 @@ def identification_display(data_publisher, camera, last_results, is_debug=False)
             print('identifying...')
         color_image, _ = camera.getImage()
         gray = CA.color2gray(color_image)
-        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=20, maxRadius=25)
+        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22, maxRadius=28)
         x_uvr, o_uvr = [], []
         if o_pieces is not None:
             o_pieces = np.uint16(np.around(o_pieces))  # shape (1, n, 3)
@@ -95,7 +95,7 @@ def multiple_points_motion_planning(data_publisher, robot, last_results, is_debu
     '''Multiple Points Motion Planning'''
     selected_pieces_uvr, game, board_pix, piece_type = last_results[0], last_results[1], last_results[2], last_results[3]
 
-    pick_num = random.randint(0, len(selected_pieces_uvr))
+    pick_num = random.randint(0, len(selected_pieces_uvr)-1)
     pick_u, pick_v = selected_pieces_uvr[pick_num][0], selected_pieces_uvr[pick_num][1]
 
     if piece_type==0:
@@ -129,9 +129,10 @@ def execution_display(data_publisher, robot, end_effector, last_results, is_debu
 def board_detect(camera):
     centers = []
     while len(centers)!=4:
+        print('board detecting...')
         color_background, _ = camera.getImage()
         contours = CA.find_contours(color_background, threshold=50)
-        contours = CA.contours_area_filter(contours, 4000, 4500)
+        contours = CA.contours_area_filter(contours, 5000, 6000)
         centers = CA.find_contours_center(contours)
         # cv2.drawContours(c, contours, -1, (0, 255, 0), 1)
         cx, cy = 0, 0

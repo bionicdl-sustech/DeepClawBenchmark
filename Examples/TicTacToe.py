@@ -12,7 +12,7 @@ from ToolKit.DataCollector import ImagePublisher, TimePublisher, Monitor
 
 image_publisher = ImagePublisher('image_pub')
 time_publisher = TimePublisher('time_pub')
-data_collector = Monitor('obs1')
+data_collector = Monitor('Tic-tac-toe-task1')
 image_publisher.registerObserver(data_collector)
 time_publisher.registerObserver(data_collector)
 
@@ -38,20 +38,20 @@ def subtask_display(perception_system, manipulation_system, args, is_debug=False
     if is_debug:
         time_publisher.setData([str(ite)+'identification', end_time - start_time])
 
-    # # multiple points motion planning step
-    # start_time = time.time()
-    # pick_location, place_location = multiple_points_motion_planning(image_publisher, robot_arm,
-    #                                                                 [selected_pieces_uvr, game, board_pix, piece_type])
-    # end_time = time.time()
-    # if is_debug:
-    #     time_publisher.setData([str(ite)+'multiple_points_motion_planning', end_time - start_time])
+    # multiple points motion planning step
+    start_time = time.time()
+    pick_location, place_location = multiple_points_motion_planning(image_publisher, robot_arm,
+                                                                    [selected_pieces_uvr, game, board_pix, piece_type])
+    end_time = time.time()
+    if is_debug:
+        time_publisher.setData([str(ite)+'multiple_points_motion_planning', end_time - start_time])
 
-    # # execution step
-    # start_time = time.time()
-    # execution_display(image_publisher, robot_arm, robot_gripper, [pick_location, place_location])
-    # end_time = time.time()
-    # if is_debug:
-    #     time_publisher.setData([str(ite)+'execution', end_time - start_time])
+    # execution step
+    start_time = time.time()
+    execution_display(image_publisher, robot_arm, robot_gripper, [pick_location, place_location])
+    end_time = time.time()
+    if is_debug:
+        time_publisher.setData([str(ite)+'execution', end_time - start_time])
 
 def task_display(perception_system, manipulation_system, is_debug=False):
     # game initial
