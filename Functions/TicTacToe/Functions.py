@@ -38,8 +38,8 @@ def localization_display(data_publisher, camera, last_results, is_debug=False):
 
             if is_debug:
                 data_publisher.setData(color_image)
-                cv2.imshow('pieces', color_image)
-                cv2.waitKey(1000)
+                # cv2.imshow('pieces', color_image)
+                # cv2.waitKey(1000)
             return uvr
 
 def identification_display(data_publisher, camera, last_results, is_debug=False):
@@ -78,8 +78,8 @@ def identification_display(data_publisher, camera, last_results, is_debug=False)
                         u, v, r = xxx[0], xxx[1], xxx[2]
                         cv2.circle(color_image, (u, v), r, (0, 0, 255), 2)
                     data_publisher.setData(color_image)
-                    cv2.imshow('red_pieces', color_image)
-                    cv2.waitKey(1000)
+                    # cv2.imshow('red_pieces', color_image)
+                    # cv2.waitKey(1000)
                 return x_uvr
             else:
                 if is_debug:
@@ -87,8 +87,8 @@ def identification_display(data_publisher, camera, last_results, is_debug=False)
                         u, v, r = xxx[0], xxx[1], xxx[2]
                         cv2.circle(color_image, (u, v), r, (255, 0, 0), 2)
                     data_publisher.setData(color_image)
-                    cv2.imshow('blue_pieces', color_image)
-                    cv2.waitKey(1000)
+                    # cv2.imshow('blue_pieces', color_image)
+                    # cv2.waitKey(1000)
                 return o_uvr
 
 def multiple_points_motion_planning(data_publisher, robot, last_results, is_debug=False):
@@ -118,12 +118,12 @@ def execution_display(data_publisher, robot, end_effector, last_results, is_debu
 
     robot.movej(pick_location[0], pick_location[1], robot.PICK_Z + 0.01, pi, 0, 0)
     robot.movej(pick_location[0], pick_location[1], robot.PICK_Z, pi, 0, 0)
-    # end_effector.closeGripper()
-    robot.goHome()
+    end_effector.closeGripper()
+    # robot.goHome()
 
     robot.movej(place_location[0], place_location[1], robot.PLACE_Z + 0.01, pi, 0, 0)
     robot.movej(place_location[0], place_location[1], robot.PLACE_Z, pi, 0, 0)
-    # end_effector.closeGripper()
+    end_effector.openGripper()
     robot.goHome()
 
 def board_detect(camera):
@@ -132,7 +132,7 @@ def board_detect(camera):
         print('board detecting...')
         color_background, _ = camera.getImage()
         contours = CA.find_contours(color_background, threshold=50)
-        contours = CA.contours_area_filter(contours, 5000, 6000)
+        contours = CA.contours_area_filter(contours, 5800, 6800)
         centers = CA.find_contours_center(contours)
         # cv2.drawContours(c, contours, -1, (0, 255, 0), 1)
         cx, cy = 0, 0

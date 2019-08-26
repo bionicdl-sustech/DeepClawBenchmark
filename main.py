@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from Driver.Camera.RealsenseController import RealsenseController
 from ToolKit.Calibration2D import Calibration2D
 import Examples.TicTacToe as tic_tac_toe
@@ -89,8 +90,8 @@ def aubo_display():
 #         color_image, _ = realsense.getImage()
 #         i += 1
 #     gray = CA.color2gray(color_image)
-#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22,
-#                                maxRadius=28)
+#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=35,
+#                                maxRadius=41)
 #     uvr = []
 #     if circles is not None:
 #         circles = np.uint16(np.around(circles))  # shape (1, n, 3)
@@ -113,7 +114,7 @@ def aubo_display():
 #         # cv2.drawContours(color_background, contours, -1, (0, 255, 0), 1)
 #         # cv2.imshow('background', color_background)
 #         # cv2.waitKey(1)
-#         contours = CA.contours_area_filter(contours, 5000, 6000)
+#         contours = CA.contours_area_filter(contours, 5500, 6500)
 #         cv2.drawContours(color_background, contours, -1, (0, 255, 0), 1)
 #         cv2.imshow('background2', color_background)
 #         cv2.waitKey(1)
@@ -138,8 +139,8 @@ def denso_display():
                         c2d=c2d)
     perception_system = {'Camera': realsense}
     maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
-    # tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
-    clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
+    tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
+    # clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
     # franka_display()

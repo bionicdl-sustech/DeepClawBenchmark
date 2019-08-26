@@ -1,4 +1,3 @@
-import cv2
 import os
 import sys
 
@@ -12,7 +11,7 @@ from ToolKit.DataCollector import ImagePublisher, TimePublisher, Monitor
 
 image_publisher = ImagePublisher('image_pub')
 time_publisher = TimePublisher('time_pub')
-data_collector = Monitor('Tic-tac-toe-task1')
+data_collector = Monitor('Tic-tac-toe-task5')
 image_publisher.registerObserver(data_collector)
 time_publisher.registerObserver(data_collector)
 
@@ -71,15 +70,17 @@ def task_display(perception_system, manipulation_system, is_debug=False):
 
     # print('ttt')
     if is_debug:
-        cv2.imshow('board', color_image)
-        cv2.waitKey(1000)
+        # cv2.imshow('board', color_image)
+        # cv2.waitKey(1000)
         image_publisher.setData(color_image)
 
     ite = 0
     while game.gameOver() == False:
         subtask_display([camera], [robot_arm, robot_gripper], [game, board_pix, top_left, bottom_right, ite], is_debug)
         ite += 1
-        raw_input('waiting...')
+        grasp_label = raw_input('grasp label[0/1/2]:')
+        if is_debug:
+            time_publisher.setData([str(i) + 'grasp label', str(grasp_label)])
 
 #
 # # def display(robot, end_effector, camera):
