@@ -12,10 +12,10 @@ def ur5_display():
     c2d = Calibration2D()
 
     ur5.calibration_tool = c2d
-    ur5.calibration_tool.xy_set = [[-0.25318,-0.32069], [-0.26039,-0.70754],
-                                   [0.23002, -0.71088], [0.23564,-0.32275]]
-    ur5.calibration_tool.uv_set = [[437,254], [435,599],
-                                   [875,601], [874,253]]
+    ur5.calibration_tool.xy_set = [[-0.25318, -0.32069], [-0.26039, -0.70754],
+                                   [0.23002, -0.71088], [0.23564, -0.32275]]
+    ur5.calibration_tool.uv_set = [[437, 254], [435, 599],
+                                   [875, 601], [874, 253]]
     ur5.calibration_tool.matrix_update()
 
 def ur10_display():
@@ -27,10 +27,10 @@ def ur10_display():
     c2d = Calibration2D()
 
     ur.calibration_tool = c2d
-    ur.calibration_tool.xy_set = [[0.43976,0.72971], [0.45804, 0.49703],
-                                 [0.23657, 0.74348], [0.260350, 0.500420]]
-    ur.calibration_tool.uv_set = [[896,434], [678,456],
-                                 [904,244], [676,274]]
+    ur.calibration_tool.xy_set = [[0.43976, 0.72971], [0.45804, 0.49703],
+                                  [0.23657, 0.74348], [0.260350, 0.500420]]
+    ur.calibration_tool.uv_set = [[896, 434], [678, 456],
+                                  [904, 244], [676, 274]]
     ur.calibration_tool.matrix_update()
 
     end_effector.openGripper()
@@ -46,9 +46,9 @@ def franka_display():
 
     franka.calibration_tool = c2d
     franka.calibration_tool.xy_set = [[0.232997579286, 0.278699656702], [0.622929389307, 0.284811723732],
-                                 [0.630048128924, -0.200942368032], [0.242755221618, -0.20808202166]]
+                                      [0.630048128924, -0.200942368032], [0.242755221618, -0.20808202166]]
     franka.calibration_tool.uv_set = [[297, 98], [671, 103],
-                                 [668, 566], [296, 570]]
+                                      [668, 566], [296, 570]]
     franka.calibration_tool.matrix_update()
 
     end_effector.openGripper()
@@ -72,14 +72,13 @@ def aubo_display():
     c2d = Calibration2D()
 
     aubo.calibration_tool = c2d
-    # aubo.calibration_tool.xy_set = [[0.2796, -0.2204],[0.3515, -0.0822],[0.4919, -0.0112],[0.6336, -0.1532]]
-    # aubo.calibration_tool.uv_set = [[488, 204], [624, 158], [759, 199], [763, 378]]
-    aubo.calibration_tool.xy_set = [[0.329053, -0.133206], [0.378447, -0.038181], [0.478084, -0.017679], [0.553431, -0.148724]] #[0.407044, -0.25476]
-    aubo.calibration_tool.uv_set = [[550, 220], [640, 186], [719, 232], [690, 364]]#[524, 345]
+    aubo.calibration_tool.xy_set = [[0.329053, -0.133206], [0.378447, -0.038181],
+                                    [0.478084, -0.017679], [0.553431, -0.148724]]
+    aubo.calibration_tool.uv_set = [[550, 220], [640, 186],
+                                    [719, 232], [690, 364]]
     aubo.calibration_tool.matrix_update()
 
     tic_tac_toe.auto_display(aubo, aubo, realsense)
-    # tic_tac_toe.display(aubo, aubo, realsense)
 
 # def circle_detect():
 #     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
@@ -129,7 +128,6 @@ def aubo_display():
 def denso_display():
     from Driver.Cobotta.CobottaController import CobottaController
     realsense = RealsenseController()
-    # cobotta = ''
     cobotta = CobottaController()
     c2d = Calibration2D()
     cobotta.calibrating(xy_set=[[0.1634, 0.16309], [0.29218, 0.1588],
