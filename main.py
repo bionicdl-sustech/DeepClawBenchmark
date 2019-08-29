@@ -88,28 +88,30 @@ def aubo_display():
 
     tic_tac_toe.auto_display(aubo, aubo, realsense)
 
-# def circle_detect():
-#     import numpy as np
-#     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
-#     CA = CVAlgorithm()
-#     realsense = RealsenseController()
-#     i = 0
-#     while i <= 5:
-#         color_image, _ = realsense.getImage()
-#         i += 1
-#     gray = CA.color2gray(color_image)
-#     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=35,
-#                                maxRadius=41)
-#     uvr = []
-#     if circles is not None:
-#         circles = np.uint16(np.around(circles))  # shape (1, n, 3)
-#         for i in range(circles.shape[1]):
-#             u, v, r = circles[0, i]
-#             uvr.append([u, v, r])
-#             cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
-#             print(u, v)
-#     cv2.imshow('c', color_image)
-#     cv2.waitKey(0)
+def circle_detect():
+    import numpy as np
+    from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
+    CA = CVAlgorithm()
+    realsense = RealsenseController()
+    i = 0
+    while i <= 5:
+        color_image, _ = realsense.getImage()
+        i += 1
+    gray = CA.color2gray(color_image)
+    # circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28,
+    #                            maxRadius=33)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22,
+                               maxRadius=25)
+    uvr = []
+    if circles is not None:
+        circles = np.uint16(np.around(circles))  # shape (1, n, 3)
+        for i in range(circles.shape[1]):
+            u, v, r = circles[0, i]
+            uvr.append([u, v, r])
+            cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
+            print(u, v)
+    cv2.imshow('c', color_image)
+    cv2.waitKey(0)
 
 # def board_detect():
 #     import numpy as np
@@ -147,8 +149,8 @@ def denso_display():
                         c2d=c2d)
     perception_system = {'Camera': realsense}
     maniuplation_system = {'Arm': cobotta, 'End-effector': cobotta}
-    # tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
-    clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
+    tic_tac_toe.task_display(perception_system, maniuplation_system, is_debug=True)
+    # clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
     robot = ''
@@ -167,6 +169,12 @@ if __name__ == '__main__':
                           uv_set=[[1121, 52], [1135, 375],
                                   [331, 97], [338, 400]],
                           c2d=c2d)
+    elif mode=='tic-tac-toe':
+        import os
+        os.system("gnome-terminal -e 'bash -c \"cd ../..;roslaunch denso_robot_bringup cobotta_bringup.launch sim:=false robot_address:=192.168.0.1; exec bash\"'")
+        os.system("gnome-terminal -e 'bash -c \"cd ../..;roslaunch bcap_service bcap_service.launch ip_address:=192.168.0.1 exec bash\"'")
+        denso_display()
+
     # franka_display()
     # ur10_display()
     # aubo_display()

@@ -25,7 +25,7 @@ def localization_display(data_publisher, camera, last_results, is_debug=False):
         gray = CA.color2gray(color_image)
         # o_circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22,
         #                              maxRadius=25)
-        pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=33, maxRadius=38)
+        pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=28, maxRadius=33)
         uvr = []
         if pieces is not None:
             pieces = np.uint16(np.around(pieces))  # shape (1, n, 3)
@@ -52,21 +52,25 @@ def identification_display(data_publisher, camera, last_results, is_debug=False)
             print('identifying...')
         color_image, _ = camera.getImage()
         gray = CA.color2gray(color_image)
-        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22, maxRadius=28)
+        o_pieces = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=22, maxRadius=25)
         x_uvr, o_uvr = [], []
         if o_pieces is not None:
             o_pieces = np.uint16(np.around(o_pieces))  # shape (1, n, 3)
             for i in range(o_pieces.shape[1]):
+                # print('tt')
                 u, v, r = o_pieces[0, i]
-                if u<min_u or max_u<u and v<min_v and max_v<v:
+                if u<min_u or max_u<u or v<min_v or max_v<v:
+                    # print('ttt')
                     o_uvr.append([u, v, r])
 
             for i in range(len(uvr)):
                 flag = True
                 u, v, r = uvr[i][0], uvr[i][1], uvr[i][2]
+                # print(len(o_uvr))
                 for j in range(len(o_uvr)):
                     uo, vo, ro = o_uvr[j][0], o_uvr[j][1], o_uvr[j][2]
-                    if (np.square(u-uo)+np.square(v-vo)) <= 100:
+                    print(np.square(u-uo)+np.square(v-vo))
+                    if (np.square(u-uo)+np.square(v-vo)) <= 200:
                         flag = False
                         break
                 if flag:

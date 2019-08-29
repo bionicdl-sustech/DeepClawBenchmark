@@ -14,8 +14,8 @@ class CobottaController:
     def __init__(self):
         self.HOME_JOINT_VALUES = []
         self.HOME_POSE = [[0.1, 0.1, 0.15], [pi, 0, 0]]
-        self.PICK_Z = 0.075
-        self.PLACE_Z = 0.12
+        self.PICK_Z = 0.07
+        self.PLACE_Z = 0.08
         self.pose = Pose()
 
         # ROS node initialization
