@@ -10,7 +10,7 @@ Establishing a reproducible and shareable benchmarking for dexterous manipulatio
 
 ### Prerequisites
 
-DeepClaw framework has only been tested with Python 2.7 and Ubuntu 16.04 LTS. We recommend using a virtual environment (such as virtualenv) to manage DeepClaw.
+DeepClaw framework has only been tested with *Python 2.7* and *Ubuntu 16.04 LTS*. We recommend using a virtual environment (such as virtualenv) to manage DeepClaw.
 
 Install virtualenv.
 
@@ -33,6 +33,15 @@ $ deactivate # retreat from virtual environment
 
 ### Installation
 
+We recommend to use MoveIt! to do motion planning for Denso/FRANKA/AUBO. Make sure you have installed [ROS](http://wiki.ros.org/ROS/Installation) and [MoveIt!](https://moveit.ros.org/install/) before install DeepClaw.
+
+(Optional) If you use ROS, create workspace first.
+
+```shell
+$ mkdir -p ~/deepclaw_ws/src
+$ cd ~/deepclaw_ws/src
+```
+
 Clone or download DeepClaw from Github.
 
 ```shell
@@ -43,7 +52,7 @@ $ cd ./DeepClawBenchmark
 Run the DeepClaw installation helper script:
 
 ```shell
-$ sudo sh install.sh {cpu|gpu} {ur|franka|aubo|denso}
+$ sudo sh install.sh {cpu|gpu} {denso|ur}
 ```
 
 The brackets indicate optional arguments to switch installation methods.
@@ -63,7 +72,7 @@ The second argument specifies the installation mode:
 Test the installation:
 
 ```shell
-$ python main.py {ur|frank|aubo|denso} test
+$ python main.py {denso|ur} test
 ```
 
 ## Calibration
@@ -77,7 +86,7 @@ We provide a naive hand-eye calibrating method which only utilizes 2-D dimension
 You can test your calibration:
 
 ```shell
-$ python main.py {ur|franka|aubo|denso} calibration_test
+$ python main.py {denso|ur} calibration_test
 ```
 
 ## Examples

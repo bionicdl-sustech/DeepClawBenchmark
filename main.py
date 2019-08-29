@@ -1,9 +1,17 @@
 import cv2
-import numpy as np
+import argparse
 from Driver.Camera.RealsenseController import RealsenseController
 from ToolKit.Calibration2D import Calibration2D
 import Examples.TicTacToe as tic_tac_toe
 import Examples.ClawMachine as clawmachine
+
+parser = argparse.ArgumentParser()
+parser.add_argument("robot", type=str, choices=['denso', 'ur'], help="name of robot arm")
+parser.add_argument("mode", type=str, choices=['test', 'calibration_test'], help="test mode")
+args = parser.parse_args()
+
+robot_name = args.robot
+mode = args.mode
 
 def ur5_display():
     from Driver.UR5.UR5Controller import UR5Controller
@@ -81,6 +89,7 @@ def aubo_display():
     tic_tac_toe.auto_display(aubo, aubo, realsense)
 
 # def circle_detect():
+#     import numpy as np
 #     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
 #     CA = CVAlgorithm()
 #     realsense = RealsenseController()
@@ -103,6 +112,7 @@ def aubo_display():
 #     cv2.waitKey(0)
 
 # def board_detect():
+#     import numpy as np
 #     camera = RealsenseController()
 #     centers = []
 #     from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
@@ -141,10 +151,26 @@ def denso_display():
     clawmachine.task_display(perception_system, maniuplation_system, is_debug=True)
 
 if __name__ == '__main__':
+    robot = ''
+    if robot_name=='denso':
+        from Driver.Cobotta.CobottaController import CobottaController
+        robot = CobottaController()
+    else:
+        print("Not support type.")
+    if mode=='test':
+        robot.goHome()
+        print("Test success!")
+    elif mode=='calibration_test':
+        c2d = Calibration2D()
+        robot.calibrating(xy_set=[[0.1634, 0.16309], [0.29218, 0.1588],
+                                  [0.15783, -0.16825], [0.28415, -0.17014]],
+                          uv_set=[[1121, 52], [1135, 375],
+                                  [331, 97], [338, 400]],
+                          c2d=c2d)
     # franka_display()
     # ur10_display()
     # aubo_display()
     # realsense_test()
-    denso_display()
+    # denso_display()
     # circle_detect()
     # board_detect()
