@@ -1,8 +1,8 @@
 import os
 import sys
 
-root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(root_path)
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 from Examples.Task import Task
 from Functions.TicTacToe.TicTacToeGame import *
@@ -29,17 +29,17 @@ class TicTacToeTask(Task):
 
         # localization step
         start_time = time.time()
-        pieces_uvr = localization_display(image_publisher, camera, [top_left, bottom_right], is_debug)
+        pieces_uvr = localization_display(image_publisher, camera, [top_left, bottom_right], self.is_debug)
         end_time = time.time()
-        if is_debug:
+        if self.is_debug:
             time_publisher.setData([str(ite)+'localization', end_time - start_time])
 
         # identification step
         start_time = time.time()
         selected_pieces_uvr = identification_display(image_publisher, camera,
-                                                     [pieces_uvr, top_left, bottom_right, piece_type], is_debug)
+                                                     [pieces_uvr, top_left, bottom_right, piece_type], self.is_debug)
         end_time = time.time()
-        if is_debug:
+        if self.is_debug:
             time_publisher.setData([str(ite)+'identification', end_time - start_time])
 
         # multiple points motion planning step
@@ -47,14 +47,14 @@ class TicTacToeTask(Task):
         pick_location, place_location = multiple_points_motion_planning(image_publisher, robot_arm,
                                                                         [selected_pieces_uvr, game, board_pix, piece_type])
         end_time = time.time()
-        if is_debug:
+        if self.is_debug:
             time_publisher.setData([str(ite)+'multiple_points_motion_planning', end_time - start_time])
 
         # execution step
         start_time = time.time()
         execution_display(image_publisher, robot_arm, robot_gripper, [pick_location, place_location])
         end_time = time.time()
-        if is_debug:
+        if self.is_debug:
             time_publisher.setData([str(ite)+'execution', end_time - start_time])
 
     def task_display(self):
@@ -69,7 +69,7 @@ class TicTacToeTask(Task):
         for i in range(20):
             color_image, board_pix, top_left, bottom_right = board_detect(camera)
 
-        if is_debug:
+        if self.is_debug:
             # cv2.imshow('board', color_image)
             # cv2.waitKey(1000)
             image_publisher.setData(color_image)
@@ -80,6 +80,6 @@ class TicTacToeTask(Task):
             self.subtask_display()
             ite += 1
             grasp_label = raw_input('grasp label[0/1/2]:')
-            if is_debug:
+            if self.is_debug:
                 time_publisher.setData([str(ite) + 'grasp label', str(grasp_label)])
 

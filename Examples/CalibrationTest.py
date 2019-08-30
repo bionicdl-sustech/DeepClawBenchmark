@@ -1,8 +1,8 @@
 import os
 import sys
 
-root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(root_path)
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 from Examples.Task import Task
 

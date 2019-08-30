@@ -3,19 +3,20 @@ import moveit_commander
 from geometry_msgs.msg import Pose
 import time
 from math import pi
-import tf
 
-root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(root_path)
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 from Driver.Controller import Controller
+from ToolKit.Configuration import *
 
 class CobottaController(Controller):
     def __init__(self):
         super(CobottaController, self).__init__()
-        self.HOME_POSE = [[0.1, 0.1, 0.15], [pi, 0, 0]]
-        self.PICK_Z = 0.07
-        self.PLACE_Z = 0.08
+        self.cfg = readConfiguration('denso')
+        self.HOME_POSE = self.cfg['HOME_POSE']
+        self.PICK_Z = self.cfg['PICK_Z']
+        self.PLACE_Z = self.cfg['PLACE_Z']
         self.pose = Pose()
 
         # ROS node initialization
@@ -76,7 +77,7 @@ class CobottaController(Controller):
         :return: True or False
         '''
         try:
-            os.system('sh '+root_path+'/Cobotta/open.sh')
+            os.system('sh '+ _root_path +'/Cobotta/open.sh')
         except:
             print("Can't open gripper, please check the location of open.sh!")
             return False
@@ -88,7 +89,7 @@ class CobottaController(Controller):
         :return: True or False
         '''
         try:
-            os.system('sh ' + root_path + '/Cobotta/close.sh')
+            os.system('sh ' +_root_path + '/Cobotta/close.sh')
         except:
             print("Can't open gripper, please check the location of close.sh!")
             return False
@@ -98,8 +99,13 @@ class CobottaController(Controller):
         pass
 
     def calibrating(self):
-        self.move([[0.2, 0.05, 0.15], [pi/2.0, pi/2.0, pi/2.0]])
+        initial_pose = self.cfg['initial_pose']
+        x_step = self.cfg['x_step_length']
+        y_step = self.cfg['y_step_length']
+        self.move(initial_pose)
+        x = initial_pose[0][0]
+        y = initial_pose[0][1]
+        z = initial_pose[0][2]
         for i in range(4):
             for j in range(10):
-                self.move([[0.2+i*0.01, 0.05-j*0.01, 0.15], [pi/2.0, pi/2.0, pi/2.0]])
-
+                self.move([[x+x_step*i, y+y_step*j, z], initial_pose[1]])

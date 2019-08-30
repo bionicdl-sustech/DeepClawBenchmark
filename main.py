@@ -1,7 +1,6 @@
 import time
 import argparse
 from Driver.Camera.RealsenseController import RealsenseController
-from ToolKit.Calibration2D import Calibration2D
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['denso', 'ur'], help="name of robot arm")

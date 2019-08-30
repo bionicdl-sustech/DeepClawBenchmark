@@ -4,8 +4,8 @@ import os
 import sys
 import time
 
-root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(root_path)
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 class AbstractSubject(object):
     '''An abstract subject class.
@@ -97,7 +97,7 @@ class Monitor(AbstractObserver):
         self.display()
 
     def display(self):
-        path = root_path+'/Data/'+self.name
+        path = _root_path+'/Data/'+self.name
         stamp = int(time.time())
         if not os.path.exists(path):
             os.makedirs(path)
