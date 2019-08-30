@@ -1,12 +1,13 @@
-# Copyright (c) 2019 by liuxiaobo. All Rights Reserved.
+# Copyright (c) 2019 by Hank. All Rights Reserved.
 # !/usr/bin/python
 # coding=utf-8
 import numpy as np
 import pyrealsense2 as rs
 import time
 import cv2
+from Camera import Camera
 
-class RealsenseController(object):
+class RealsenseController(Camera):
     def __init__(self, width = 1280, hight = 720,fps = 30):
         self.width = width
         self.hight = hight

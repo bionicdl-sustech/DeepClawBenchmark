@@ -11,11 +11,11 @@ class AbstractSubject(object):
     '''An abstract subject class.
     Provide abstract register, remove and notify methods, all publisher class should inherit this class.
     '''
-    def registerObserver(self):
+    def registerObserver(self, observer):
         raise NotImplementedError(
             ' registerObserver method does not implement. ')
 
-    def removeObserver(self):
+    def removeObserver(self, observer):
         raise NotImplementedError(
             ' removeObserver method does not implement. ')
 
@@ -27,7 +27,7 @@ class AbstractObserver(object):
     '''An abstract observer class.
     Provide abstract updata, display methods, all observer class should inherit this class.
     '''
-    def update(self):
+    def update(self, data):
         raise NotImplementedError(
             ' update method does not implement. ')
 

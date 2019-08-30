@@ -10,8 +10,6 @@ from math import pi
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_path)
 
-from Driver.FrankaPanda.FrankaEndeffectorController import FrankaEndeffectorController
-
 class FrankaController:
     def __init__(self):
         self.HOME_JOINT_VALUES = []
@@ -36,7 +34,8 @@ class FrankaController:
         self.group.set_max_velocity_scaling_factor(0.5)
         
         # Hand setting
-        self.end_effector = FrankaEndeffectorController()
+        self.hand = moveit_commander.MoveGroupCommander("hand")
+        self.hand.set_planner_id('RRTConnectkConfigDefault')
         
 
         self.tool = PoseStamped()
@@ -91,11 +90,23 @@ class FrankaController:
             plan = self.group.plan([x*3.14159/180.0,y*3.14159/180.0,z*3.14159/180.0,Rx*3.14159/180.0,Ry*3.14159/180.0,Rz*3.14159/180.0])
             self.execute(self.group, plan)
 
-    def openGripper(self):
-        self.end_effector.openGripper()
+    def openGripper(self, distance=0.025):
+        target_position = [distance, distance]
+        plan = self.hand.plan(target_position)
+        self.execute(self.hand, plan)
 
-    def closeGripper(self):
-        self.end_effector.closeGripper()
+    def closeGripper(self, distance=0.005):
+        target_position = [distance, distance]
+        plan = self.hand.plan(target_position)
+        res = self.hand.execute(plan)
+        time.sleep(1)
+        if not res:
+            # if fail, swich robot back to mode 2 so that next move can be executed
+            # https://github.com/frankaemika/franka_ros/issues/69
+            os.system(
+                "rostopic pub -1 /franka_control/error_recovery/goal franka_control/ErrorRecoveryActionGoal \"{}\"")
+            return 0
+        return 1
 
     def rpy2orientation(self, row, pitch, yaw):
         q = tf.transformations.quaternion_from_euler(row, pitch, yaw, axes='sxyz')

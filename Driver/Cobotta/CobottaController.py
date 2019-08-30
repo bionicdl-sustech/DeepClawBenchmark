@@ -8,11 +8,11 @@ import tf
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(root_path)
 
-# from Driver.Cobotta.CobottaEndeffectorController import CobottaEndeffectorController
+from Driver.Controller import Controller
 
-class CobottaController:
+class CobottaController(Controller):
     def __init__(self):
-        self.HOME_JOINT_VALUES = []
+        super(CobottaController, self).__init__()
         self.HOME_POSE = [[0.1, 0.1, 0.15], [pi, 0, 0]]
         self.PICK_Z = 0.07
         self.PLACE_Z = 0.08
@@ -29,15 +29,9 @@ class CobottaController:
         self.group = moveit_commander.MoveGroupCommander('arm')
         self.calibration_tool = ''
         
-        # Arm setting
-        #self.group.set_planner_id('RRTConnectkConfigDefault')
-        #self.group.set_num_planning_attempts(10)
-        #self.group.set_planning_time(5)
-        #self.group.set_max_velocity_scaling_factor(0.5)
-        
-        # Hand setting
-        # self.end_effector = CobottaEndeffectorController()
+        # Initial
         self.goHome()
+        self.openGripper()
 
     def goHome(self):
         print("homing...")
@@ -100,38 +94,9 @@ class CobottaController:
             return False
         return True
 
-    def rpy2orientation(self, row, pitch, yaw):
-        q = tf.transformations.quaternion_from_euler(row, pitch, yaw, axes='sxyz')
-        return q
-
     def verifyPosition(self, target_position):
         pass
 
-    def circle_detect(self):
-        from ClassicalAlgorithms.CVAlgorithm import CVAlgorithm
-        CA = CVAlgorithm()
-        realsense = RealsenseController()
-        i = 0
-        while i <= 5:
-            color_image, d, l, r = realsense.getImage()
-            i += 1
-        gray = CA.color2gray(color_image)
-        circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, param1=50, param2=30, minRadius=15,
-                                   maxRadius=25)
-        uvr = []
-        if circles is not None:
-            circles = np.uint16(np.around(circles))  # shape (1, n, 3)
-            for i in range(circles.shape[1]):
-                u, v, r = circles[0, i]
-                uvr.append([u, v, r])
-                cv2.circle(color_image, (u, v), r, (0, 255, 0), 2)
-                print(u, v)
-        cv2.imshow('c', color_image)
-        cv2.waitKey(0)
-
-    def calibrating(self, xy_set, uv_set, c2d):
-        self.calibration_tool = c2d
-        self.calibration_tool.xy_set = xy_set
-        self.calibration_tool.uv_set = uv_set
-        self.calibration_tool.matrix_update()
+    def calibrating(self):
+        self.move([[0.15, 0, 0.3], [0, 0, 0]])
 
