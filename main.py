@@ -1,4 +1,4 @@
-import cv2
+import time
 import argparse
 from Driver.Camera.RealsenseController import RealsenseController
 from ToolKit.Calibration2D import Calibration2D
@@ -154,11 +154,14 @@ task_name = args.task
 def initial_robot(robot_name):
     if robot_name=='denso':
         import os
-        os.system("gnome-terminal -e 'bash -c \"sh ./Driver/Cobotta/initial.sh;exec bash\"'")
-        os.system("gnome-terminal -e 'bash -c \"sh ./Driver/Cobotta/server.sh;exec bash\"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"sh ./Driver/Cobotta/initial.sh;exec bash\"'")
+        time.sleep(5)
+        os.system(
+            "gnome-terminal -e 'bash -c \"sh ./Driver/Cobotta/server.sh;exec bash\"'")
+        time.sleep(5)
         from Driver.Cobotta.CobottaController import CobottaController
         robot = CobottaController()
-        robot.calibrating()
         return robot
     else:
         print("Don't support this robot!")
@@ -170,13 +173,14 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         test_case = TestCase(perception_system, manipulation_system, is_debug)
         return test_case
     elif task_name=='calibration-test':
-        print('Waiting for update ...')
-        return None
+        from Examples.CalibrationTest import CalibrationTest
+        test_case = CalibrationTest(perception_system, maniuplation_system, is_debug)
+        return test_case
     elif task_name=='tic-tac-toe':
         from Examples.TicTacToe import TicTacToeTask
         tic_tac_toe = TicTacToeTask(perception_system,manipulation_system, is_debug)
         return tic_tac_toe
-    elif task_nam=='claw-machine':
+    elif task_name=='claw-machine':
         from Examples.ClawMachine import ClawMachineTask
         claw_machine = ClawMachineTask(perception_system, manipulation_system, is_debug)
         return claw_machine
@@ -191,8 +195,10 @@ if __name__ == '__main__':
     realsense = RealsenseController()
     robot = initial_robot(robot_name)
 
-    perception_system = {'Camera': realsense}
-    maniuplation_system = {'Arm': robot, 'End-effector': robot}
+    if robot!=None:
+        perception_system = {'Camera': realsense}
+        maniuplation_system = {'Arm': robot, 'End-effector': robot}
 
-    task = initial_task(task_name, perception_system, maniuplation_system, is_debug=True)
-    task.task_display()
+        task = initial_task(task_name, perception_system, maniuplation_system, is_debug=True)
+        if task!=None:
+            task.task_display()

@@ -98,5 +98,8 @@ class CobottaController(Controller):
         pass
 
     def calibrating(self):
-        self.move([[0.15, 0, 0.3], [0, 0, 0]])
+        self.move([[0.2, 0.05, 0.15], [pi/2.0, pi/2.0, pi/2.0]])
+        for i in range(4):
+            for j in range(10):
+                self.move([[0.2+i*0.01, 0.05-j*0.01, 0.15], [pi/2.0, pi/2.0, pi/2.0]])
 
