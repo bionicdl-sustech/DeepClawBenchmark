@@ -9,6 +9,7 @@ echo "Installing DeepClaw in ${ROBOT} arm with ${VERSION} support"
 sudo apt-get install python-pip
 sudo apt-get install python-opencv
 sudo apt-get install ros-kinetic-ros-control ros-kinetic-ros-controllers
+sudo pip install --upgrade pip
 sudo pip install pyrealsense2
 
 # set cpu/gpu conditional libraries
@@ -21,7 +22,7 @@ gpu)
   sudo pip install tensorflow-gpu
   ;;
 *)
-  echo "Usage: $0 {cpu|gpu} {ur|franka|aubo|denso}"
+  echo "Usage: $0 {cpu|gpu} {ur|denso}"
   exit 1
 esac
 
@@ -30,16 +31,19 @@ in
 ur)
   sudo pip install urx
   ;;
-franka)
-  sudo apt install ros-kinetic-libfranka ros-kinetic-franka-ros
-  ;;
+#franka)
+#  sudo apt install ros-kinetic-libfranka ros-kinetic-franka-ros
+#  ;;
 denso)
   cd ..
+  if [ -d 'denso_cobotta_ros' ];then
+    sudo rm -r denso_cobotta_ros
+  fi
   git clone https://github.com/DENSORobot/denso_cobotta_ros.git
   cd DeepClawBenchmark
   ;;
 *)
-  echo "Usage: $0 {cpu|gpu} {ur|franka|aubo|denso}"
+  echo "Usage: $0 {cpu|gpu} {ur|denso}"
   exit 1
 esac
 
