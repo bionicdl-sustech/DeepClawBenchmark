@@ -3,27 +3,30 @@
 # coding=utf-8
 import numpy as np
 import pyrealsense2 as rs
-import time
-import cv2
 from Camera import Camera
 
 class RealsenseController(Camera):
-    def __init__(self, width = 1280, hight = 720,fps = 30):
+    def __init__(self, width=1280, height=720, fps=30):
         self.width = width
-        self.hight = hight
+        self.height = height
         self.fps = fps
 
         self.points = rs.points()
-        self.pipeline= rs.pipeline()
+        self.pipeline = rs.pipeline()
         config = rs.config()
-        config.enable_stream(rs.stream.infrared, 1, self.width, self.hight, rs.format.y8, self.fps)
-        config.enable_stream(rs.stream.infrared, 2, self.width, self.hight, rs.format.y8, self.fps)
-        config.enable_stream(rs.stream.depth, self.width, self.hight, rs.format.z16, self.fps)
-        config.enable_stream(rs.stream.color, self.width, self.hight, rs.format.bgr8, self.fps)
+        config.enable_stream(rs.stream.infrared, 1, self.width, self.height, rs.format.y8, self.fps)
+        config.enable_stream(rs.stream.infrared, 2, self.width, self.height, rs.format.y8, self.fps)
+        config.enable_stream(rs.stream.depth, self.width, self.height, rs.format.z16, self.fps)
+        config.enable_stream(rs.stream.color, self.width, self.height, rs.format.bgr8, self.fps)
 
         profile = self.pipeline.start(config)
         align_to = rs.stream.color
         self.align = rs.align(align_to)
+
+        depth_sensor = profile.get_device().first_depth_sensor()
+        self.depth_scale = depth_sensor.get_depth_scale()
+        for i in range(5):
+            self.getImage()
 
     def getImage(self):
         frames = self.pipeline.wait_for_frames()

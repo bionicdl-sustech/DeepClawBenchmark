@@ -1,10 +1,11 @@
 import time
 import argparse
+import cv2
 from Driver.Camera.RealsenseController import RealsenseController
 
 parser = argparse.ArgumentParser()
-parser.add_argument("robot", type=str, choices=['denso', 'ur'], help="name of robot arm")
-parser.add_argument("task", type=str, choices=['test', 'calibration-test',
+parser.add_argument("robot", type=str, choices=['denso', 'ur10e'], help="name of robot arm")
+parser.add_argument("task", type=str, choices=['test', 'calibration-test', 'collect-data',
                                                'tic-tac-toe', 'claw-machine', 'jigsaw-puzzle'], help="task name")
 args = parser.parse_args()
 
@@ -24,23 +25,27 @@ task_name = args.task
 #                                    [875, 601], [874, 253]]
 #     ur5.calibration_tool.matrix_update()
 #
-# def ur10_display():
-#     from Driver.UR10e.UrController import URController
-#     from Driver.UR10e.handE_controller.gripper_controller import HandEController
-#     realsense = RealsenseController()
-#     ur = URController()
-#     end_effector = HandEController()
-#     c2d = Calibration2D()
-#
-#     ur.calibration_tool = c2d
-#     ur.calibration_tool.xy_set = [[0.43976, 0.72971], [0.45804, 0.49703],
-#                                   [0.23657, 0.74348], [0.260350, 0.500420]]
-#     ur.calibration_tool.uv_set = [[896, 434], [678, 456],
-#                                   [904, 244], [676, 274]]
-#     ur.calibration_tool.matrix_update()
-#
-#     end_effector.openGripper()
-#     tic_tac_toe.auto_display(ur, end_effector, realsense)
+def ur10_display():
+    from Driver.UR10e.UrController import URController
+    from ToolKit.Calibration2D import Calibration2D
+    # from Driver.UR10e.handE_controller.gripper_controller import HandEController
+    # realsense = RealsenseController()
+    ur = URController()
+    # end_effector = HandEController()
+    c2d = Calibration2D()
+
+    ur.calibration_tool = c2d
+    ur.calibration_tool.xy_set = [[0.3429, -0.0830], [0.7317, -0.0842],
+                                  [0.7314, -0.5725], [0.3441, -0.5687]]
+    ur.calibration_tool.uv_set = [[493, 69], [876, 65],
+                                  [867, 533], [506, 536]]
+    ur.calibration_tool.matrix_update()
+
+    # end_effector.openGripper()
+    xy = ur.calibration_tool.cvt(698, 298)
+
+    ur.movej(xy[0], xy[1], 0.18, 3.14, 0, 0)
+    # tic_tac_toe.auto_display(ur, end_effector, realsense)
 #
 # def franka_display():
 #     from Driver.FrankaPanda.FrankaController import FrankaController
@@ -60,16 +65,37 @@ task_name = args.task
 #     end_effector.openGripper()
 #     tic_tac_toe.auto_display(franka, end_effector, realsense)
 #
-# def realsense_test():
-#     realsense = RealsenseController()
-#     i=0
-#     while i<=5:
-#         c, _ = realsense.getImage()
-#         # _, cc, uvr = tic_tac_toe.pieces_detect(c, 'O')
-#         # cc = cc[100:400, 400:800]
-#         cv2.imshow('c', c)
-#         cv2.waitKey(0)
-#         i+=1
+
+def ur10e_calibration():
+    realsense = RealsenseController()
+    from Driver.UR10e.UrController import URController
+    from ToolKit.Calibration3D import image_callback
+    ur10e = URController()
+    ix, iy, iz = 0.5, -0.25, 0.35
+    ur10e.movej(ix, iy, iz, 0, 0, 3.14)
+    for i in range(3):
+        for j in range(3):
+            for k in range(3):
+                ur10e.movej(ix+0.02*i, iy-0.02*j, iz+0.02*k, 0, 0, 3.14)
+                c, o = realsense.getImage()
+                _, bc = image_callback(c, o[0], realsense.depth_scale)
+                print(_)
+                cv2.imshow('bc', bc)
+                cv2.waitKey(0)
+
+def realsense_test():
+    realsense = RealsenseController()
+    from ToolKit.Calibration3D import image_callback
+    i=0
+    while i<=5:
+        c, o = realsense.getImage()
+        # _, cc, uvr = tic_tac_toe.pieces_detect(c, 'O')
+        # cc = cc[100:400, 400:800]
+        _, bc = image_callback(c, o[0], realsense.depth_scale)
+        print(_)
+        cv2.imshow('bc', bc)
+        cv2.waitKey(0)
+        i+=1
 #
 # def aubo_display():
 #     from Driver.Aubo.AuboController import AuboController
@@ -162,6 +188,10 @@ def initial_robot(robot_name):
         from Driver.Cobotta.CobottaController import CobottaController
         robot = CobottaController()
         return robot
+    if robot_name == 'ur10e':
+        from Driver.UR10e.UrController import URController
+        robot = URController()
+        return robot
     else:
         print("Don't support this robot!")
         return None
@@ -173,11 +203,15 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         return test_case
     elif task_name=='calibration-test':
         from Examples.CalibrationTest import CalibrationTest
-        test_case = CalibrationTest(perception_system, maniuplation_system, is_debug)
+        test_case = CalibrationTest(perception_system, manipulation_system, is_debug)
         return test_case
+    elif task_name=='collect-data':
+        from Examples.CollectData import CollectData
+        collect_data = CollectData(perception_system, manipulation_system, is_debug)
+        return collect_data
     elif task_name=='tic-tac-toe':
         from Examples.TicTacToe import TicTacToeTask
-        tic_tac_toe = TicTacToeTask(perception_system,manipulation_system, is_debug)
+        tic_tac_toe = TicTacToeTask(perception_system, manipulation_system, is_debug)
         return tic_tac_toe
     elif task_name=='claw-machine':
         from Examples.ClawMachine import ClawMachineTask
@@ -191,9 +225,12 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         return None
 
 if __name__ == '__main__':
+    # ur10_display()
+    # ur10e_calibration()
+    # realsense_test()
     realsense = RealsenseController()
     robot = initial_robot(robot_name)
-
+    #
     if robot!=None:
         perception_system = {'Camera': realsense}
         maniuplation_system = {'Arm': robot, 'End-effector': robot}
