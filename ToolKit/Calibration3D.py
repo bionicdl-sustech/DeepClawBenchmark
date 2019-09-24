@@ -24,7 +24,7 @@ def image_callback(color_image, depth_image, depth_scale):
                     ite += 1
                 else:
                     error += 1
-        checkerboard_z = sum_z / (ite-1)
+        checkerboard_z = (sum_z / (ite-1)) * depth_scale
 
         # checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20])) * depth_scale
         print("Found checkerboard, Z = ", checkerboard_z)

@@ -6,7 +6,7 @@ import pyrealsense2 as rs
 from Camera import Camera
 
 class RealsenseController(Camera):
-    def __init__(self, width=1280, height=720, fps=30):
+    def __init__(self, serial_id='', width=1280, height=720, fps=30):
         self.width = width
         self.height = height
         self.fps = fps
@@ -14,18 +14,18 @@ class RealsenseController(Camera):
         self.points = rs.points()
         self.pipeline = rs.pipeline()
         config = rs.config()
+        if serial_id!='':
+            config.enable_device(serial=serial_id)
         config.enable_stream(rs.stream.infrared, 1, self.width, self.height, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.infrared, 2, self.width, self.height, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.depth, self.width, self.height, rs.format.z16, self.fps)
         config.enable_stream(rs.stream.color, self.width, self.height, rs.format.bgr8, self.fps)
 
-        profile = self.pipeline.start(config)
+        self.profile = self.pipeline.start(config)
         align_to = rs.stream.color
         self.align = rs.align(align_to)
 
-        depth_sensor = profile.get_device().first_depth_sensor()
-        self.depth_scale = depth_sensor.get_depth_scale()
-        for i in range(5):
+        for i in range(25):
             self.getImage()
 
     def getImage(self):
@@ -42,3 +42,10 @@ class RealsenseController(Camera):
         image_L = np.asanyarray(irL_frame.get_data())
         image_R = np.asanyarray(irR_frame.get_data())
         return color_image,[depth_image,image_L,image_R]
+
+    def get_device(self):
+        return self.profile.get_device()
+
+    def get_depth_scale(self):
+        depth_sensor = self.profile.get_device().first_depth_sensor()
+        return depth_sensor.get_depth_scale()

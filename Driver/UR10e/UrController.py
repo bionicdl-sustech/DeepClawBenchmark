@@ -5,15 +5,19 @@ import socket
 import time
 import struct
 import math
+import urx
 import numpy as np
 
 class URController:
-    def __init__(self,robot_ip = "192.168.31.10",port = 30003):
+    def __init__(self,robot_ip = "192.168.31.10", port = 30003):
         self.__robot_ip = robot_ip
         self.__port = port
         self.PICK_Z = 0.16
         self.PLACE_Z = 0.172
         self.calibration_tool = ''
+        # self.robot = urx.Robot("192.168.31.10")
+        # self.robot.get_pose()
+        # self.urmonitor = self.robot.get_realtime_monitor()
         # self.goHome()
         # time.sleep(5)
 
@@ -82,6 +86,10 @@ class URController:
             s.close()
         except socket.error as socketerror:
             print("Error: ", socketerror)
+    #
+    # def get_pos(self):
+    #     pose = self.urmonitor.tcf_pose()
+    #     return pose
 
     def goHome(self):
         print('homing...')
@@ -108,7 +116,6 @@ class URController:
             x, y, z = goal_position[0], goal_position[1], goal_position[2]
             Rx, Ry, Rz = goal_orientation[0], goal_orientation[1], goal_orientation[2]
             s.send ("movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x*3.14159/180.0,y*3.14159/180.0,z*3.14159/180.0,Rx*3.14159/180.0,Ry*3.14159/180.0,Rz*3.14159/180.0,a,v))
-            time.sleep(6)
         time.sleep(0.2)
         s.close()
 
@@ -142,7 +149,7 @@ class URController:
             inv_dpose[4] = abs(-currentPose[4]-targetPosition[4])
             inv_dpose[5] = abs(-currentPose[5]-targetPosition[5])
 
-            if (max(dpose) < 0.1 or max(inv_dpose) < 0.1):
+            if (max(dpose) < 0.01 or max(inv_dpose) < 0.01):
                 delay_time = False
                 return True
             else:
