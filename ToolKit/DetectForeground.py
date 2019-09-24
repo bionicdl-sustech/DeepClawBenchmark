@@ -19,12 +19,12 @@ class Segment(object):
         dGrayBlur.dtype = 'uint8'
         dGrayMidBlur=cv2.medianBlur(dGrayBlur,5)
 
-        # cv2.imshow('img',dGrayMidBlur)
-        # cv2.waitKey()
+        cv2.imshow('img',dGrayMidBlur)
+        cv2.waitKey()
 
         ret,thresh=cv2.threshold(dGrayMidBlur,10,255,cv2.THRESH_BINARY)
-        # cv2.imshow('img',thresh)
-        # cv2.waitKey()
+        cv2.imshow('img',thresh)
+        cv2.waitKey()
 
         im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         rect = []

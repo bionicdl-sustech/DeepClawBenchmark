@@ -1,8 +1,12 @@
 import DetectForeground as df
-def success_label(imgray,color_image):
-    imgray = imgray[500:700,120:300]
+import cv2
 
-    imagegray = color_image[500:700,120:300]
+def success_label(imgray,color_image):
+    imgray = imgray[480:680, 120:300]
+    cv2.imshow('first_image', imgray)
+
+    imagegray = color_image[480:680, 120:300]
+    cv2.imshow('second_image', imagegray)
 
     compare = df.Segment()
     rect = compare.DiffGround(imagegray,imgray)

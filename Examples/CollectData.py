@@ -76,7 +76,7 @@ class CollectData(Task):
         robot_gripper.openGripper()
         robot_arm.goHome()
 
-        for i in range(3):
+        for i in range(1):
             recorder = VideoRecorder(camera=r_camera)
             recorder.video_dir = video_folder+str(i)+'.avi'
             thread.start_new_thread(recorder.start, ())
