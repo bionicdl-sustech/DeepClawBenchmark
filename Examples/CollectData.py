@@ -29,18 +29,22 @@ class CollectData(Task):
         # args initial
         camera = self.perception_system['Camera']
         robot_arm,  robot_gripper = self.manipulation_system['Arm'], self.manipulation_system['End-effector']
-        place_z = 0.2
-        pick_z = 0.18
 
         time.sleep(0.5)
         color_image, _ = camera.getImage()
         image_publisher.setData(color_image)
 
-        # x = random.uniform(0.103, 0.594)
-        # y = random.uniform(0.734, 0.346)
-        x = random.uniform(0.370, 0.715)
-        y = random.uniform(-0.542, -0.092)
+        # x = random.uniform(0.370, 0.715)
+        # y = random.uniform(-0.542, -0.092)
+        u = random.uniform(500, 860)
+        v = random.uniform(60, 530)
         angel = random.uniform(-1.57, 1.57)
+
+        _, info = camera.getImage()
+        xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
+        x, y, z = xyz[0], xyz[1], xyz[2]+0.27
+        place_z = z + 0.1
+        pick_z = z
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
@@ -56,9 +60,14 @@ class CollectData(Task):
         success_label, imagegray = label.success_label(color_image, color_image2)
         graspdata_publisher.setData([x, y], angel, success_label)
 
-        x = random.uniform(0.4, 0.65)
-        y = random.uniform(-0.45, -0.15)
+        u = random.uniform(500, 860)
+        v = random.uniform(60, 530)
         angel = random.uniform(-1.57, 1.57)
+
+        _, info = camera.getImage()
+        xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
+        x, y, z = xyz[0], xyz[1], xyz[2] + 0.27
+        place_z = z + 0.1
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
@@ -76,7 +85,7 @@ class CollectData(Task):
         robot_gripper.openGripper()
         robot_arm.goHome()
 
-        for i in range(1):
+        for i in range(3):
             recorder = VideoRecorder(camera=r_camera)
             recorder.video_dir = video_folder+str(i)+'.avi'
             thread.start_new_thread(recorder.start, ())

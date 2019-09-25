@@ -2,7 +2,6 @@ import rospy, sys, os
 import moveit_commander
 from geometry_msgs.msg import Pose
 import time
-from math import pi
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)

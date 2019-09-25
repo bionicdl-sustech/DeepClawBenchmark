@@ -14,20 +14,36 @@ task_name = args.task
 
 def ur10_test():
     from Driver.UR10e.UrController import URController
-    from ToolKit.Calibration2D import Calibration2D
+    realsense = RealsenseController(serial_id='825312073784')
     ur = URController()
-    c2d = Calibration2D()
+    ur.goHome()
+    # ur.calibrating(realsense)
+    ur.matrix_load()
+    print(ur._R, ur._t)
+    ci, info = realsense.getImage()
+    cv2.imshow('current', ci)
+    cv2.waitKey()
+    u = int(raw_input('u: '))
+    v = int(raw_input('v: '))
+    xyz = ur.uvd2xyz(u, v, info[0], realsense.get_depth_scale())
+    x, y, cz = xyz[0], xyz[1], xyz[2]
+    print(x, y, cz)
+    raw_input('waiting...')
+    z = 0.38
+    ur.move([[x, y, z], [3.14, 0, 0]])
 
-    ur.calibration_tool = c2d
-    ur.calibration_tool.xy_set = [[0.3429, -0.0830], [0.7317, -0.0842],
-                                  [0.7314, -0.5725], [0.3441, -0.5687]]
-    ur.calibration_tool.uv_set = [[493, 69], [876, 65],
-                                  [867, 533], [506, 536]]
-    ur.calibration_tool.matrix_update()
-
-    xy = ur.calibration_tool.cvt(698, 298)
-
-    ur.movej(xy[0], xy[1], 0.18, 3.14, 0, 0)
+    # c2d = Calibration2D()
+    #
+    # ur.calibration_tool = c2d
+    # ur.calibration_tool.xy_set = [[0.3429, -0.0830], [0.7317, -0.0842],
+    #                               [0.7314, -0.5725], [0.3441, -0.5687]]
+    # ur.calibration_tool.uv_set = [[493, 69], [876, 65],
+    #                               [867, 533], [506, 536]]
+    # ur.calibration_tool.matrix_update()
+    #
+    # xy = ur.calibration_tool.cvt(698, 298)
+    #
+    # ur.movej(xy[0], xy[1], 0.18, 3.14, 0, 0)
 
 def ur10e_calibration():
     realsense = RealsenseController()
@@ -117,11 +133,13 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         return None
 
 if __name__ == '__main__':
+    # ur10_test()
     # multiple_threads_test()
     # realsense_test()
     realsense1 = RealsenseController(serial_id='825312073784')
     realsense2 = RealsenseController(serial_id='821312062518')
     robot = initial_robot(robot_name)
+    robot.matrix_load()
 
     if robot!=None:
         perception_system = {'Camera': realsense1, 'Recorder': realsense2}
