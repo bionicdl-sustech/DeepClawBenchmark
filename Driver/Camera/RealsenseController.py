@@ -25,7 +25,7 @@ class RealsenseController(Camera):
         align_to = rs.stream.color
         self.align = rs.align(align_to)
 
-        for i in range(25):
+        for i in range(45):
             self.getImage()
 
     def getImage(self):

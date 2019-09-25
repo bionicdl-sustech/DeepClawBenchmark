@@ -42,12 +42,16 @@ class CollectData(Task):
 
         _, info = camera.getImage()
         xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        x, y, z = xyz[0], xyz[1], xyz[2]+0.27
-        place_z = z + 0.1
+        if xyz[2] <= 0.02:
+            x, y, z = xyz[0], xyz[1], xyz[2] + 0.27
+        else:
+            x, y, z = xyz[0], xyz[1], xyz[2]+0.23
+        place_z = z + 0.2
         pick_z = z
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
+        robot_gripper.openGripper()
         goal_pose = [[x, y, pick_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
         robot_gripper.closeGripper()
@@ -58,7 +62,7 @@ class CollectData(Task):
         time.sleep(0.5)
         color_image2, _ = camera.getImage()
         success_label, imagegray = label.success_label(color_image, color_image2)
-        graspdata_publisher.setData([x, y], angel, success_label)
+        graspdata_publisher.setData([u, v], angel, success_label)
 
         u = random.uniform(500, 860)
         v = random.uniform(60, 530)
@@ -66,13 +70,17 @@ class CollectData(Task):
 
         _, info = camera.getImage()
         xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        x, y, z = xyz[0], xyz[1], xyz[2] + 0.27
-        place_z = z + 0.1
+        x, y, z = xyz[0], xyz[1], xyz[2] + 0.25
+        place_z = z + 0.2
+        pick_z = z + 0.1
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
+        goal_pose = [[x, y, pick_z], [3.14, 0, angel]]
+        robot_arm.move(goal_pose)
         robot_gripper.openGripper()
         robot_arm.goHome()
+        robot_gripper.closeGripper()
 
     def task_display(self):
         # parameters initial
@@ -82,14 +90,17 @@ class CollectData(Task):
             os.makedirs(video_folder)
 
         robot_arm, robot_gripper = self.manipulation_system['Arm'], self.manipulation_system['End-effector']
-        robot_gripper.openGripper()
+        robot_gripper.closeGripper()
         robot_arm.goHome()
 
-        for i in range(3):
+        for i in range(30):
             recorder = VideoRecorder(camera=r_camera)
             recorder.video_dir = video_folder+str(i)+'.avi'
             thread.start_new_thread(recorder.start, ())
+
+            print('Subtask: ', i)
             self.subtask_display()
+
             recorder.stop()
             del recorder
             gc.collect()

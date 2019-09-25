@@ -20,8 +20,8 @@ class URController(Controller):
     def __init__(self):
         super(URController, self).__init__()
         self.cfg = readConfiguration('ur10e')
-        self.__robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
-        self.__port = self.cfg['SOCKET_CONFIGURATION']['port_number']
+        self._robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
+        self._port = self.cfg['SOCKET_CONFIGURATION']['port_number']
         self._home_pose = self.cfg['HOME_POSE']
         self._pick_z = self.cfg['PICK_Z']
         self._place_z = self.cfg['PLACE_Z']
@@ -30,7 +30,7 @@ class URController(Controller):
         self._t = np.zeros((3, 1))
 
     def goHome(self):
-        print('homing...')
+        # print('homing...')
         self.move(self._home_pose)
         # self.move([[-61.3, -103.53, -139.63], [-26.82, 90, 27.77]], useJoint=True)
 
@@ -40,7 +40,7 @@ class URController(Controller):
     def move(self, goal_pose, a=0.5, v=0.6,useJoint = False):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
-        s.connect((self.__robot_ip, self.__port))
+        s.connect((self._robot_ip, self._port))
         # time.sleep(0.05)
 
         goal_position = goal_pose[0]
@@ -61,10 +61,18 @@ class URController(Controller):
         s.close()
 
     def openGripper(self):
-        pass
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, self._port))
+        s.send(str.encode('set_digital_out(4,%s)\n' %True))
+        s.close()
 
     def closeGripper(self):
-        pass
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, self._port))
+        s.send(str.encode('set_digital_out(4,%s)\n' %False))
+        s.close()
 
     def verifyPostion(self, targetPosition):
         delay_time = True
@@ -192,7 +200,7 @@ class URController(Controller):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.settimeout(10)
-            s.connect((self.__robot_ip, self.__port))
+            s.connect((self._robot_ip, self._port))
             s.send("get_state()"+"\n")
             time.sleep(0.1)
             packet_1 = s.recv(444)

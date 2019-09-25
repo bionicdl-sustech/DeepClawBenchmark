@@ -3,10 +3,10 @@ import cv2
 
 def success_label(imgray,color_image):
     imgray = imgray[480:680, 120:300]
-    cv2.imshow('first_image', imgray)
+    # cv2.imshow('first_image', imgray)
 
     imagegray = color_image[480:680, 120:300]
-    cv2.imshow('second_image', imagegray)
+    # cv2.imshow('second_image', imagegray)
 
     compare = df.Segment()
     rect = compare.DiffGround(imagegray,imgray)

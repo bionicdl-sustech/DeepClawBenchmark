@@ -149,7 +149,7 @@ class Monitor(AbstractObserver):
             if not os.path.exists(file_path):
                 csvFile = open(file_path, "a")
                 writer = csv.writer(csvFile)
-                writer.writerow(['x', 'y', 'angel', 'label'])
+                writer.writerow(['u', 'v', 'angel', 'label'])
                 csvFile.close()
             position = self.data['Grasp'][0]
             angle = self.data['Grasp'][1]
