@@ -36,18 +36,22 @@ class CollectData(Task):
 
         # x = random.uniform(0.370, 0.715)
         # y = random.uniform(-0.542, -0.092)
-        u = random.uniform(500, 860)
-        v = random.uniform(60, 530)
+        u = random.uniform(490, 850)
+        v = random.uniform(135, 550)
         angel = random.uniform(-1.57, 1.57)
 
         _, info = camera.getImage()
-        xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        x, y, z = xyz[0], xyz[1], xyz[2] + 0.23
+        xyz, avoid_z = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
+        print(xyz[2], avoid_z) #
+        x, y, z = xyz[0], xyz[1], avoid_z + 0.195
         place_z = 0.54
-        if z < 0.274:
-            pick_z = 0.274
+        if z < 0.27:
+            pick_z = 0.27
+        elif z > 0.65:
+            pick_z = 0.65
         else:
             pick_z = z
+        print(pick_z)
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
@@ -64,23 +68,24 @@ class CollectData(Task):
         success_label, imagegray = label.success_label(color_image, color_image2)
         graspdata_publisher.setData([u, v], angel, success_label)
 
-        u = random.uniform(500, 860)
-        v = random.uniform(60, 530)
-        angel = random.uniform(-1.57, 1.57)
+        if success_label==1:
+            u = random.uniform(490, 850)
+            v = random.uniform(135, 550)
+            angel = random.uniform(-1.57, 1.57)
 
-        _, info = camera.getImage()
-        xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        x, y, z = xyz[0], xyz[1], 0.4
-        place_z = 0.54
-        pick_z = z
+            _, info = camera.getImage()
+            xyz, _ = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
+            x, y, z = xyz[0], xyz[1], 0.4
+            place_z = 0.54
+            pick_z = z
 
-        goal_pose = [[x, y, place_z], [3.14, 0, angel]]
-        robot_arm.move(goal_pose)
-        goal_pose = [[x, y, pick_z], [3.14, 0, angel]]
-        robot_arm.move(goal_pose)
-        robot_gripper.openGripper()
-        robot_arm.goHome()
-        robot_gripper.closeGripper()
+            goal_pose = [[x, y, place_z], [3.14, 0, angel]]
+            robot_arm.move(goal_pose)
+            goal_pose = [[x, y, pick_z], [3.14, 0, angel]]
+            robot_arm.move(goal_pose)
+            robot_gripper.openGripper()
+            robot_arm.goHome()
+            robot_gripper.closeGripper()
 
     def task_display(self):
         # parameters initial

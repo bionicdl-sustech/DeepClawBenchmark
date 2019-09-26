@@ -25,11 +25,11 @@ def ur10_test():
     cv2.waitKey()
     u = int(raw_input('u: '))
     v = int(raw_input('v: '))
-    xyz = ur.uvd2xyz(u, v, info[0], realsense.get_depth_scale())
+    xyz, _ = ur.uvd2xyz(u, v, info[0], realsense.get_depth_scale())
     x, y, cz = xyz[0], xyz[1], xyz[2]
-    print(x, y, cz)
+    print(x, y, cz, _)
     raw_input('waiting...')
-    z = 0.38
+    z = 0.4
     ur.move([[x, y, z], [3.14, 0, 0]])
 
     # c2d = Calibration2D()
@@ -63,8 +63,8 @@ def ur10e_calibration():
                 cv2.waitKey(0)
 
 def realsense_test():
-    # realsense = RealsenseController(serial_id='825312073784')
-    realsense = RealsenseController(serial_id='821312062518')
+    realsense = RealsenseController(serial_id='825312073784')
+    # realsense = RealsenseController(serial_id='821312062518')
     # print(realsense.get_device())
     i=0
     while i<=5:

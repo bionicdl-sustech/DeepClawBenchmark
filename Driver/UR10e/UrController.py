@@ -197,11 +197,22 @@ class URController(Controller):
         self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)
 
     def uvd2xyz(self, u, v, depth_image, depth_scale):
-        camera_z = np.mean(np.mean(depth_image[v - 10:v + 10, u - 10:u + 10])) * depth_scale
+        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
         camera_x = np.multiply(u - 642.142, camera_z / 922.378)
         camera_y = np.multiply(v - 355.044, camera_z / 922.881)
+
+        view = depth_image[v - 30:v + 30, u - 30:u + 30]
+        view[view == 0] = 10000
+        avoid_z = np.min(view)
+        # print(camera_z, avoid_z * depth_scale)
+        avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
+        avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
+        avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378)
+        avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881)
+
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
-        return list(xyz.T)
+        avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
+        return list(xyz.T), avoid_xyz[2]
 
 
 
