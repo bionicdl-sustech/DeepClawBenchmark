@@ -23,6 +23,7 @@ class URController(Controller):
         self._robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
         self._port = self.cfg['SOCKET_CONFIGURATION']['port_number']
         self._home_pose = self.cfg['HOME_POSE']
+        self._home_joints = self.cfg['HOME_JOINTS']
         self._pick_z = self.cfg['PICK_Z']
         self._place_z = self.cfg['PLACE_Z']
         self._calibration_tool = ''
@@ -31,7 +32,7 @@ class URController(Controller):
 
     def goHome(self):
         # print('homing...')
-        self.move(self._home_pose)
+        self.move(self._home_joints, useJoint=True)
         # self.move([[-61.3, -103.53, -139.63], [-26.82, 90, 27.77]], useJoint=True)
 
     def execute(self, group, plan):
@@ -57,6 +58,11 @@ class URController(Controller):
             x, y, z = goal_position[0], goal_position[1], goal_position[2]
             Rx, Ry, Rz = goal_orientation[0], goal_orientation[1], goal_orientation[2]
             s.send ("movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x*3.14159/180.0,y*3.14159/180.0,z*3.14159/180.0,Rx*3.14159/180.0,Ry*3.14159/180.0,Rz*3.14159/180.0,a,v))
+            home_position = self._home_pose[0]
+            home_orientation = self._home_pose[1]
+            hx, hy, hz = home_position[0], home_position[1], home_position[2]
+            hRx, hRy, hRz = home_orientation[0], home_orientation[1], home_orientation[2]
+            self.verifyJoints([hx, hy, hz, hRx, hRy, hRz])
         time.sleep(0.2)
         s.close()
 
@@ -73,6 +79,40 @@ class URController(Controller):
         s.connect((self._robot_ip, self._port))
         s.send(str.encode('set_digital_out(4,%s)\n' %False))
         s.close()
+
+    def verifyJoints(self, targetPosition):
+        delay_time = True
+        cnt = 0
+        timeGap = 1
+        while(delay_time and cnt < 100):
+            currentPose = self.get_pos()
+            # print(targetPosition)
+            # print(currentPose)
+            dpose = np.zeros(3)
+            inv_dpose = np.zeros(3)
+            dpose[0] = abs(currentPose[0]-targetPosition[0])
+            dpose[1] = abs(currentPose[1]-targetPosition[1])
+            dpose[2] = abs(currentPose[2]-targetPosition[2])
+            # dpose[3] = abs(currentPose[3]-targetPosition[3])
+            # dpose[4] = abs(currentPose[4]-targetPosition[4])
+            # dpose[5] = abs(currentPose[5]-targetPosition[5])
+
+            inv_dpose[0] = abs(currentPose[0]-targetPosition[0])
+            inv_dpose[1] = abs(currentPose[1]-targetPosition[1])
+            inv_dpose[2] = abs(currentPose[2]-targetPosition[2])
+            # inv_dpose[3] = abs(-currentPose[3]-targetPosition[3])
+            # inv_dpose[4] = abs(-currentPose[4]-targetPosition[4])
+            # inv_dpose[5] = abs(-currentPose[5]-targetPosition[5])
+
+            if (max(dpose) < 0.02 or max(inv_dpose) < 0.02):
+                delay_time = False
+                return True
+            else:
+                time.sleep(timeGap)
+                cnt = cnt + 1
+            if(cnt*timeGap >= 20):
+                print("Time Out!")
+                return False
 
     def verifyPostion(self, targetPosition):
         delay_time = True
@@ -98,7 +138,7 @@ class URController(Controller):
             inv_dpose[4] = abs(-currentPose[4]-targetPosition[4])
             inv_dpose[5] = abs(-currentPose[5]-targetPosition[5])
 
-            if (max(dpose) < 0.01 or max(inv_dpose) < 0.01):
+            if (max(dpose) < 0.02 or max(inv_dpose) < 0.02):
                 delay_time = False
                 return True
             else:
@@ -157,7 +197,7 @@ class URController(Controller):
         self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)
 
     def uvd2xyz(self, u, v, depth_image, depth_scale):
-        camera_z = np.mean(np.mean(depth_image[v - 20:v + 20, u - 20:u + 20])) * depth_scale
+        camera_z = np.mean(np.mean(depth_image[v - 10:v + 10, u - 10:u + 10])) * depth_scale
         camera_x = np.multiply(u - 642.142, camera_z / 922.378)
         camera_y = np.multiply(v - 355.044, camera_z / 922.881)
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T

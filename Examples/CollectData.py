@@ -42,12 +42,12 @@ class CollectData(Task):
 
         _, info = camera.getImage()
         xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        if xyz[2] <= 0.02:
-            x, y, z = xyz[0], xyz[1], xyz[2] + 0.27
+        x, y, z = xyz[0], xyz[1], xyz[2] + 0.23
+        place_z = 0.54
+        if z < 0.274:
+            pick_z = 0.274
         else:
-            x, y, z = xyz[0], xyz[1], xyz[2]+0.23
-        place_z = z + 0.2
-        pick_z = z
+            pick_z = z
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
@@ -70,9 +70,9 @@ class CollectData(Task):
 
         _, info = camera.getImage()
         xyz = robot_arm.uvd2xyz(u, v, info[0], camera.get_depth_scale())
-        x, y, z = xyz[0], xyz[1], xyz[2] + 0.25
-        place_z = z + 0.2
-        pick_z = z + 0.1
+        x, y, z = xyz[0], xyz[1], 0.4
+        place_z = 0.54
+        pick_z = z
 
         goal_pose = [[x, y, place_z], [3.14, 0, angel]]
         robot_arm.move(goal_pose)
@@ -93,7 +93,7 @@ class CollectData(Task):
         robot_gripper.closeGripper()
         robot_arm.goHome()
 
-        for i in range(30):
+        for i in range(50):
             recorder = VideoRecorder(camera=r_camera)
             recorder.video_dir = video_folder+str(i)+'.avi'
             thread.start_new_thread(recorder.start, ())
