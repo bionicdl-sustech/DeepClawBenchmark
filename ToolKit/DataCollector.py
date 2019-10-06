@@ -130,7 +130,9 @@ class Monitor(AbstractObserver):
             os.makedirs(path)
 
         if self.data.has_key('Image'):
-            cv2.imwrite(path+'/' + self.name + str(self.image_counter)+'.jpg', self.data['Image'])
+            if not os.path.exists(path + '/images'):
+                os.makedirs(path + '/images')
+            cv2.imwrite(path+'/images/' + self.name + str(self.image_counter)+'.jpg', self.data['Image'])
             self.image_counter += 1
             # return self.data['Image']
 
@@ -149,7 +151,7 @@ class Monitor(AbstractObserver):
             if not os.path.exists(file_path):
                 csvFile = open(file_path, "a")
                 writer = csv.writer(csvFile)
-                writer.writerow(['u', 'v', 'angel', 'label'])
+                writer.writerow(['u', 'v', 'x', 'y', 'z', 'angel', 'label'])
                 csvFile.close()
             position = self.data['Grasp'][0]
             angle = self.data['Grasp'][1]
@@ -157,6 +159,6 @@ class Monitor(AbstractObserver):
 
             csvFile = open(file_path, "a")
             writer = csv.writer(csvFile)
-            writer.writerow([position[0], position[1], angle, label])
+            writer.writerow([position[0], position[1], position[2], position[3], position[4], angle, label])
             csvFile.close()
 

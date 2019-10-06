@@ -63,8 +63,8 @@ def ur10e_calibration():
                 cv2.waitKey(0)
 
 def realsense_test():
-    realsense = RealsenseController(serial_id='825312073784')
-    # realsense = RealsenseController(serial_id='821312062518')
+    # realsense = RealsenseController(serial_id='825312073784')
+    realsense = RealsenseController(serial_id='821312062518')
     # print(realsense.get_device())
     i=0
     while i<=5:

@@ -13,10 +13,12 @@ import ToolKit.success_label as label
 from Examples.Task import Task
 from ToolKit.DataCollector import ImagePublisher, GraspingDataPublisher, Monitor
 
+SAVE_NAME = 'training_data_39'
+
 image_publisher = ImagePublisher('image_pub')
 graspdata_publisher = GraspingDataPublisher('grasp_data_pub')
 
-data_collector = Monitor('TrainingData')
+data_collector = Monitor(SAVE_NAME)
 image_publisher.registerObserver(data_collector)
 graspdata_publisher.registerObserver(data_collector)
 
@@ -66,9 +68,9 @@ class CollectData(Task):
         time.sleep(0.5)
         color_image2, _ = camera.getImage()
         success_label, imagegray = label.success_label(color_image, color_image2)
-        graspdata_publisher.setData([u, v], angel, success_label)
+        graspdata_publisher.setData([u, v, x, y, pick_z], angel, success_label)
 
-        if success_label==1:
+        if success_label == 1:
             u = random.uniform(490, 850)
             v = random.uniform(135, 550)
             angel = random.uniform(-1.57, 1.57)
@@ -90,7 +92,7 @@ class CollectData(Task):
     def task_display(self):
         # parameters initial
         r_camera = self.perception_system['Recorder']
-        video_folder = _root_path + '/Data/Video/'
+        video_folder = _root_path + '/Data/' + SAVE_NAME + '/video/'
         if not os.path.exists(video_folder):
             os.makedirs(video_folder)
 
