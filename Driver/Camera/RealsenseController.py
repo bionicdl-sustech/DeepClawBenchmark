@@ -16,9 +16,9 @@ class RealsenseController(Camera):
         config = rs.config()
         if serial_id!='':
             config.enable_device(serial=serial_id)
-        config.enable_stream(rs.stream.infrared, 1, self.width, self.height, rs.format.y8, self.fps)
-        config.enable_stream(rs.stream.infrared, 2, self.width, self.height, rs.format.y8, self.fps)
-        config.enable_stream(rs.stream.depth, self.width, self.height, rs.format.z16, self.fps)
+        config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, self.fps)
+        config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, self.fps)
+        config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, self.fps)
         config.enable_stream(rs.stream.color, self.width, self.height, rs.format.bgr8, self.fps)
 
         self.profile = self.pipeline.start(config)

@@ -32,11 +32,22 @@ class URController(Controller):
 
     def goHome(self):
         # print('homing...')
-        self.move(self._home_joints, useJoint=True)
+        joint = [self._home_joints[0][0], self._home_joints[0][1], self._home_joints[0][2],
+                 self._home_joints[1][0], self._home_joints[1][1], self._home_joints[1][2]]
+        pose = [self._home_pose[0][0], self._home_pose[0][1], self._home_pose[0][2],
+                self._home_pose[1][0], self._home_pose[1][1], self._home_pose[1][2]]
+        self.move([joint, pose], useJoint=True)
         # self.move([[-61.3, -103.53, -139.63], [-26.82, 90, 27.77]], useJoint=True)
 
     def execute(self, group, plan):
         pass
+
+    def multiple_points_move(self, command):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, self._port))
+        s.send(str.encode(command))
+        s.close()
 
     def move(self, goal_pose, a=0.5, v=0.6,useJoint = False):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -52,16 +63,14 @@ class URController(Controller):
             x, y, z = goal_position[0], goal_position[1], goal_position[2]
             Rx, Ry, Rz = self.rpy2rotation(goal_orientation[0], goal_orientation[1], goal_orientation[2])
             s.send ("movej(p[ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x,y,z,Rx,Ry,Rz,a,v))
-            self.verifyPostion([x, y, z, Rx, Ry, Rz])
+            self.verifyPosition([x, y, z, Rx, Ry, Rz])
         else:
             #radian of each joint
             x, y, z = goal_position[0], goal_position[1], goal_position[2]
-            Rx, Ry, Rz = goal_orientation[0], goal_orientation[1], goal_orientation[2]
+            Rx, Ry, Rz = goal_position[3], goal_position[4], goal_position[5]
             s.send ("movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x*3.14159/180.0,y*3.14159/180.0,z*3.14159/180.0,Rx*3.14159/180.0,Ry*3.14159/180.0,Rz*3.14159/180.0,a,v))
-            home_position = self._home_pose[0]
-            home_orientation = self._home_pose[1]
-            hx, hy, hz = home_position[0], home_position[1], home_position[2]
-            hRx, hRy, hRz = home_orientation[0], home_orientation[1], home_orientation[2]
+            hx, hy, hz = goal_orientation[0], goal_orientation[1], goal_orientation[2]
+            hRx, hRy, hRz = goal_orientation[3], goal_orientation[4], goal_orientation[5]
             self.verifyJoints([hx, hy, hz, hRx, hRy, hRz])
         time.sleep(0.2)
         s.close()
@@ -114,7 +123,7 @@ class URController(Controller):
                 print("Time Out!")
                 return False
 
-    def verifyPostion(self, targetPosition):
+    def verifyPosition(self, targetPosition):
         delay_time = True
         cnt = 0
         timeGap = 1
@@ -198,8 +207,10 @@ class URController(Controller):
 
     def uvd2xyz(self, u, v, depth_image, depth_scale):
         camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
-        camera_x = np.multiply(u - 642.142, camera_z / 922.378)
-        camera_y = np.multiply(v - 355.044, camera_z / 922.881)
+        # camera_x = np.multiply(u - 642.142, camera_z / 922.378)
+        # camera_y = np.multiply(v - 355.044, camera_z / 922.881)
+        camera_x = np.multiply(u - 963.212, camera_z / 1383.57)
+        camera_y = np.multiply(v - 532.567, camera_z / 1384.32)
 
         view = depth_image[v - 30:v + 30, u - 30:u + 30]
         view[view == 0] = 10000
@@ -207,8 +218,10 @@ class URController(Controller):
         # print(camera_z, avoid_z * depth_scale)
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378)
-        avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881)
+        # avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378) # 1280, 720
+        # avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881) # 1280, 720
+        avoid_x = np.multiply(avoid_u - 963.212, avoid_z * depth_scale / 1383.57) # 1920, 1080
+        avoid_y = np.multiply(avoid_v - 532.567, avoid_z * depth_scale / 1384.32) # 1920, 1080
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T

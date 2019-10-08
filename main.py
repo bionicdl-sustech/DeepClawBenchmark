@@ -5,7 +5,7 @@ from Driver.Camera.RealsenseController import RealsenseController
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['denso', 'ur10e'], help="name of robot arm")
-parser.add_argument("task", type=str, choices=['test', 'calibration-test', 'collect-data',
+parser.add_argument("task", type=str, choices=['test', 'calibration-test', 'collect-data', 'trash-classification',
                                                'tic-tac-toe', 'claw-machine', 'jigsaw-puzzle'], help="task name")
 args = parser.parse_args()
 
@@ -14,7 +14,8 @@ task_name = args.task
 
 def ur10_test():
     from Driver.UR10e.UrController import URController
-    realsense = RealsenseController(serial_id='825312073784')
+    realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
+    # realsense = RealsenseController(serial_id='825312073784')
     ur = URController()
     ur.goHome()
     # ur.calibrating(realsense)
@@ -32,21 +33,8 @@ def ur10_test():
     z = 0.4
     ur.move([[x, y, z], [3.14, 0, 0]])
 
-    # c2d = Calibration2D()
-    #
-    # ur.calibration_tool = c2d
-    # ur.calibration_tool.xy_set = [[0.3429, -0.0830], [0.7317, -0.0842],
-    #                               [0.7314, -0.5725], [0.3441, -0.5687]]
-    # ur.calibration_tool.uv_set = [[493, 69], [876, 65],
-    #                               [867, 533], [506, 536]]
-    # ur.calibration_tool.matrix_update()
-    #
-    # xy = ur.calibration_tool.cvt(698, 298)
-    #
-    # ur.movej(xy[0], xy[1], 0.18, 3.14, 0, 0)
-
 def ur10e_calibration():
-    realsense = RealsenseController()
+    realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
     from Driver.UR10e.UrController import URController
     from ToolKit.Calibration3D import image_callback
     ur10e = URController()
@@ -63,12 +51,13 @@ def ur10e_calibration():
                 cv2.waitKey(0)
 
 def realsense_test():
-    # realsense = RealsenseController(serial_id='825312073784')
-    realsense = RealsenseController(serial_id='821312062518')
+    realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
+    # realsense = RealsenseController(serial_id='821312062518')
     # print(realsense.get_device())
     i=0
     while i<=5:
         c, o = realsense.getImage()
+        c = c[820:1020, 300:450]
         cv2.imshow('c', c)
         cv2.waitKey(0)
         i+=1
@@ -105,27 +94,31 @@ def initial_robot(robot_name):
         return None
 
 def initial_task(task_name, perception_system, manipulation_system, is_debug=False):
-    if task_name=='test':
+    if task_name == 'test':
         from Examples.TestCase import TestCase
         test_case = TestCase(perception_system, manipulation_system, is_debug)
         return test_case
-    elif task_name=='calibration-test':
+    elif task_name == 'calibration-test':
         from Examples.CalibrationTest import CalibrationTest
         test_case = CalibrationTest(perception_system, manipulation_system, is_debug)
         return test_case
-    elif task_name=='collect-data':
+    elif task_name == 'collect-data':
         from Examples.CollectData import CollectData
         collect_data = CollectData(perception_system, manipulation_system, is_debug)
         return collect_data
-    elif task_name=='tic-tac-toe':
+    elif task_name == 'trash-classification':
+        from Examples.TrashClassification import TrashClassificatiom
+        trash_classification = TrashClassificatiom(perception_system, manipulation_system, is_debug)
+        return trash_classification
+    elif task_name == 'tic-tac-toe':
         from Examples.TicTacToe import TicTacToeTask
         tic_tac_toe = TicTacToeTask(perception_system, manipulation_system, is_debug)
         return tic_tac_toe
-    elif task_name=='claw-machine':
+    elif task_name == 'claw-machine':
         from Examples.ClawMachine import ClawMachineTask
         claw_machine = ClawMachineTask(perception_system, manipulation_system, is_debug)
         return claw_machine
-    elif task_name=='jigsaw_puzzle':
+    elif task_name == 'jigsaw_puzzle':
         print('Waiting for update ...')
         return None
     else:
@@ -136,7 +129,7 @@ if __name__ == '__main__':
     # ur10_test()
     # multiple_threads_test()
     # realsense_test()
-    realsense1 = RealsenseController(serial_id='825312073784')
+    realsense1 = RealsenseController(serial_id='825312073784', width=1920, height=1080)
     realsense2 = RealsenseController(serial_id='821312062518')
     robot = initial_robot(robot_name)
     robot.matrix_load()

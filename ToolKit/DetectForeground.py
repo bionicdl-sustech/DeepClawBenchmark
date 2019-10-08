@@ -26,7 +26,8 @@ class Segment(object):
         # cv2.imshow('img',thresh)
         # cv2.waitKey()
 
-        im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         rect = []
         for i in range(len(contours)):
             area = cv2.contourArea(contours[i])

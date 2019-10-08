@@ -28,8 +28,10 @@ def image_callback(color_image, depth_image, depth_scale):
 
         checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20])) * depth_scale
         print("Found checkerboard, Z = ", checkerboard_z)
-        checkerboard_x = np.multiply(checkerboard_pix[0]-624.79,checkerboard_z/931.69)
-        checkerboard_y = np.multiply(checkerboard_pix[1]-360.52,checkerboard_z/931.46)
+        # checkerboard_x = np.multiply(checkerboard_pix[0] - 642.142, checkerboard_z / 922.378) # 1280, 720
+        # checkerboard_y = np.multiply(checkerboard_pix[1] - 355.044, checkerboard_z / 922.881) # 1280, 720
+        checkerboard_x = np.multiply(checkerboard_pix[0] - 963.212, checkerboard_z / 1383.57) # 1920, 1080
+        checkerboard_y = np.multiply(checkerboard_pix[1] - 532.567, checkerboard_z / 1384.32) # 1920, 1080
         if checkerboard_z > 0:
             # Save calibration point and observed checkerboard center
             observed_pt = np.array([checkerboard_x,checkerboard_y,checkerboard_z])
