@@ -207,10 +207,10 @@ class URController(Controller):
 
     def uvd2xyz(self, u, v, depth_image, depth_scale):
         camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
-        # camera_x = np.multiply(u - 642.142, camera_z / 922.378)
-        # camera_y = np.multiply(v - 355.044, camera_z / 922.881)
-        camera_x = np.multiply(u - 963.212, camera_z / 1383.57)
-        camera_y = np.multiply(v - 532.567, camera_z / 1384.32)
+        camera_x = np.multiply(u - 642.142, camera_z / 922.378)
+        camera_y = np.multiply(v - 355.044, camera_z / 922.881)
+        # camera_x = np.multiply(u - 963.212, camera_z / 1383.57)
+        # camera_y = np.multiply(v - 532.567, camera_z / 1384.32)
 
         view = depth_image[v - 30:v + 30, u - 30:u + 30]
         view[view == 0] = 10000
@@ -218,10 +218,10 @@ class URController(Controller):
         # print(camera_z, avoid_z * depth_scale)
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        # avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378) # 1280, 720
-        # avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881) # 1280, 720
-        avoid_x = np.multiply(avoid_u - 963.212, avoid_z * depth_scale / 1383.57) # 1920, 1080
-        avoid_y = np.multiply(avoid_v - 532.567, avoid_z * depth_scale / 1384.32) # 1920, 1080
+        avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378) # 1280, 720
+        avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881) # 1280, 720
+        # avoid_x = np.multiply(avoid_u - 963.212, avoid_z * depth_scale / 1383.57) # 1920, 1080
+        # avoid_y = np.multiply(avoid_v - 532.567, avoid_z * depth_scale / 1384.32) # 1920, 1080
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T

@@ -31,7 +31,7 @@ class Segment(object):
         rect = []
         for i in range(len(contours)):
             area = cv2.contourArea(contours[i])
-            if area < 300 :
+            if area < 250 :
                 continue
             else:
                 temp = cv2.boundingRect(contours[i])

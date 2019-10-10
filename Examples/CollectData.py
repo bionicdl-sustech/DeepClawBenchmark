@@ -13,7 +13,7 @@ import ToolKit.success_label as label
 from Examples.Task import Task
 from ToolKit.DataCollector import ImagePublisher, GraspingDataPublisher, Monitor
 
-SAVE_NAME = 'training_data_39'
+SAVE_NAME = 'training_data_59'
 
 image_publisher = ImagePublisher('image_pub')
 graspdata_publisher = GraspingDataPublisher('grasp_data_pub')

@@ -6,6 +6,7 @@ from Driver.Camera.RealsenseController import RealsenseController
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['denso', 'ur10e'], help="name of robot arm")
 parser.add_argument("task", type=str, choices=['test', 'calibration-test', 'collect-data', 'trash-classification',
+                                               'soft-gripper-grasp',
                                                'tic-tac-toe', 'claw-machine', 'jigsaw-puzzle'], help="task name")
 args = parser.parse_args()
 
@@ -14,7 +15,7 @@ task_name = args.task
 
 def ur10_test():
     from Driver.UR10e.UrController import URController
-    realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
+    realsense = RealsenseController(serial_id='825312073784')
     # realsense = RealsenseController(serial_id='825312073784')
     ur = URController()
     ur.goHome()
@@ -51,16 +52,28 @@ def ur10e_calibration():
                 cv2.waitKey(0)
 
 def realsense_test():
-    realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
-    # realsense = RealsenseController(serial_id='821312062518')
+    # realsense = RealsenseController(serial_id='825312073784')
+    realsense = RealsenseController(serial_id='821312062518')
     # print(realsense.get_device())
     i=0
     while i<=5:
         c, o = realsense.getImage()
-        c = c[820:1020, 300:450]
         cv2.imshow('c', c)
         cv2.waitKey(0)
         i+=1
+
+def network_test():
+    from Functions.SoftGripper.Predictor import Predictor
+    predictor = Predictor()
+    realsense = RealsenseController(serial_id='825312073784')
+    i = 0
+    while i <= 5:
+        c, o = realsense.getImage()
+        c, uv, most_prob, theta = predictor.locate_object(c)
+        print(uv, most_prob, theta)
+        cv2.imshow('c', c)
+        cv2.waitKey(0)
+        i += 1
 
 def multiple_threads_test():
     import thread
@@ -110,6 +123,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         from Examples.TrashClassification import TrashClassificatiom
         trash_classification = TrashClassificatiom(perception_system, manipulation_system, is_debug)
         return trash_classification
+    elif task_name == 'soft-gripper-grasp':
+        from Examples.SoftGripper import SoftGripperGrasp
+        softgrasp = SoftGripperGrasp(perception_system, manipulation_system, is_debug)
+        return softgrasp
     elif task_name == 'tic-tac-toe':
         from Examples.TicTacToe import TicTacToeTask
         tic_tac_toe = TicTacToeTask(perception_system, manipulation_system, is_debug)
@@ -129,7 +146,9 @@ if __name__ == '__main__':
     # ur10_test()
     # multiple_threads_test()
     # realsense_test()
-    realsense1 = RealsenseController(serial_id='825312073784', width=1920, height=1080)
+    # network_test()
+    realsense1 = RealsenseController(serial_id='825312073784')
+    # realsense1 = RealsenseController(serial_id='825312073784', width=1920, height=1080)
     realsense2 = RealsenseController(serial_id='821312062518')
     robot = initial_robot(robot_name)
     robot.matrix_load()

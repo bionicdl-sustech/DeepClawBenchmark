@@ -83,8 +83,8 @@ class GraspingDataPublisher(AbstractSubject):
         for key in self.observers.keys():
             self.observers[key].update(self.data)
 
-    def setData(self, position, angel, label):
-        self.data['Grasp'] = [position, angel, label]
+    def setData(self, position, angel, label, probability, successful_rate, precision):
+        self.data['Grasp'] = [position, angel, label, probability, successful_rate, precision]
         self.notifyObserver()
 
 class ImagePublisher(AbstractSubject):
@@ -151,14 +151,18 @@ class Monitor(AbstractObserver):
             if not os.path.exists(file_path):
                 csvFile = open(file_path, "a")
                 writer = csv.writer(csvFile)
-                writer.writerow(['u', 'v', 'x', 'y', 'z', 'angel', 'label'])
+                writer.writerow(['u', 'v', 'x', 'y', 'z', 'angel', 'label', 'probability', 'successful_rate', 'precision'])
                 csvFile.close()
             position = self.data['Grasp'][0]
             angle = self.data['Grasp'][1]
             label = self.data['Grasp'][2]
+            probability = self.data['Grasp'][3]
+            successful_rate = self.data['Grasp'][4]
+            precision = self.data['Grasp'][5]
 
             csvFile = open(file_path, "a")
             writer = csv.writer(csvFile)
-            writer.writerow([position[0], position[1], position[2], position[3], position[4], angle, label])
+            writer.writerow([position[0], position[1], position[2], position[3], position[4], angle, label,
+                             probability, successful_rate, precision])
             csvFile.close()
 
