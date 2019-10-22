@@ -7,7 +7,7 @@ import tensorflow.contrib.framework as tcf
 
 class fcmodel:
     def __init__(self):
-        self.NUM_CLASSES = 18
+        self.NUM_CLASSES = 2
 
     def initial_weights(self, weight_file=None):
         if weight_file:

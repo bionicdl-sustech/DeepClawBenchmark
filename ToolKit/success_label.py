@@ -3,11 +3,13 @@ import cv2
 
 def success_label(imgray,color_image):
     imgray = imgray[480:680, 170:350]
+    # cv2.imwrite("/home/h/DeepClawBenchmark/Data/before.jpg", imgray)
     # imgray = imgray[820:1020, 300:450]
     # cv2.imshow('first_image', imgray)
     # cv2.waitKey()
 
     imagegray = color_image[480:680, 170:350]
+    # cv2.imwrite("/home/h/DeepClawBenchmark/Data/after.jpg", imagegray)
     # imagegray = color_image[820:1020, 300:450]
     # cv2.imshow('second_image', imagegray)
 

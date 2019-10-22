@@ -67,12 +67,13 @@ def network_test():
     predictor = Predictor()
     realsense = RealsenseController(serial_id='825312073784')
     i = 0
-    while i <= 5:
+    while i <= 15:
         c, o = realsense.getImage()
         c, uv, most_prob, theta = predictor.locate_object(c)
-        print(uv, most_prob, theta)
-        cv2.imshow('c', c)
-        cv2.waitKey(0)
+        # print(uv, most_prob, theta)
+        # cv2.imshow('c', c)
+        # cv2.imwrite("/home/h/DeepClawBenchmark/Data/prediction.jpg", c)
+        # cv2.waitKey(0)
         i += 1
 
 def multiple_threads_test():
@@ -98,9 +99,9 @@ def initial_robot(robot_name):
         from Driver.Cobotta.CobottaController import CobottaController
         robot = CobottaController()
         return robot
-    if robot_name == 'ur10e':
-        from Driver.UR10e.UrController import URController
-        robot = URController()
+    elif robot_name == 'ur10e':
+        from Driver.UR10e.UrController import UR10eController
+        robot = UR10eController()
         return robot
     else:
         print("Don't support this robot!")

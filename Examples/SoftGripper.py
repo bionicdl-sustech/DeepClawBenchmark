@@ -1,4 +1,5 @@
 import socket
+import random
 import thread
 import time
 import sys
@@ -14,8 +15,8 @@ from Examples.Task import Task
 from ToolKit.DataCollector import ImagePublisher, GraspingDataPublisher, Monitor
 from Functions.SoftGripper.Predictor import Predictor
 
-SAVE_NAME = 'test_case_1'
-
+SAVE_NAME = 'test_case_WipeCleanser_11_silica_gel'
+# SAVE_NAME = 'test'
 image_publisher = ImagePublisher('image_pub')
 graspdata_publisher = GraspingDataPublisher('grasp_data_pub')
 
@@ -47,6 +48,7 @@ class SoftGripperGrasp(Task):
         command += "end\n"
         s.send(str.encode(command))
         robot_arm.verifyPosition(pick_position)
+        # raw_input('waiting...')
         robot_gripper.closeGripper()
         time.sleep(0.5)
         s.close()
@@ -80,13 +82,17 @@ class SoftGripperGrasp(Task):
         s.settimeout(10)
         s.connect((robot_arm._robot_ip, robot_arm._port))
         command = "def process():\n"
-        command += "movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (-96.45 * 3.14159 / 180.0,
-                                                                           -80.16 * 3.14159 / 180.0,
-                                                                           -127.74 * 3.14159 / 180.0,
-                                                                           -62.16 * 3.14159 / 180.0,
-                                                                           90.3 * 3.14159 / 180.0,
-                                                                           -186.79 * 3.14159 / 180.0,
-                                                                           0.5, 0.6)
+        # command += "movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (-96.45 * 3.14159 / 180.0,
+        #                                                                    -80.16 * 3.14159 / 180.0,
+        #                                                                    -127.74 * 3.14159 / 180.0,
+        #                                                                    -62.16 * 3.14159 / 180.0,
+        #                                                                    90.3 * 3.14159 / 180.0,
+        #                                                                    -186.79 * 3.14159 / 180.0,
+        #                                                                    0.5, 0.6)
+        command += "movej(p[ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (place_position[0], place_position[1],
+                                                                            place_position[2], place_position[3],
+                                                                            place_position[4], place_position[5],
+                                                                            0.5, 0.6)
         command += "end\n"
         s.send(str.encode(command))
         robot_arm.verifyJoints(place_position)
@@ -99,13 +105,13 @@ class SoftGripperGrasp(Task):
         s.settimeout(10)
         s.connect((robot_arm._robot_ip, robot_arm._port))
         back_command = "def process():\n"
-        back_command += "movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (-96.45 * 3.14159 / 180.0,
-                                                                                -80.16 * 3.14159 / 180.0,
-                                                                                -127.74 * 3.14159 / 180.0,
-                                                                                -62.16 * 3.14159 / 180.0,
-                                                                                90.3 * 3.14159 / 180.0,
-                                                                                -186.79 * 3.14159 / 180.0,
-                                                                                0.5, 0.6)
+        # back_command += "movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (-96.45 * 3.14159 / 180.0,
+        #                                                                         -80.16 * 3.14159 / 180.0,
+        #                                                                         -127.74 * 3.14159 / 180.0,
+        #                                                                         -62.16 * 3.14159 / 180.0,
+        #                                                                         90.3 * 3.14159 / 180.0,
+        #                                                                         -186.79 * 3.14159 / 180.0,
+        #                                                                         0.5, 0.6)
         back_command += "movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" % (-72.94 * 3.14159 / 180.0,
                                                                                 -80.84 * 3.14159 / 180.0,
                                                                                 -130.1 * 3.14159 / 180.0,
@@ -142,6 +148,7 @@ class SoftGripperGrasp(Task):
             z2 = z
         z1 = 0.54
         angle = theta
+        print(theta)
         print(z2)
 
         Rx, Ry, Rz = robot_arm.rpy2rotation(3.14, 0, angle)
@@ -157,7 +164,13 @@ class SoftGripperGrasp(Task):
             # robot_gripper.openGripper()
             # time.sleep(0.5)
             # robot_gripper.closeGripper()
-            self.place(robot=[robot_arm, robot_gripper])
+            # self.place(robot=[robot_arm, robot_gripper])
+            x = random.uniform(0.370, 0.715)
+            y = random.uniform(-0.542, -0.092)
+            place_angle = random.uniform(-1.57, 1.57)
+            Rx, Ry, Rz = robot_arm.rpy2rotation(3.14, 0, place_angle)
+            self.place(robot=[robot_arm, robot_gripper], place_position=[x, y, 0.4, Rx, Ry, Rz])
+
             return 1, precision, [uv[0], uv[1], x, y, z, angle]
         return 0, precision, [uv[0], uv[1], x, y, z, angle]
             # robot_arm.goHome()
@@ -181,7 +194,7 @@ class SoftGripperGrasp(Task):
         counter3 = 0.0
         precision = -1
 
-        for i in range(50):
+        for i in range(10):
             recorder = VideoRecorder(camera=r_camera)
             recorder.video_dir = video_folder+str(i)+'.avi'
             thread.start_new_thread(recorder.start, ())
@@ -205,5 +218,5 @@ class SoftGripperGrasp(Task):
             del recorder
             gc.collect()
             time.sleep(1)
-            if (i+1)%5==0:
-                raw_input('waiting...')
+            # if (i+1)%5==0:
+            # raw_input('waiting...')

@@ -16,9 +16,9 @@ from Driver.Controller import Controller
 from ToolKit.Configuration import *
 from ToolKit.Calibration3D import *
 
-class URController(Controller):
+class UR10eController(Controller):
     def __init__(self):
-        super(URController, self).__init__()
+        super(UR10eController, self).__init__()
         self.cfg = readConfiguration('ur10e')
         self._robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
         self._port = self.cfg['SOCKET_CONFIGURATION']['port_number']
