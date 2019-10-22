@@ -14,7 +14,7 @@ robot_name = args.robot
 task_name = args.task
 
 def ur10_test():
-    from Driver.UR10e.UrController import URController
+    from Driver.UR10e.UR10eController import URController
     realsense = RealsenseController(serial_id='825312073784')
     # realsense = RealsenseController(serial_id='825312073784')
     ur = URController()
@@ -36,7 +36,7 @@ def ur10_test():
 
 def ur10e_calibration():
     realsense = RealsenseController(serial_id='825312073784', width=1920, height=1080)
-    from Driver.UR10e.UrController import URController
+    from Driver.UR10e.UR10eController import URController
     from ToolKit.Calibration3D import image_callback
     ur10e = URController()
     ix, iy, iz = 0.5, -0.25, 0.35
@@ -79,7 +79,7 @@ def network_test():
 def multiple_threads_test():
     import thread
     from ToolKit.VideoRecorder import VideoRecorder
-    realsense = RealsenseController(serial_id='821312062518')
+    realsense = RealsenseController(serial_id="821312062518")
     recorder = VideoRecorder(camera=realsense)
     thread.start_new_thread(recorder.start, ())
 
@@ -88,7 +88,7 @@ def multiple_threads_test():
 
 
 def initial_robot(robot_name):
-    if robot_name=='denso':
+    if robot_name == "denso":
         import os
         os.system(
             "gnome-terminal -e 'bash -c \"sh ./Driver/Cobotta/initial.sh;exec bash\"'")
@@ -99,20 +99,24 @@ def initial_robot(robot_name):
         from Driver.Cobotta.CobottaController import CobottaController
         robot = CobottaController()
         return robot
-    elif robot_name == 'ur10e':
-        from Driver.UR10e.UrController import UR10eController
+    elif robot_name == "ur10e":
+        from Driver.UR10e.UR10eController import UR10eController
         robot = UR10eController()
+        return robot
+    elif robot_name == "ur5":
+        from Driver.UR5.UR5Controller import UR5Controller
+        robot = UR5Controller()
         return robot
     else:
         print("Don't support this robot!")
         return None
 
 def initial_task(task_name, perception_system, manipulation_system, is_debug=False):
-    if task_name == 'test':
+    if task_name == "test":
         from Examples.TestCase import TestCase
         test_case = TestCase(perception_system, manipulation_system, is_debug)
         return test_case
-    elif task_name == 'calibration-test':
+    elif task_name == "calibration-test":
         from Examples.CalibrationTest import CalibrationTest
         test_case = CalibrationTest(perception_system, manipulation_system, is_debug)
         return test_case

@@ -8,7 +8,7 @@ _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
 from Driver.Camera.RealsenseController import RealsenseController
-from Driver.UR10e.UrController import URController
+from Driver.UR10e.UR10eController import URController
 import ToolKit.success_label as label
 
 
