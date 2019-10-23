@@ -96,3 +96,6 @@ Go the following examples to see the basic functionality.
 1. Robot controller operations.
 2. Camera controller operations.
 3. Add a new module (task/controller/function).
+
+## Task
+[Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
