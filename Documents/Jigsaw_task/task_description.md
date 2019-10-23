@@ -9,7 +9,7 @@ The robot work cell is showed in figure.1(整体安装示意图，安装反向�
 In this example, the robot is UR5, the camera is realsense D435 and the end-effector is a suction cup.
 
 # Procedure
-With the jigsaw puzzle, 3 tasks are implemented.
+With the same jigsaw puzzle, 3 tasks are implemented.
 ## pick and place task
 task descrption
 ## 4-piece tiling task
@@ -18,7 +18,13 @@ task descrption
 task descrption
 
 # Result
-In each experiment, we record the results of the function and  
+In each experiment, we record the results of the functions and task.   
+
+metrics|IoU|AP|success rate|time(s)|area rate
+-------|---|--|------------|---------|----
+-------|segmentaion|recognitation|pick plan|0.9|11.6
+
+
 
 task1|IoU|AP|success rate|time(s)|area rate
 -----|---|--|------------|---------|----
