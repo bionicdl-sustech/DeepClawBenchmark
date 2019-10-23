@@ -98,4 +98,6 @@ Go the following examples to see the basic functionality.
 3. Add a new module (task/controller/function).
 
 ## Task
-[Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
+With the DeepClaw, we implemented some tasks.
+### [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
+click the jigsaw hyperlink to see the detatils.
