@@ -2,7 +2,9 @@
 
 paper | poster | video
 
-Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. We implement three classical manipulation tasks following DeepClaw protocol, you can find them <a href="#tasks">here</a>. In addition, we propose metrics measuring above operations in two aspects: spatial and temporal reasoning.
+Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. 
+Robot can learning skills that applicable for the similar tasks, which called *task familiy*[1]. We implement several manipulation tasks in three task families, which represents assembly task family, reasoning task family and bin-picking task family separately. You can find them <a href="#tasks">here</a>. 
+In addition, we propose certain metrics measuring manipulations in many dimenstions, such as xxx.
 
 ![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
 
@@ -68,3 +70,6 @@ We have implemented some task families with DeepClaw:
 - Task Family 1: [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
 - Task Family 2: Tictactoe Game
 - Task Family 3: Toy-Claw
+
+## References
+[1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning formanipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
