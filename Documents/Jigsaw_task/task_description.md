@@ -31,10 +31,9 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 
 ![](./AP.png)
 
-- success rate, this met
+- success rate, this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
-
-- time, xxxx
+- time, the time consumption of each period and the full task. This metric represent the of the action.
 
 
 ![metric](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/metrics.png)   
