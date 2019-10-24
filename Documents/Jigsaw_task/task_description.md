@@ -19,8 +19,10 @@ task descrption
 
 # Result
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
-- IoU, XXXX
-- AP, xxxx
+- IoU, Intersection over Union
+
+![](./IoU.png)
+- AP, The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1]:
 - sucess rate, xxxxx
 - time, xxxx
 
