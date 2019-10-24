@@ -3,7 +3,9 @@
 paper | poster | video
 
 Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. 
+
 Robot can learning skills that applicable for the similar tasks, which called *task familiy*[1]. We implement several manipulation tasks in three task families, which represents assembly task family, reasoning task family and bin-picking task family separately. You can find them <a href="#tasks">here</a>. 
+
 In addition, we propose certain metrics measuring manipulations in many dimenstions, such as xxx.
 
 ![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
