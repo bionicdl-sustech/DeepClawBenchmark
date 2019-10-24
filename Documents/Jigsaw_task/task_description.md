@@ -18,8 +18,16 @@ task descrption
 task descrption
 
 # Result
-In each experiment, we record the results of the functions and task.   
+In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
+- IoU, XXXX
+- AP, xxxx
+- sucess rate, xxxxx
+- time, xxxx
+
+
 ![metric](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/metrics.png)   
+
+
 
 metrics|IoU|AP|success rate|time(s)|area rate
 -------|---|--|------------|---------|----
