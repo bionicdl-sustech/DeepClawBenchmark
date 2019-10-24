@@ -23,7 +23,12 @@ In each experiment, we record the results of the functions and task. The metrics
 
 ![](./IoU.png)
 - AP, The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1]:
+
+![](./AP.png)
+
 - sucess rate, xxxxx
+
+
 - time, xxxx
 
 
