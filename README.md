@@ -1,10 +1,10 @@
 # DeepClawBenchmark
 
-paper | [poster](https://github.com/ancorasir/CobotBenchmark/blob/master/Documents/DeepClaw%20Poster-pre-version.pdf) | video
+paper | poster | video
 
-Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw**: a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. In addition, we propose metrics measuring above operations in two aspects: spatial and temporal reasoning.
+Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. We implement three classical manipulation tasks following DeepClaw protocol, you can find them <a href="#tasks">here</a>. In addition, we propose metrics measuring above operations in two aspects: spatial and temporal reasoning.
 
-![](https://github.com/ancorasir/CobotBenchmark/blob/master/Documents/deepclaw-framework.png)
+![](https://github.com/ancorasir/CobotBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
 
 ## Quick Start
 
@@ -33,15 +33,6 @@ $ deactivate # retreat from virtual environment
 
 ### Installation
 
-We recommend to use MoveIt! to do motion planning for Denso/FRANKA/AUBO. Make sure you have installed [ROS](http://wiki.ros.org/ROS/Installation) and [MoveIt!](https://moveit.ros.org/install/) before install DeepClaw.
-
-(Optional) If you use ROS, create workspace first.
-
-```shell
-$ mkdir -p ~/deepclaw_ws/src
-$ cd ~/deepclaw_ws/src
-```
-
 Clone or download DeepClaw from Github.
 
 ```shell
@@ -52,52 +43,28 @@ $ cd ./DeepClawBenchmark
 Run the DeepClaw installation helper script:
 
 ```shell
-$ sudo sh install.sh {cpu|gpu} {denso|ur}
+$ sudo sh install.sh realsense ur
 ```
 
 The brackets indicate optional arguments to switch installation methods.
 
 The first argument specifies the version:
 
-- **cpu**: no TensorFlow GPU support
-- **gpu**: TensorFlow GPU support for Toy-Claw CNN evaluating.
+- **realsense**: RealSense D435 support.
 
 The second argument specifies the installation mode:
 
-- **ur**: UNIVERSAL ROBOT arm series support.
-- **franka**: FRANKA arm support.
-- **aubo**: AUBO arm support.
-- **denso**: DENSO Cobotta arm support.
+- **ur**: UNIVERSAL ROBOT arm series support (UR5 and UR10e).
+- **franka**: FRANKA arm support (update later).
+- **aubo**: AUBO arm support (update later).
+- **denso**: DENSO Cobotta arm support (update later).
 
-Test the installation:
+There are some test cases for testing your installation and calibration.
 
-```shell
-$ python main.py {denso|ur} test
-```
+[Test cases](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/TestCases.md)
 
-## Calibration
-
-We provide a naive hand-eye calibrating method which only utilizes 2-D dimension information. Calibrating mark could be download here. There are three steps in this hand-eye calibrating method:
-
-1. Move the end-effector of robot arm to four marks step by step, make sure the center point of end-effector matches each center of mark, and record all the position of end-effector center in robot arm coordinate.
-2. Fix camera pose, and capture a image frame. Record all position of mark's center in camera coordinate.
-3. Update calibration information in main.py.
-
-You can test your calibration:
-
-```shell
-$ python main.py {denso|ur} calibration_test
-```
-
-## Examples
-
-Go the following examples to see the basic functionality.
-
-1. Robot controller operations.
-2. Camera controller operations.
-3. Add a new module (task/controller/function).
-
-## Task
-With the DeepClaw, we implemented some tasks.
-### [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
-click the jigsaw hyperlink to see the detatils.
+## <a name="tasks">Tasks</a>
+We have implemented some task families with DeepClaw:
+- Task Family 1: [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
+- Task Family 2: Tictactoe Game
+- Task Family 3: Toy-Claw

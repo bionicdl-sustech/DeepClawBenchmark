@@ -1,0 +1,14 @@
+initial_position:
+  -
+    - 0.4
+    - -0.5
+    - 0.35
+  -
+    - 3.14
+    - 0
+    - 0
+# the numebr of sampled points is cube_size*cube_size*cube_size
+cube_size: 4
+x_stride: 0.05
+y_stride: 0.075
+z_stride: 0.01

@@ -1,49 +1,40 @@
 #!/bin/sh
 
 # read cmd line inputs
-VERSION=$1
+CAMERA=$1
 ROBOT=$2
 
-echo "Installing DeepClaw in ${ROBOT} arm with ${VERSION} support"
+echo "Installing DeepClaw in ${ROBOT} arm with ${CAMERA} support"
 
 sudo apt-get install python-pip
 sudo apt-get install python-opencv
-sudo apt-get install ros-kinetic-ros-control ros-kinetic-ros-controllers
-sudo pip install --upgrade pip
-sudo pip install pyrealsense2
+pip install --upgrade pip
 
-# set cpu/gpu conditional libraries
-case "${VERSION}"
+# set camera libraries
+case "${CAMERA}"
 in
-cpu)
-  sudo pip install tensorflow
-  ;;
-gpu)
-  sudo pip install tensorflow-gpu
+realsense)
+  echo "realsense libraries installing..."
+  echo 'deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo xenial main' | sudo tee /etc/apt/sources.list.d/realsense-public.list
+  sudo apt-key adv --keyserver keys.gnupg.net --recv-key 6F3EFCDE
+  sudo apt-get update
+  sudo apt-get install librealsense2-dkms
+  sudo apt-get install librealsense2-utils
+  pip install pyrealsense2
   ;;
 *)
-  echo "Usage: $0 {cpu|gpu} {ur|denso}"
+  echo "Usage: $0 {cpu|gpu} ur"
   exit 1
 esac
 
 case "${ROBOT}"
 in
 ur)
-  sudo pip install urx
-  ;;
-#franka)
-#  sudo apt install ros-kinetic-libfranka ros-kinetic-franka-ros
-#  ;;
-denso)
-  cd ..
-  if [ -d 'denso_cobotta_ros' ];then
-    sudo rm -r denso_cobotta_ros
-  fi
-  git clone https://github.com/DENSORobot/denso_cobotta_ros.git
-  cd DeepClawBenchmark
+  echo "UR robot arm requirments installing..."
+  pip install urx
   ;;
 *)
-  echo "Usage: $0 {cpu|gpu} {ur|denso}"
+  echo "Usage: $0 {cpu|gpu} ur"
   exit 1
 esac
 
