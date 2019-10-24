@@ -4,7 +4,7 @@ paper | poster | video
 
 Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. We implement three classical manipulation tasks following DeepClaw protocol, you can find them <a href="#tasks">here</a>. In addition, we propose metrics measuring above operations in two aspects: spatial and temporal reasoning.
 
-![](https://github.com/ancorasir/CobotBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
+![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
 
 ## Quick Start
 
