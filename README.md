@@ -72,6 +72,7 @@ We have implemented some task families with DeepClaw:
 - Task Family 1: [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
 - Task Family 2: Tictactoe Game
 - Task Family 3: Toy-Claw
+
 Find the task desription template [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Task-Description-Template.md).
 
 ## References
