@@ -39,7 +39,7 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 <p align="center">Figure 2. AP</p> 
 -->
 
-- **precision**: True position /(All predicted positive)，
+- **precision**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right.(示意图)
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
@@ -52,12 +52,17 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 
 For each task, we repeat 10 times and record the results. And finilally calculate the result.
 
-trial|IoU|seg time|AP|recog time|success rate|pick plan time|area rate|time(s)
+trial|IoU|seg time|precisiom|recog time|success rate|pick plan time|area rate|time(s)
 :-----:|---|--------|--|----------|------------|--------------|------------|-------
-1|0.8|12.3|3/4|4.0|2/3|8.0|0.9|40.3
+1|0.8|12.3|4/5|4.0|2/3|8.0|0.9|40.3
 2|---|--------|--|----------|------------|--------------|------------|-------
 ...|---|--------|--|----------|------------|--------------|------------|-------
 10|---|--------|--|----------|------------|--------------|------------|-------
 reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time)/10|sum(AP<sub>i</sub>)/10|sum(time)/10|sum(success rate<sub>i</sub>)/10|sum(time)/10|sum(area rate<sub>i</sub>)/10|sum(time)/10
 
+# Demo Videos
+Demo videos of a real robot in action can be found here.
+(此处放置三个任务的视频)
 
+# Contact
+If you have any questions or find any bugs, please let me know: 11930807@mail.sustech.edu
