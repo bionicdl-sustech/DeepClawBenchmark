@@ -24,8 +24,8 @@ In each experiment, we record the results of the functions and task. The metrics
 
 
 
-<p align="center"><img src="./IoU_calculate.png" width="50%"/>
-  <p align="center">Figure 1. IoU</p>        
+<p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
+ <p align="center">Figure 1. IoU</p>        
 
 
 
@@ -35,7 +35,9 @@ In each experiment, we record the results of the functions and task. The metrics
 where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative
 - **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
-![](./AP.png)
+
+<p align="center"><img src="./AP.png" width="60%"/></p>
+<p align="center">Figure 2. AP</p> 
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
@@ -43,8 +45,8 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 - **area rate**: 
 
 
-![metric](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/metrics.png)   
-
+<p align="center"><img src="./metrics.png" width="60%"/></p>
+<p align="center">Figure 3. Metrics</p> 
 
 
 metrics|IoU|AP|success rate|time(s)|area rate
