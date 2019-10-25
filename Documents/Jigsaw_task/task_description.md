@@ -56,6 +56,6 @@ trial|IoU|seg time|AP|recog time|success rate|pick plan time|area rate|time(s)
 2|---|--------|--|----------|------------|--------------|------------|-------
 ...|---|--------|--|----------|------------|--------------|------------|-------
 10|---|--------|--|----------|------------|--------------|------------|-------
-reault|IoU = sum(IoU<sub>i</sub>)/10|mean|sum(AP<sub>i</sub>)/10|----------|------------|--------------|------------|-------
+reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time)/10|sum(AP<sub>i</sub>)/10|sum(time)/10|sum(success rate<sub>i</sub>)/10|sum(time)/10|sum(area rate<sub>i</sub>)/10|sum(time)/10
 
 
