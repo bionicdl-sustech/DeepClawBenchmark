@@ -6,25 +6,24 @@ The robot work cell is showed in figure.1(整体安装示意图，安装反向�
 - The rectangle workspace is front of the robot, and the center is **(0,y,z)**, the width is 300mm, the lenth is 400mm. The left is place space and the right is pick space. 
 - the objects are placed in the workspace, and the models(stl and png) are showed in **XXX** folder. 
 
-In this example, the robot is UR5, the camera is realsense D435 and the end-effector is a suction cup.
-
+In this example, the robot is UR5, the camera is realsense D435 and the end-effector is a suction cup.   
 The configration of three tasks followed are similar, and the different is where and how to place the jigsaw pieces.
 
 # Procedure
 With the same jigsaw puzzle, 3 tasks are implemented.
 ## pick and place task
-（增加初始状态示意图,一张初始，一张放置）4 pieces is placed on the **XXX space**, 
+（增加初始状态示意图,一张初始，一张放置）4 pieces is placed on the **XXX space**, (将pick区域分成四块，四片分别放置在四个区域，这样使得整个任务运行的轨迹距离基本一致)(以放置区域中心为基点，4 block模板放在正中)
 ## 4-piece tiling task
-task descrption
+task descrption (以放置区域中心为基点，完成拼图时，拼图中心与基点重合)
 ## 5-piece assembly task
-task descrption
+task descrption (以放置区域中心为基点，拼图基板与中心重合)
 
 # Result
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
-- **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print templates of each piece and place the jigsaw piece on the corresponding template. We get the ground truth using templates,and calculate the IoU.
+- **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.
 
 <p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
- <p align="center">Figure 1. IoU</p>        
+<p align="center">Figure 1. IoU</p>        
 
 
 _Recall_: TP/(TP+FN) = True position /(All real positive)   
