@@ -21,7 +21,11 @@ task descrption
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
 - **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print templates of each piece and place the jigsaw piece on the corresponding template. We get the ground truth using templates,and calculate the IoU.(示意图) 
 
-![](./IoU_calculate.png)
+<center>
+<img src="./IoU_calculate.png" width="50%" height="25%" />
+Figure 1. IoU
+</center>
+
 
 **Recall**: TP/(TP+FN) = True position /(All real positive)   
 **Precision**: TP/(TP+FP) = True position /(All predicted positive)
