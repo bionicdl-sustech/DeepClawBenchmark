@@ -8,6 +8,8 @@ The robot work cell is showed in figure.1(整体安装示意图，安装反向�
 
 In this example, the robot is UR5, the camera is realsense D435 and the end-effector is a suction cup.
 
+The configration of three tasks followed are similar, and the different is where and how to place the jigsaw pieces.
+
 # Procedure
 With the same jigsaw puzzle, 3 tasks are implemented.
 ## pick and place task
