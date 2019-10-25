@@ -35,7 +35,7 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 - **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
 
-<p align="center"><img src="./AP.png" width="60%"/></p>
+<p align="center"><img src="./AP.png" width="40%"/></p>
 <p align="center">Figure 2. AP</p> 
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
@@ -47,8 +47,7 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 <p align="center">Figure 4. area rate</p> 
 
 
-For each task, we repeat 10 times and record the results.
-
+For each task, we repeat 10 times and record the results. And finilally calculate the result.
 
 trial|IoU|seg time|AP|recog time|success rate|pick plan time|area rate|time(s)
 :-----:|---|--------|--|----------|------------|--------------|------------|-------
