@@ -28,9 +28,8 @@ In each experiment, we record the results of the functions and task. The metrics
 
 
 _Recall_: TP/(TP+FN) = True position /(All real positive)   
-_Precision_: TP/(TP+FP) = True position /(All predicted positive)
-
-where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative
+_Precision_: TP/(TP+FP) = True position /(All predicted positive)   
+where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
 - **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
 
