@@ -76,4 +76,4 @@ We have implemented some task families with DeepClaw:
 Find the task desription template [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Task-Description-Template.md).
 
 ## References
-[1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning formanipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
+[1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning for manipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
