@@ -20,6 +20,10 @@ task descrption (以放置区域中心为基点，拼图基板与中心重合)
 
 # Result
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
+
+<p align="center"><img src="./metrics.png" width="40%"/></p>
+<p align="center">Figure 3. Metrics</p> 
+
 - **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.
 
 <p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
@@ -40,9 +44,10 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 - **time**: the time consumption of each period and the full task. This metric represent the cost of the task.
 - **area rate**: standard area/real area
 
+<p align="center"><img src="./area rate.png" width="40%"/></p>
+<p align="center">Figure 4. area rate</p> 
 
-<p align="center"><img src="./metrics.png" width="60%"/></p>
-<p align="center">Figure 3. Metrics</p> 
+
 
 
 metrics|IoU|AP|success rate|time(s)|area rate
