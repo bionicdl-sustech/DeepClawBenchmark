@@ -11,7 +11,7 @@ In this example, the robot is UR5, the camera is realsense D435 and the end-effe
 # Procedure
 With the same jigsaw puzzle, 3 tasks are implemented.
 ## pick and place task
-task descrption
+（增加初始状态示意图）4 pieces is placed on the **XXX space**, 
 ## 4-piece tiling task
 task descrption
 ## 5-piece assembly task
@@ -19,7 +19,7 @@ task descrption
 
 # Result
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
-- IoU, Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box
+- **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print templates of each piece and place the jigsaw piece on the corresponding template. We get the ground truth using templates,and calculate the IoU.(示意图) 
 
 ![](./IoU.png)
 
@@ -27,13 +27,14 @@ In each experiment, we record the results of the functions and task. The metrics
 **Precision**: TP/(TP+FP) = True position /(All predicted positive)
 
 where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative
-- AP, The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
+- **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
 ![](./AP.png)
 
-- success rate, this metric evaluates the physical performance of the picking, equals success picking/total picking.
+- **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
-- time, the time consumption of each period and the full task. This metric represent the of the action.
+- **time**: the time consumption of each period and the full task. This metric represent the cost of the task.
+- **area rate**: 
 
 
 ![metric](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/metrics.png)   
@@ -48,4 +49,4 @@ metrics|IoU|AP|success rate|time(s)|area rate
 
 task1|IoU|AP|success rate|time(s)|area rate
 -----|---|--|------------|---------|----
------|0.8|0.8|0.9|0.9|11.6
+1|0.8|0.8|0.9|0.9|11.6
