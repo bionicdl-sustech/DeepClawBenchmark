@@ -29,7 +29,6 @@ In each experiment, we record the results of the functions and task. The metrics
 <p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
 <p align="center">Figure 1. IoU</p>        
 
-
 _Recall_: TP/(TP+FN) = True position /(All real positive)   
 _Precision_: TP/(TP+FP) = True position /(All predicted positive)   
 where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
@@ -44,18 +43,19 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 - **time**: the time consumption of each period and the full task. This metric represent the cost of the task.
 - **area rate**: standard area/real area
 
-<p align="center"><img src="./area rate.png" width="40%"/></p>
+<p align="center"><img src="./area rate.png" width="50%"/></p>
 <p align="center">Figure 4. area rate</p> 
 
 
+For each task, we repeat 10 times and record the results.
 
 
-metrics|IoU|AP|success rate|time(s)|area rate
--------|---|--|------------|---------|----
--------|segmentaion|recognitation|pick plan|0.9|11.6
+trial|IoU|seg time|AP|recog time|success rate|pick plan time|area rate(%)|time(s)
+-----|---|--------|--|----------|------------|--------------|------------|-------
+1|---|--------|--|----------|------------|--------------|------------|-------
+2|---|--------|--|----------|------------|--------------|------------|-------
+...|---|--------|--|----------|------------|--------------|------------|-------
+10|---|--------|--|----------|------------|--------------|------------|-------
+reault|33|--------|--|----------|------------|--------------|------------|-------
 
 
-
-task1|IoU|AP|success rate|time(s)|area rate
------|---|--|------------|---------|----
-1|0.8|0.8|0.9|0.9|11.6
