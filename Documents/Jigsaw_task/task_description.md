@@ -39,6 +39,8 @@ where TP is Ture positive, TN is True negative, FP is False positive,FN is False
 <p align="center">Figure 2. AP</p> 
 -->
 
+- **precision**: True position /(All predicted positive)，
+
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
 - **time**: the time consumption of each period and the full task. This metric represent the cost of the task.
