@@ -58,7 +58,7 @@ trial|IoU|seg time|precisiom|recog time|success rate|pick plan time|area rate|ti
 2|---|--------|--|----------|------------|--------------|------------|-------
 ...|---|--------|--|----------|------------|--------------|------------|-------
 10|---|--------|--|----------|------------|--------------|------------|-------
-reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time)/10|sum(AP<sub>i</sub>)/10|sum(time)/10|sum(success rate<sub>i</sub>)/10|sum(time)/10|sum(area rate<sub>i</sub>)/10|sum(time)/10
+reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(AP<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(success rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(area rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10
 
 # Demo Videos
 Demo videos of a real robot in action can be found here.
