@@ -39,7 +39,7 @@ In each experiment, we record the results of the functions and task. The metrics
 <p align="center">Figure 2. AP</p> 
 -->
 
-- **precision**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right.(示意图)
+- **precision**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right. For example, we predict 5 objects, and 4 is correct, so precision equals 4/5(示意图)
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
