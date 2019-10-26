@@ -27,11 +27,11 @@ In each experiment, we record the results of the functions and task. The metrics
 - **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.
 
 <p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
-<p align="center">Figure 1. IoU</p>        
+<p align="center">Figure 1. IoU</p>         
 
-_Recall_: TP/(TP+FN) = True position /(All real positive)   
-_Precision_: TP/(TP+FP) = True position /(All predicted positive)   
-where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
+　　_Recall_: TP/(TP+FN) = True position /(All real positive)   
+　　_Precision_: TP/(TP+FP) = True position /(All predicted positive)   
+　　where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
 
 <!--- **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
