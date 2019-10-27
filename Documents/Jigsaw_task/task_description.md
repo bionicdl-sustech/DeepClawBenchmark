@@ -50,14 +50,14 @@ In each experiment, we record the results of the functions and task. The metrics
 <p align="center">Figure 4. area rate</p> 
 
 
-For each task, we repeat 10 times and record the results. And finilally calculate the result.
+For each task, we repeat 12 times and record the results. And finilally calculate the result.
 
 trial|IoU|seg time|precisiom|recog time|success rate|pick plan time|area rate|time(s)
 :-----:|---|--------|--|----------|------------|--------------|------------|-------
 1|0.8|12.3|4/5|4.0|2/3|8.0|0.9|40.3
 2|---|--------|--|----------|------------|--------------|------------|-------
 ...|---|--------|--|----------|------------|--------------|------------|-------
-10|---|--------|--|----------|------------|--------------|------------|-------
+12|---|--------|--|----------|------------|--------------|------------|-------
 reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(AP<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(success rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(area rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10
 
 # Demo Videos
