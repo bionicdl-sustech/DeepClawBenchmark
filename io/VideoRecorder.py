@@ -1,6 +1,7 @@
 import cv2
 import os
 
+
 class VideoRecorder(object):
     def __init__(self, camera, fps=30, image_size=(1280, 720)):
         self.flag = 0

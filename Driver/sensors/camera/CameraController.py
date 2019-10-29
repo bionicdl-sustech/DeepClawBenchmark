@@ -2,6 +2,10 @@
 # !/usr/bin/python
 # coding=utf-8
 
-class Camera(object):
+
+class CameraController(object):
+    def __init__(self):
+        pass
+
     def getImage(self):
         raise NotImplementedError(' getImage method does not implement. ')

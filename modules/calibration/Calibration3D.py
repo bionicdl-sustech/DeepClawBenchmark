@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 def image_callback(color_image, depth_image, depth_scale):
     checkerboard_size = (3, 3)
     refine_criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -11,21 +12,7 @@ def image_callback(color_image, depth_image, depth_scale):
         corners_refined = cv2.cornerSubPix(gray, corners, (3,3), (-1,-1), refine_criteria)
 
         # Get observed checkerboard center 3D point in camera space
-        checkerboard_pix = np.round(corners_refined[4,0,:]).astype(int)
-
-        # sum_z = 0
-        # error = 0
-        # ite = 1
-        # for i in range(40):
-        #     for j in range(40):
-        #         tem_z = depth_image[checkerboard_pix[1]-20+i][checkerboard_pix[0]-20+j]
-        #         if 0 < tem_z < 1000:
-        #             sum_z += tem_z
-        #             ite += 1
-        #         else:
-        #             error += 1
-        # checkerboard_z = (sum_z / (ite-1)) * depth_scale
-
+        checkerboard_pix = np.round(corners_refined[4, 0, :]).astype(int)
         checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20])) * depth_scale
         print("Found checkerboard, Z = ", checkerboard_z)
         # checkerboard_x = np.multiply(checkerboard_pix[0] - 642.142, checkerboard_z / 922.378) # 1280, 720

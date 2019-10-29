@@ -2,6 +2,7 @@
 # !/usr/bin/python
 # coding=utf-8
 
+
 class Task(object):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
         self.perception_system = perception_system

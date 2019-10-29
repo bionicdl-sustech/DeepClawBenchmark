@@ -4,7 +4,8 @@ import sys
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
-from Examples.Task import Task
+from examples.Task import Task
+
 
 class TestCase(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
@@ -16,7 +17,7 @@ class TestCase(Task):
         robot_gripper = self.manipulation_system['End-effector']
 
         # sensors
-        camera = self.perception_system['Camera']
+        camera = self.perception_system['camera']
 
         # test case
         print('testing perception system ...')
@@ -39,6 +40,3 @@ class TestCase(Task):
 
     def subtask_display(self):
         pass
-
-
-

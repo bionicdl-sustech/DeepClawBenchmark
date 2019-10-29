@@ -7,6 +7,7 @@ import time
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
+
 class AbstractSubject(object):
     '''An abstract subject class.
     Provide abstract register, remove and notify methods, all publisher class should inherit this class.

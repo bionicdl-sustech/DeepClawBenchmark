@@ -2,6 +2,8 @@
 # !/usr/bin/python
 # coding=utf-8
 import tf
+
+
 class Controller(object):
     def __init__(self):
         self.HOME_POSE = [[0, 0, 0], [0, 0, 0]]
@@ -22,9 +24,6 @@ class Controller(object):
 
     def closeGripper(self):
         raise NotImplementedError(' closeGripper method does not implement. ')
-
-    # def calibrating(self):
-    #     raise NotImplementedError(' calibrating method does not implement. ')
 
     def rpy2orientation(self, row, pitch, yaw):
         q = tf.transformations.quaternion_from_euler(row, pitch, yaw, axes='sxyz')

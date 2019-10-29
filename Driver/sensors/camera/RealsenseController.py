@@ -3,10 +3,12 @@
 # coding=utf-8
 import numpy as np
 import pyrealsense2 as rs
-from Camera import Camera
+from CameraController import CameraController
 
-class RealsenseController(Camera):
+
+class RealsenseController(CameraController):
     def __init__(self, serial_id='', width=1280, height=720, fps=30):
+        super(RealsenseController, self).__init__()
         self.width = width
         self.height = height
         self.fps = fps
@@ -35,13 +37,13 @@ class RealsenseController(Camera):
         aligned_frames = self.align.process(frames)
         aligned_depth_frame = aligned_frames.get_depth_frame()
         color_frame = aligned_frames.get_color_frame()
-        if(not aligned_depth_frame or not color_frame):
+        if not aligned_depth_frame or not color_frame:
             return None, None, None, None
         depth_image = np.asanyarray(aligned_depth_frame.get_data())
         color_image = np.asanyarray(color_frame.get_data())
         image_L = np.asanyarray(irL_frame.get_data())
         image_R = np.asanyarray(irR_frame.get_data())
-        return color_image,[depth_image,image_L,image_R]
+        return color_image, [depth_image, image_L, image_R]
 
     def get_device(self):
         return self.profile.get_device()

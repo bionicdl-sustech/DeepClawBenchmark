@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 class Calibration2D(object):
     def __init__(self):
         self._xy_set = ''

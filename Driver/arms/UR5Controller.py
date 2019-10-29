@@ -12,9 +12,10 @@ import os
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
-from Driver.Controller import Controller
-from ToolKit.Configuration import *
-from ToolKit.Calibration3D import *
+from driver.arms.Controller import Controller
+from io.Configuration import *
+from modules.calibration.Calibration3D import *
+
 
 class UR5Controller(Controller):
     def __init__(self):
