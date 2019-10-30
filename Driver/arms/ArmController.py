@@ -4,7 +4,7 @@
 import tf
 
 
-class Controller(object):
+class ArmController(object):
     def __init__(self):
         self.HOME_POSE = [[0, 0, 0], [0, 0, 0]]
         self.PICK_Z = 0

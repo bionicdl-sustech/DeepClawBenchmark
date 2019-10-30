@@ -3,7 +3,7 @@
 # coding=utf-8
 import numpy as np
 import pyrealsense2 as rs
-from CameraController import CameraController
+from driver.sensors.camera.CameraController import CameraController
 
 
 class RealsenseController(CameraController):

@@ -5,6 +5,8 @@ _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
 from examples.Task import Task
+from modules.calibration.Calibration2D import Calibration2D
+from driver.arms.UR5Controller import UR5Controller
 
 
 class TestCase(Task):

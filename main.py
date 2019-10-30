@@ -1,17 +1,24 @@
 import time
 import argparse
 import cv2
-from driver.sensors.camera.RealsenseController import RealsenseController
 
 parser = argparse.ArgumentParser()
-parser.add_argument("robot", type=str, choices=['denso', 'ur10e'], help="name of robot arm")
-parser.add_argument("task", type=str, choices=['test', 'calibration-test', 'collect-data', 'trash-classification',
-                                               'soft-gripper-grasp',
-                                               'tic-tac-toe', 'claw-machine', 'jigsaw-puzzle'], help="task name")
+parser.add_argument("robot", type=str, choices=['ur10e'], help="name of robot arm")
+parser.add_argument("task", type=str, choices=['test'], help="task name")
 args = parser.parse_args()
 
 ROBOT_NAME = args.robot
 TASK_NAME = args.task
+
+
+def initial_sensors(sensor_name, args=None):
+    if sensor_name == "realsense":
+        from driver.sensors.camera.RealsenseController import RealsenseController
+        realsense = RealsenseController()
+        return realsense
+    else:
+        print("Not support for this sensor.")
+        return None
 
 
 def initial_robot(robot_name):
@@ -39,8 +46,8 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 
 
 if __name__ == '__main__':
-    realsense1 = RealsenseController(serial_id='825312073784')
-    realsense2 = RealsenseController(serial_id='821312062518')
+    # realsense1 = RealsenseController(serial_id='825312073784')
+    # realsense2 = RealsenseController(serial_id='821312062518')
     robot = initial_robot(ROBOT_NAME)
     robot.matrix_load()
 
