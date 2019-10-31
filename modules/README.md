@@ -36,29 +36,29 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 - Localization
 
 ```
-INPUTS:
-OUTPUTS:
+INPUTS: {ColorImage, DepthImage, PointCloud}
+OUTPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox}
 ```
 
 - Identification
 
 ```
-INPUTS:
-OUTPUTS:
+INPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox}
+OUTPUTS: {BoundingBox, Label, Probability}
 ```
 
 - Multiple Points Motion Planning
 
 ```
-INPUTS:
-OUTPUTS:
+INPUTS: {BoundingBox, Label, Probability, Constrain}
+OUTPUTS: {PointsList}
 ```
 
 - Execution
 
 ```
-INPUTS:
-OUTPUTS:
+INPUTS: {PointsList, HardwareState}
+OUTPUTS: {HardwareState}
 ```
 
 ## Module Design Template
