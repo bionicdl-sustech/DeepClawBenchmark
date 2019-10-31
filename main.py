@@ -1,20 +1,24 @@
-import time
 import argparse
-import cv2
+from input_output.Configuration import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e'], help="name of robot arm")
+parser.add_argument("gripper", type=str, choices=['rg6'], help="name of robot gripper")
+parser.add_argument("sensor", type=str, choices=['realsense'], help="name of sensor")
 parser.add_argument("task", type=str, choices=['test'], help="task name")
 args = parser.parse_args()
 
 ROBOT_NAME = args.robot
+GRIPPER_NAME = args.gripper
+SENSOR_NAME = args.sensor
 TASK_NAME = args.task
 
 
-def initial_sensors(sensor_name, args=None):
+def initial_sensors(sensor_name):
     if sensor_name == "realsense":
         from driver.sensors.camera.RealsenseController import RealsenseController
-        realsense = RealsenseController()
+        cfg = readConfiguration('/config/sensors/realsense.yaml')
+        realsense = RealsenseController(cfg)
         return realsense
     else:
         print("Not support for this sensor.")
@@ -46,13 +50,12 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 
 
 if __name__ == '__main__':
-    realsense1 = RealsenseController(serial_id='825312073784')
-    realsense2 = RealsenseController(serial_id='821312062518')
+    sensor = initial_sensors(SENSOR_NAME)
     robot = initial_robot(ROBOT_NAME)
     robot.matrix_load()
 
     if robot is not None:
-        perception_system = {'camera': realsense1, 'Recorder': realsense2}
+        perception_system = {'camera': sensor, 'Recorder': realsense2}
         manipulation_system = {'Arm': robot, 'End-effector': robot}
 
         task = initial_task(TASK_NAME, perception_system, manipulation_system, is_debug=True)

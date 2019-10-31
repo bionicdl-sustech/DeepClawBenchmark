@@ -7,5 +7,5 @@ sys.path.append(_root_path)
 
 
 def readConfiguration(file_name):
-    cfg_file = open(_root_path+'/Config/'+file_name+'.yaml')
+    cfg_file = open(_root_path+file_name)
     return yaml.load(cfg_file)

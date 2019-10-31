@@ -17,7 +17,7 @@ from input_output.Configuration import *
 from modules.calibration.Calibration3D import *
 
 
-class UR5Controller(Controller):
+class UR5Controller(ArmController):
     def __init__(self):
         super(UR5Controller, self).__init__()
         self.cfg = readConfiguration('ur5')

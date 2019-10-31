@@ -1,23 +1,30 @@
 # Copyright (c) 2019 by Hank. All Rights Reserved.
 # !/usr/bin/python
 # coding=utf-8
+import os
+import sys
 import numpy as np
 import pyrealsense2 as rs
+
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
+
 from driver.sensors.camera.CameraController import CameraController
 
 
 class RealsenseController(CameraController):
-    def __init__(self, serial_id='', width=1280, height=720, fps=30):
+    def __init__(self, configuration):
         super(RealsenseController, self).__init__()
-        self.width = width
-        self.height = height
-        self.fps = fps
+        self.width = configuration["FRAME_ARGS"]["width"]
+        self.height = configuration["FRAME_ARGS"]["height"]
+        self.fps = configuration["FRAME_ARGS"]["fps"]
+        self.serial_id = configuration["DEVICE_CONFIGURATION"]["serial_id"]
 
         self.points = rs.points()
         self.pipeline = rs.pipeline()
         config = rs.config()
-        if serial_id!='':
-            config.enable_device(serial=serial_id)
+        if self.serial_id != '':
+            config.enable_device(serial=self.serial_id)
         config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, self.fps)
