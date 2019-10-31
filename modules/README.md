@@ -37,13 +37,13 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ```
 INPUTS: {ColorImage, DepthImage, PointCloud}
-OUTPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox}
+OUTPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox, SegmantedMask}
 ```
 
-- Identification
+- Recognition
 
 ```
-INPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox}
+INPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox, SegmentedMask}
 OUTPUTS: {BoundingBox, Label, Probability}
 ```
 

@@ -46,8 +46,8 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 
 
 if __name__ == '__main__':
-    # realsense1 = RealsenseController(serial_id='825312073784')
-    # realsense2 = RealsenseController(serial_id='821312062518')
+    realsense1 = RealsenseController(serial_id='825312073784')
+    realsense2 = RealsenseController(serial_id='821312062518')
     robot = initial_robot(ROBOT_NAME)
     robot.matrix_load()
 
