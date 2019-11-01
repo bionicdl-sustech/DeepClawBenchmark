@@ -58,3 +58,12 @@ class RealsenseController(CameraController):
     def get_depth_scale(self):
         depth_sensor = self.profile.get_device().first_depth_sensor()
         return depth_sensor.get_depth_scale()
+
+    def get_serial_number(self):
+        device = self.get_device()
+        return str(device.get_info(rs.camera_info.serial_number))
+
+    def get_intrinsics(self):
+        color_stream = self.profile.get_stream(rs.stream.color)
+        intrinsics = color_stream.as_video_stream_profile().get_intrinsics()
+        return intrinsics

@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 
-def image_callback(color_image, depth_image, depth_scale):
+def image_callback(color_image, depth_image, depth_scale, intrinsics):
     checkerboard_size = (3, 3)
     refine_criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -15,17 +15,10 @@ def image_callback(color_image, depth_image, depth_scale):
         checkerboard_pix = np.round(corners_refined[4, 0, :]).astype(int)
         checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20])) * depth_scale
         print("Found checkerboard, Z = ", checkerboard_z)
-        # checkerboard_x = np.multiply(checkerboard_pix[0] - 642.142, checkerboard_z / 922.378) # 1280, 720
-        # checkerboard_y = np.multiply(checkerboard_pix[1] - 355.044, checkerboard_z / 922.881) # 1280, 720
-        checkerboard_x = np.multiply(checkerboard_pix[0] - 963.212, checkerboard_z / 1383.57) # 1920, 1080
-        checkerboard_y = np.multiply(checkerboard_pix[1] - 532.567, checkerboard_z / 1384.32) # 1920, 1080
+        checkerboard_x = np.multiply(checkerboard_pix[0] - intrinsics.ppx, checkerboard_z / intrinsics.fx)  # 1920, 1080
+        checkerboard_y = np.multiply(checkerboard_pix[1] - intrinsics.ppy, checkerboard_z / intrinsics.fy)  # 1920, 1080
         if checkerboard_z > 0:
             # Save calibration point and observed checkerboard center
             observed_pt = np.array([checkerboard_x,checkerboard_y,checkerboard_z])
-
-        ## Draw and display the corners
-        # vis = cv2.drawChessboardCorners(color_image, (1,1), corners_refined[4,:,:], checkerboard_found)
-        # cv2.imwrite('./color_image_checkerboard_%02d.png' % ite, vis)
-        # print('error: ', error)
-        return observed_pt
+            return observed_pt
     return []

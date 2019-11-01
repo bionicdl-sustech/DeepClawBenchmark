@@ -34,6 +34,10 @@ def initial_robot(robot_name):
         from driver.arms.UR5Controller import UR5Controller
         robot = UR5Controller()
         return robot
+    elif robot_name == "franka":
+        from driver.arms.FrankaController import FrankaController
+        robot = FrankaController()
+        return robot
     else:
         print("Don't support this robot!")
         return None

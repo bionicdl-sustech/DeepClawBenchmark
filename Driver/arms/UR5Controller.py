@@ -18,15 +18,15 @@ from modules.calibration.Calibration3D import *
 
 
 class UR5Controller(ArmController):
-    def __init__(self):
+    def __init__(self, configuration):
         super(UR5Controller, self).__init__()
-        self.cfg = readConfiguration('ur5')
-        self._robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
-        self._port = self.cfg['SOCKET_CONFIGURATION']['port_number']
-        self._home_pose = self.cfg['HOME_POSE']
-        self._home_joints = self.cfg['HOME_JOINTS']
-        self._pick_z = self.cfg['PICK_Z']
-        self._place_z = self.cfg['PLACE_Z']
+        self._cfg = configuration
+        self._robot_ip = self._cfg['SOCKET_CONFIGURATION']['robot_ip']
+        self._port = self._cfg['SOCKET_CONFIGURATION']['port_number']
+        self._home_pose = self._cfg['HOME_POSE']
+        self._home_joints = self._cfg['HOME_JOINTS']
+        self._pick_z = self._cfg['PICK_Z']
+        self._place_z = self._cfg['PLACE_Z']
         self._calibration_tool = ''
         self._R = np.zeros((3, 3))
         self._t = np.zeros((3, 1))
@@ -59,7 +59,7 @@ class UR5Controller(ArmController):
         goal_position = goal_pose[0]
         goal_orientation = goal_pose[1]
 
-        if(useJoint==False):
+        if useJoint==False:
             # s.send ("movej(p[ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x/1000.0,y/1000.0,z/1000.0,Rx,Ry,Rz,a,v))
             x, y, z = goal_position[0], goal_position[1], goal_position[2]
             Rx, Ry, Rz = self.rpy2rotation(goal_orientation[0], goal_orientation[1], goal_orientation[2])
@@ -72,7 +72,7 @@ class UR5Controller(ArmController):
             s.send ("movej([ %f, %f, %f, %f, %f, %f], a = %f, v = %f)\n" %(x*3.14159/180.0,y*3.14159/180.0,z*3.14159/180.0,Rx*3.14159/180.0,Ry*3.14159/180.0,Rz*3.14159/180.0,a,v))
             hx, hy, hz = goal_orientation[0], goal_orientation[1], goal_orientation[2]
             hRx, hRy, hRz = goal_orientation[3], goal_orientation[4], goal_orientation[5]
-            self.verifyJoints([hx, hy, hz, hRx, hRy, hRz])
+            self.verifyPosition([hx, hy, hz, hRx, hRy, hRz])
         time.sleep(0.2)
         s.close()
 
@@ -89,40 +89,6 @@ class UR5Controller(ArmController):
         s.connect((self._robot_ip, self._port))
         s.send(str.encode('set_digital_out(4,%s)\n' %False))
         s.close()
-
-    def verifyJoints(self, targetPosition):
-        delay_time = True
-        cnt = 0
-        timeGap = 1
-        while(delay_time and cnt < 100):
-            currentPose = self.get_pos()
-            # print(targetPosition)
-            # print(currentPose)
-            dpose = np.zeros(3)
-            inv_dpose = np.zeros(3)
-            dpose[0] = abs(currentPose[0]-targetPosition[0])
-            dpose[1] = abs(currentPose[1]-targetPosition[1])
-            dpose[2] = abs(currentPose[2]-targetPosition[2])
-            # dpose[3] = abs(currentPose[3]-targetPosition[3])
-            # dpose[4] = abs(currentPose[4]-targetPosition[4])
-            # dpose[5] = abs(currentPose[5]-targetPosition[5])
-
-            inv_dpose[0] = abs(currentPose[0]-targetPosition[0])
-            inv_dpose[1] = abs(currentPose[1]-targetPosition[1])
-            inv_dpose[2] = abs(currentPose[2]-targetPosition[2])
-            # inv_dpose[3] = abs(-currentPose[3]-targetPosition[3])
-            # inv_dpose[4] = abs(-currentPose[4]-targetPosition[4])
-            # inv_dpose[5] = abs(-currentPose[5]-targetPosition[5])
-
-            if (max(dpose) < 0.02 or max(inv_dpose) < 0.02):
-                delay_time = False
-                return True
-            else:
-                time.sleep(timeGap)
-                cnt = cnt + 1
-            if(cnt*timeGap >= 20):
-                print("Time Out!")
-                return False
 
     def verifyPosition(self, targetPosition):
         delay_time = True
@@ -158,27 +124,13 @@ class UR5Controller(ArmController):
                 print("Time Out!")
                 return False
 
-    def get_rigid_transform(self, A, B):
-        assert len(A) == len(B)
-        N = A.shape[0]  # Total points
-        centroid_A = np.mean(A, axis=0)
-        centroid_B = np.mean(B, axis=0)
-        AA = A - np.tile(centroid_A, (N, 1))  # Centre the points
-        BB = B - np.tile(centroid_B, (N, 1))
-        H = np.dot(np.transpose(AA), BB)  # Dot is matrix multiplication for array
-        U, S, Vt = np.linalg.svd(H)
-        R = np.dot(Vt.T, U.T)
-        if np.linalg.det(R) < 0:  # Special reflection case
-            Vt[2, :] *= -1
-            R = np.dot(Vt.T, U.T)
-        t = np.dot(-R, centroid_A.T) + centroid_B.T
-        return R, t
-
-    def calibrating(self, camera):
-        initial_pose = self.cfg['initial_pose']
-        x_step = self.cfg['x_step_length']
-        y_step = self.cfg['y_step_length']
-        z_step = self.cfg['z_step_length']
+    def calibrating3d(self, camera):
+        from modules.calibration.Calibration3D import image_callback
+        calibration_cfg = readConfiguration(_root_path + "/config/modules/calibration3d.yaml")
+        initial_pose = calibration_cfg['initial_pose']
+        x_step = calibration_cfg['x_step_length']
+        y_step = calibration_cfg['y_step_length']
+        z_step = calibration_cfg['z_step_length']
 
         self.move(initial_pose)
         x = initial_pose[0][0]
@@ -195,34 +147,30 @@ class UR5Controller(ArmController):
                     depth_image = info[0]
                     observed_pt = image_callback(color_image, depth_image, camera.get_depth_scale())
                     measured_pt = [x + x_step * i, y + y_step * j, z + z_step * k + 0.17]
-                    if len(observed_pt)!=0:
+                    if len(observed_pt) != 0:
                         observed_pts.append(observed_pt)
                         measured_pts.append(measured_pt)
-        np.savez(os.path.dirname(_root_path)+"/Data/calibration_data.npz", observed_pts, measured_pts)
+        np.savez(os.path.dirname(_root_path)+self._cfg["CALIBRATION_DIR"], observed_pts, measured_pts)
 
     def matrix_load(self):
-        d = np.load(os.path.dirname(_root_path)+"/Data/calibration_data.npz")
+        d = np.load(os.path.dirname(_root_path)+self._cfg["CALIBRATION_DIR"])
         observed_pts = d['arr_0']
         measured_pts = d['arr_1']
         self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)
 
-    def uvd2xyz(self, u, v, depth_image, depth_scale):
+    def uvd2xyz(self, u, v, depth_image, depth_scale, intrinsics):
         camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
-        camera_x = np.multiply(u - 642.142, camera_z / 922.378)
-        camera_y = np.multiply(v - 355.044, camera_z / 922.881)
-        # camera_x = np.multiply(u - 963.212, camera_z / 1383.57)
-        # camera_y = np.multiply(v - 532.567, camera_z / 1384.32)
+        camera_x = np.multiply(u - intrinsics.ppx, camera_z / intrinsics.fx)
+        camera_y = np.multiply(v - intrinsics.ppy, camera_z / intrinsics.fy)
 
         view = depth_image[v - 30:v + 30, u - 30:u + 30]
         view[view == 0] = 10000
         avoid_z = np.min(view)
-        # print(camera_z, avoid_z * depth_scale)
+
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        avoid_x = np.multiply(avoid_u - 642.142, avoid_z * depth_scale / 922.378) # 1280, 720
-        avoid_y = np.multiply(avoid_v - 355.044, avoid_z * depth_scale / 922.881) # 1280, 720
-        # avoid_x = np.multiply(avoid_u - 963.212, avoid_z * depth_scale / 1383.57) # 1920, 1080
-        # avoid_y = np.multiply(avoid_v - 532.567, avoid_z * depth_scale / 1384.32) # 1920, 1080
+        avoid_x = np.multiply(avoid_u - intrinsics.ppx, avoid_z * depth_scale / intrinsics.fx)
+        avoid_y = np.multiply(avoid_v - intrinsics.ppy, avoid_z * depth_scale / intrinsics.fy)
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
