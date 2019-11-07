@@ -20,3 +20,7 @@ class AbstractSubject(object):
     def notifyObserver(self):
         raise NotImplementedError(
             ' notifyObserver method does not implement. ')
+
+    def sendData(self, data):
+        raise NotImplementedError(
+            " sendData method does not implement. ")

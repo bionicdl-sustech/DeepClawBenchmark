@@ -17,7 +17,7 @@ class Publisher(AbstractSubject):
     def __init__(self, name):
         self.name = name
         self.observers = {}
-        self.data = {'Time': ''}
+        self.data = {}
 
     def registerObserver(self, observer):
         self.observers[observer.name] = observer
@@ -29,7 +29,7 @@ class Publisher(AbstractSubject):
         for key in self.observers.keys():
             self.observers[key].update(self.data)
 
-    def setData(self, data):
+    def sendData(self, data):
         if data.has_key("Time"):
             self.data["Time"] = data
         if data.has_key("Image"):

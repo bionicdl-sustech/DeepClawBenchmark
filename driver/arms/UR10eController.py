@@ -17,16 +17,16 @@ from input_output.Configuration import *
 from modules.calibration.Calibration3D import *
 
 
-class UR10eController(Controller):
-    def __init__(self):
+class UR10eController(ArmController):
+    def __init__(self, configuration):
         super(UR10eController, self).__init__()
-        self.cfg = readConfiguration('ur10e')
-        self._robot_ip = self.cfg['SOCKET_CONFIGURATION']['robot_ip']
-        self._port = self.cfg['SOCKET_CONFIGURATION']['port_number']
-        self._home_pose = self.cfg['HOME_POSE']
-        self._home_joints = self.cfg['HOME_JOINTS']
-        self._pick_z = self.cfg['PICK_Z']
-        self._place_z = self.cfg['PLACE_Z']
+        self._cfg = configuration
+        self._robot_ip = self._cfg['SOCKET_CONFIGURATION']['robot_ip']
+        self._port = self._cfg['SOCKET_CONFIGURATION']['port_number']
+        self._home_pose = self._cfg['HOME_POSE']
+        self._home_joints = self._cfg['HOME_JOINTS']
+        self._pick_z = self._cfg['PICK_Z']
+        self._place_z = self._cfg['PLACE_Z']
         self._calibration_tool = ''
         self._R = np.zeros((3, 3))
         self._t = np.zeros((3, 1))
@@ -198,10 +198,10 @@ class UR10eController(Controller):
                     if len(observed_pt)!=0:
                         observed_pts.append(observed_pt)
                         measured_pts.append(measured_pt)
-        np.savez(os.path.dirname(_root_path)+"/Data/calibration_data.npz", observed_pts, measured_pts)
+        np.savez(os.path.dirname(_root_path)+"/data/calibration_data.npz", observed_pts, measured_pts)
 
     def matrix_load(self):
-        d = np.load(os.path.dirname(_root_path)+"/Data/calibration_data.npz")
+        d = np.load(os.path.dirname(_root_path)+"/data/calibration_data.npz")
         observed_pts = d['arr_0']
         measured_pts = d['arr_1']
         self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)

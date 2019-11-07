@@ -11,23 +11,18 @@ from input_output.observers.AbstractObserver import AbstractObserver
 
 class ImageMonitor(AbstractObserver):
     def __init__(self, name):
-        self.image_counter = 0
         self.name = name
         self.data = {}
+        self.dir = ''
+        self.img_name = ''
 
     def update(self, data):
         self.data = data
         self.display()
 
     def display(self):
-        path = _root_path + '/Data/' + self.name
-        stamp = int(time.time())
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if not os.path.exists(self.dir):
+            os.makedirs(self.dir)
 
         if self.data.has_key('Image'):
-            if not os.path.exists(path + '/images'):
-                os.makedirs(path + '/images')
-            cv2.imwrite(path + '/images/' + self.name + str(self.image_counter) + '.jpg', self.data['Image'])
-            self.image_counter += 1
-            # return self.data['Image']
+            cv2.imwrite(self.dir + self.img_name, self.data['Image'])

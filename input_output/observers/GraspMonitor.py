@@ -20,7 +20,7 @@ class GraspMonitor(AbstractObserver):
         self.display()
 
     def display(self):
-        path = _root_path+'/Data/'+self.name
+        path = _root_path+'/data/'+self.name
         stamp = int(time.time())
         if not os.path.exists(path):
             os.makedirs(path)
