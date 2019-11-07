@@ -4,5 +4,5 @@ DEVICE_CONFIGURATION:
 
 FRAME_ARGS:
   width: 1280
-  heigth: 720
+  height: 720
   fps: 30

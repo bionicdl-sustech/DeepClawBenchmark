@@ -22,10 +22,11 @@ class TimeMonitor(AbstractObserver):
         self.display()
 
     def display(self):
-        if not os.path.exists(self.dir):
-            os.makedirs(self.dir)
+        # if self.data.has_key('Time'):
+        if "Time" in self.data:
+            if not os.path.exists(self.dir):
+                os.makedirs(self.dir)
 
-        if self.data.has_key('Time'):
             name = self.data['Time'][0]
             executing_time = self.data['Time'][1]
 

@@ -30,10 +30,11 @@ class Publisher(AbstractSubject):
             self.observers[key].update(self.data)
 
     def sendData(self, data):
-        if data.has_key("Time"):
-            self.data["Time"] = data
-        if data.has_key("Image"):
-            self.data["Image"] = data
-        if data.has_key["Grasp"]:
-            self.data["Grasp"] = data
+        # if data.has_key("Time"):
+        #     self.data["Time"] = data
+        # if data.has_key("Image"):
+        #     self.data["Image"] = data
+        # if data.has_key["Grasp"]:
+        #     self.data["Grasp"] = data
+        self.data = data
         self.notifyObserver()

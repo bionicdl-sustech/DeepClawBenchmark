@@ -21,8 +21,8 @@ class ImageMonitor(AbstractObserver):
         self.display()
 
     def display(self):
-        if not os.path.exists(self.dir):
-            os.makedirs(self.dir)
-
-        if self.data.has_key('Image'):
+        # if self.data.has_key('Image'):
+        if "Image" in self.data:
+            if not os.path.exists(self.dir):
+                os.makedirs(self.dir)
             cv2.imwrite(self.dir + self.img_name, self.data['Image'])

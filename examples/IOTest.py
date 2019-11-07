@@ -41,32 +41,32 @@ class IOTest(Task):
 
         # segmentation stage
         start = time.time()
-        time.sleep(100)
+        time.sleep(0.1)
         end = time.time()
 
-        tdata = {"Time", [subtask_name+' segmentation_time', end-start]}
+        tdata = {"Time": [subtask_name+' segmentation_time', end-start]}
         self.publisher.sendData(tdata)
 
         # recognition stage
         start = time.time()
-        time.sleep(200)
+        time.sleep(0.2)
         end = time.time()
 
-        tdata = {"Time", [subtask_name+' recognition_time', end - start]}
+        tdata = {"Time": [subtask_name+' recognition_time', end - start]}
         self.publisher.sendData(tdata)
 
         # pose_est stage
         start = time.time()
-        time.sleep(1300)
+        time.sleep(0.3)
         end = time.time()
 
-        tdata = {"Time", [subtask_name+' pose_est_time', end - start]}
+        tdata = {"Time": [subtask_name+' pose_est_time', end - start]}
         self.publisher.sendData(tdata)
 
         # MOT stage
         start = time.time()
-        time.sleep(400)
+        time.sleep(0.4)
         end = time.time()
 
-        tdata = {"Time", [subtask_name+' MOT_time', end - start]}
+        tdata = {"Time": [subtask_name+' MOT_time', end - start]}
         self.publisher.sendData(tdata)
