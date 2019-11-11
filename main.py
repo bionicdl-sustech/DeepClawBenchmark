@@ -18,8 +18,8 @@ def initial_sensors(sensor_name):
     if sensor_name == "realsense":
         from driver.sensors.camera.RealsenseController import RealsenseController
         cfg = readConfiguration('/config/sensors/realsense.yaml')
-        # realsense = RealsenseController(cfg)
-        realsense = ''
+        realsense = RealsenseController(cfg)
+        # realsense = ''
         return realsense
     else:
         print("Not support for this sensor.")
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     robot = initial_robot(ROBOT_NAME)
     # robot.matrix_load()
 
-    if robot is not None:
+    if robot is not None and sensor is not None:
         perception_system = {'Camera': sensor, 'Recorder': sensor}
         manipulation_system = {'Arm': robot, 'Gripper': robot}
 

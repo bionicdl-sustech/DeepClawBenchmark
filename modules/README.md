@@ -14,12 +14,16 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 - Segmentation
 - xxxxx
 
-### Identification
+### Recognition
 
 - Classification
 - xxxx
 
-### Multiple Points Motion Planning
+### Grasp Planning
+
+- Pose Estimation
+
+### Motion Planning
 
 - Min-max Strategy
 - A-star Algorithm
@@ -33,7 +37,7 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ## Standardized Stages Inputs/Outputs
 
-- Localization
+- Segmentation
 
 ```
 INPUTS: {ColorImage, DepthImage, PointCloud}
@@ -47,11 +51,18 @@ INPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox, SegmentedMask}
 OUTPUTS: {BoundingBox, Label, Probability}
 ```
 
-- Multiple Points Motion Planning
+- Grasp Planning
 
 ```
 INPUTS: {BoundingBox, Label, Probability, Constrain}
 OUTPUTS: {PointsList}
+```
+
+- Motion Planning
+
+```
+INPUTS: {PointsList, HardwareState}
+OUTPUTS: {HardwareState}
 ```
 
 - Execution
