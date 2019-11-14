@@ -8,24 +8,24 @@ sys.path.append(_root_path)
 from examples.Task import Task
 from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
-from input_output.observers.ImageMonitor import ImageMonitor
-from modules.localization.random_seg import RandomSeg
+from input_output.observers.PCLMonitor import PCLMonitor
+from modules.localization.dbscan import dbscan
 from modules.grasp_planning.random_planner import RandomPlanner
 
 
-class RandomClawMachine(Task):
+class PCLClawMachine(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
-        super(RandomClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
+        super(PCLClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
         self.experiment_name = "experiment_1"
-        self.data_path = _root_path+"/data/RandomClawMachine/"+self.experiment_name+"/"
+        self.data_path = _root_path+"/data/PCLClawMachine/"+self.experiment_name+"/"
         self.args = {}
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
-        self.image_monitor = ImageMonitor("image_monitor")
+        self.pcl_monitor = PCLMonitor("pcl_monitor")
         self.publisher.registerObserver(self.time_monitor)
-        self.publisher.registerObserver(self.image_monitor)
+        self.publisher.registerObserver(self.pcl_monitor)
 
-        self.localization_operator = RandomSeg([[-x, x], [-y, y], [-z, z]])
+        self.localization_operator = dbscan(0.5, 5)
         self.recognition_operator = ''
         self.grasp_planner = RandomPlanner([[-3.14, 3.14], [0, 0], [0, 0]])
         self.motion_planner = ''
@@ -46,14 +46,20 @@ class RandomClawMachine(Task):
         # subtask data path
         subtask_name = "subtask_" + str(self.args["subtask_counter"])
         path = self.data_path + subtask_name + "/"
+        self.pcl_monitor.dir = path + "pcl/"
+        self.pcl_monitor.pcl_name = subtask_name + ".pcl"
 
         # segmentation
+        point_cloud = self.camera.getPointCloud()
+
         start = time.time()
-        bounding_box, mask, centers = self.localization_operator.display()
+        boundingbox, mask, centers = self.localization_operator.display(point_cloud=point_cloud)
         end = time.time()
 
         tdata = {"Time": [subtask_name+' segmentation_time', end-start]}
+        pdata = {"PCL": point_cloud}
         self.publisher.sendData(tdata)
+        self.publisher.sendData(pdata)
 
         # recognition
         start = time.time()
