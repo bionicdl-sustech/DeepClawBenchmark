@@ -18,5 +18,5 @@ class Custom(Localization):
     def __init__(self):
         raise NotImplementedError
 
-    def display(self, color_image, depth_image, point_cloud):
+    def display(self, **kwargs):
         raise NotImplementedError
