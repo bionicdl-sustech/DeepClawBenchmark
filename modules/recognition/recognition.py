@@ -1,7 +1,7 @@
 
 
 class Recognition(object):
-    def display(self, color_image, depth_image, point_cloud, bounding_box, mask):
+    def display(self, color_image, depth_image, point_cloud, bounding_box, mask, centers):
         '''
 
         :param color_image: array of shape (width, height, 3)， optional
@@ -19,5 +19,5 @@ class Custom(Recognition):
     def __init__(self):
         raise NotImplementedError
 
-    def display(self, bounding_box, mask, color_image=None, depth_image=None, point_cloud=None):
+    def display(self, bounding_box, mask, centers, **kwargs):
         raise NotImplementedError

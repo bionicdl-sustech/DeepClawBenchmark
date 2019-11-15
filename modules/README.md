@@ -11,8 +11,8 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ### Localization
 
-- Segmentation
-- Point Cloud Cluster
+- Random Segmentation
+- DBSCAN
 
 ### Recognition
 
@@ -20,10 +20,8 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ### Grasp Planning
 
-- 2D Pose Estimation
-- 3D Pose Estimation
-- Min-max Strategy
-- A-star Algorithm
+- Random Planner
+- Principal Axis Planner
 
 ### Motion Planning
 
@@ -31,12 +29,9 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ### End-to-end
 
-- Semantic Segmentation
-- Detection
+- Grasp AlexNet
 
 ## Standardized Stages Inputs/Outputs
-
-# 
 
 - Localization
   
@@ -58,9 +53,7 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 - Recognition
   
   ```python
-  modules.recognition.__name_of_your_algorithm__ (color_image=None,
-   depth_image=None, point_cloud=None, bounding_box=None,
-   mask=None, centers=None)
+  modules.recognition.__name_of_your_algorithm__ (bounding_box=None, mask=None, centers=None, **kwargs)
   ```
 
 | Parameters                                                                                           |                                                                                          |
@@ -75,7 +68,7 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 - Grasp Planning
   
   ```python
-  modules.grasp_planning.__name_of_your_algorithm__ (bounding_box=None, mask=None, centers=None, labels=None, probability=None)
+  modules.grasp_planning.__name_of_your_algorithm__ (labels=None, probability=None, **kwargs)
   ```
 
 | Parameters                                                                                           |                                                                                          |
