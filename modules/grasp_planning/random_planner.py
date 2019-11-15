@@ -23,4 +23,4 @@ class RandomPlanner(GraspPlaner):
         roll = np.random.uniform(self.min_roll, self.max_roll)
         pitch = np.random.uniform(self.min_pitch, self.max_pitch)
         yaw = np.random.uniform(self.min_yaw, self.max_yaw)
-        return [x, y, z, roll, pitch, yaw]
+        return [x, y, z, roll, pitch, yaw, None]
