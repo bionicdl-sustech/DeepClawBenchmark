@@ -10,7 +10,7 @@ from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
 from input_output.observers.PCLMonitor import PCLMonitor
 from modules.localization.dbscan import dbscan
-from modules.grasp_planning.random_planner import RandomPlanner
+from modules.grasp_planning.principal_axis_planner import PrincipalAxisPlanner
 
 
 class PCLClawMachine(Task):
@@ -27,7 +27,7 @@ class PCLClawMachine(Task):
 
         self.localization_operator = dbscan(0.5, 5)
         self.recognition_operator = ''
-        self.grasp_planner = RandomPlanner([[-3.14, 3.14], [0, 0], [0, 0]])
+        self.grasp_planner = PrincipalAxisPlanner()
         self.motion_planner = ''
 
     def task_display(self):
@@ -70,7 +70,7 @@ class PCLClawMachine(Task):
 
         # grasp planning
         start = time.time()
-        grasp_pose = self.grasp_planner.display(centers)
+        grasp_pose = self.grasp_planner.display(point_cloud, centers, mask)
         end = time.time()
 
         tdata = {"Time": [subtask_name+' grasp_planning_time', end - start]}
