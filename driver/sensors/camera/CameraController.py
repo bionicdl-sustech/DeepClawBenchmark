@@ -7,5 +7,16 @@ class CameraController(object):
     def __init__(self):
         pass
 
-    def getImage(self):
+    def get_frame(self):
         raise NotImplementedError(' getImage method does not implement. ')
+
+    def get_intrinsics(self):
+        raise NotImplementedError(' getIntrinsics method does not implement. ')
+
+
+class Frame(object):
+    def __init__(self, color_image, depth_image, point_cloud, infrared_image):
+        self.color_image = color_image
+        self.depth_image = depth_image
+        self.point_cloud = point_cloud
+        self.infrared_image = infrared_image

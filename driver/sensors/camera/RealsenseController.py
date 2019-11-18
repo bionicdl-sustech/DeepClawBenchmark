@@ -9,7 +9,7 @@ import pyrealsense2 as rs
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
-from driver.sensors.camera.CameraController import CameraController
+from driver.sensors.camera.CameraController import CameraController, Frame
 
 
 class RealsenseController(CameraController):
@@ -34,23 +34,27 @@ class RealsenseController(CameraController):
         align_to = rs.stream.color
         self.align = rs.align(align_to)
 
-        for i in range(45):
-            self.getImage()
-
-    def getImage(self):
+    def get_frame(self):
         frames = self.pipeline.wait_for_frames()
-        irL_frame = frames.get_infrared_frame(1)
-        irR_frame = frames.get_infrared_frame(2)
         aligned_frames = self.align.process(frames)
+
         aligned_depth_frame = aligned_frames.get_depth_frame()
-        color_frame = aligned_frames.get_color_frame()
-        if not aligned_depth_frame or not color_frame:
-            return None, None, None, None
+        aligned_color_frame = aligned_frames.get_color_frame()
+        aligned_irL_frame = aligned_frames.get_infrared_frame(1)
+        aligned_irR_frame = aligned_frames.get_infrared_frame(2)
+
         depth_image = np.asanyarray(aligned_depth_frame.get_data())
-        color_image = np.asanyarray(color_frame.get_data())
-        image_L = np.asanyarray(irL_frame.get_data())
-        image_R = np.asanyarray(irR_frame.get_data())
-        return color_image, [depth_image, image_L, image_R]
+        color_image = np.asanyarray(aligned_color_frame.get_data())
+        infrared_L = np.asanyarray(aligned_irL_frame.get_data())
+        infrared_R = np.asanyarray(aligned_irR_frame.get_data())
+        point_cloud = None
+
+        return Frame([color_image], [depth_image], [point_cloud], [infrared_L, infrared_R])
+
+    def get_intrinsics(self):
+        color_stream = self.profile.get_stream(rs.stream.color)
+        intrinsics = color_stream.as_video_stream_profile().get_intrinsics()
+        return intrinsics
 
     def get_device(self):
         return self.profile.get_device()
@@ -63,7 +67,4 @@ class RealsenseController(CameraController):
         device = self.get_device()
         return str(device.get_info(rs.camera_info.serial_number))
 
-    def get_intrinsics(self):
-        color_stream = self.profile.get_stream(rs.stream.color)
-        intrinsics = color_stream.as_video_stream_profile().get_intrinsics()
-        return intrinsics
+
