@@ -1,0 +1,26 @@
+This tool will connect to first attached scanner and will set the settings written down in settings.txt to the connected device. To store the changes, the set and store routine has to be performed.
+xterm-256color
+the value of 0<double> is 2262.2
+the value of 1<double> is 0
+the value of 2<double> is 1042.28
+the value of 3<double> is 0
+the value of 4<double> is 2262.47
+the value of 5<double> is 812.249
+the value of 6<double> is 0
+the value of 7<double> is 0
+the value of 8<double> is 1
+the value of 0<double> is -0.127572
+the value of 1<double> is 0.188427
+the value of 2<double> is 2.20773e-05
+the value of 3<double> is 0.00022075
+the value of 4<double> is -0.0461221
+the value of 5<double> is 0
+the value of 6<double> is 0
+the value of 7<double> is 0
+the value of 8<double> is 0
+the value of 9<double> is 0
+the value of 10<double> is 0
+the value of 11<double> is 0
+the value of 12<double> is 0
+the value of 13<double> is 0
+The settings were successfully changed, press any key and ENTER to end the application!
