@@ -11,74 +11,99 @@ DeepClaw benchmarking has streamlined the manipulation process into four stages:
 
 ### Localization
 
-- Segmentation
-- xxxxx
+- Random Segmentation
+- DBSCAN
 
 ### Recognition
 
 - Classification
-- xxxx
 
 ### Grasp Planning
 
-- Pose Estimation
+- Random Planner
+- Principal Axis Planner
 
 ### Motion Planning
 
-- Min-max Strategy
-- A-star Algorithm
 - xxxx
 
 ### End-to-end
 
-- Deep Neural Network
-- Semantic Segmentation
-- Detection
+- Grasp AlexNet
 
 ## Standardized Stages Inputs/Outputs
 
-- Segmentation
+- Localization
+  
+  ```python
+  modules.localization.__name_of_your_algorithm__ (color_image=None, 
+  depth_image=None, point_cloud=None)
+  ```
 
-```
-INPUTS: {ColorImage, DepthImage, PointCloud}
-OUTPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox, SegmantedMask}
-```
+| Parameters                                                                 |                                                                                          |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **color_image:** *array of shape (width, height, 3)， optional*             | RGB image array, sampled from RGB camera sensor.                                         |
+| **depth_image:** *array of shape (width, height, 1), optional*             | Depth image array, provide depth information at each pixel.                              |
+| **point_cloud:** *array of shape (number of points, 3), optional*          | Point clould information, each point represented by  (x, y, z).                          |
+| **Returns**                                                                |                                                                                          |
+| **bounding_box:** *array of shape (2, 2) or array of shape (3, 2)*         | 2D or 3D bounding box information, include coordinate of left top point and size of box. |
+| **mask:** *array of shape (n_points, 1) or array of shape (width, height)* | Distinguish each point by giving index                                                   |
+| **centers:** *array of shape (n_objects, 3)*                               | Center of objects.                                                                       |
 
 - Recognition
+  
+  ```python
+  modules.recognition.__name_of_your_algorithm__ (bounding_box=None, mask=None, centers=None, **kwargs)
+  ```
 
-```
-INPUTS: {ColorImage, DepthImage, PointCloud, BoundingBox, SegmentedMask}
-OUTPUTS: {BoundingBox, Label, Probability}
-```
+| Parameters                                                                                           |                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **bounding_box:**  *array of shape (2, 2) or array of shape (3, 3)*                                  | 2D or 3D bounding box information, include coordinate of left top point and size of box. |
+| **mask:**  *array of shape (n_points, 1) or array of shape (width, height)*                          | Distinguish each point by giving index                                                   |
+| **centers:**  *array of shape (n_objects, 3)*                                                        | Center of objects.                                                                       |
+| **Returns**                                                                                          |                                                                                          |
+| **labels:** *array of shape (n_points, 1) or array of shape (width, height)*                         | Distinguish each point by label                                                          |
+| **probabilities:** *array of shape (n_points, n_labels) or array of shape (width, height, n_labels)* | Probability of each label in point.                                                      |
 
 - Grasp Planning
+  
+  ```python
+  modules.grasp_planning.__name_of_your_algorithm__ (labels=None, probability=None, **kwargs)
+  ```
 
-```
-INPUTS: {BoundingBox, Label, Probability, Constrain}
-OUTPUTS: {PointsList}
-```
+| Parameters                                                                                           |                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **bounding_box:**  *array of shape (2, 2) or array of shape (3, 3)*                                  | 2D or 3D bounding box information, include coordinate of left top point and size of box. |
+| **mask:**  *array of shape (n_points, 1) or array of shape (width, height)*                          | Distinguish each point by giving index                                                   |
+| **centers:**  *array of shape (n_objects, 3)*                                                        | Center of objects.                                                                       |
+| **labels:** *array of shape (n_points, 1) or array of shape (width, height)*                         | Distinguish each point by label                                                          |
+| **probabilities:** *array of shape (n_points, n_labels) or array of shape (width, height, n_labels)* | Probability of each label in point.                                                      |
+| **Returns**                                                                                          |                                                                                          |
+| **grasp_pose:** *list of length 6*                                                                   | Provide grasp pose information, includes x, y, z, roll, pitch, and yaw.                  |
 
 - Motion Planning
+  
+  ```python
+  modules.recognition.__name_of_your_algorithm__ (grasp_pose=None, constrain=None)
+  ```
 
-```
-INPUTS: {PointsList, HardwareState}
-OUTPUTS: {HardwareState}
-```
+| Parameters                                      |                                                                         |
+| ----------------------------------------------- | ----------------------------------------------------------------------- |
+| **grasp_pose:**  *list of length 6*             | Provide grasp pose information, includes x, y, z, roll, pitch, and yaw. |
+| constrain:                                      |                                                                         |
+| **Returns**                                     |                                                                         |
+| **points_list:** *array of shape (n_points, 3)* | Set of points in moving path.                                           |
 
 - Execution
+  
+  ```python
+  modules.recognition.__name_of_your_algorithm__ (points_list=None, hardware_state=None)
+  ```
 
-```
-INPUTS: {PointsList, HardwareState}
-OUTPUTS: {HardwareState}
-```
-
-## Module Design Template
-
-```
-def module(input):
-	line 1
-	line 2
-	...
-	return output
-```
-
+| Parameters                                       |                               |
+| ------------------------------------------------ | ----------------------------- |
+| **points_list:**  *array of shape (n_points, 3)* | Set of points in moving path. |
+| hardware_state:                                  |                               |
+| **Returns**                                      |                               |
+| feed_back:                                       |                               |
+| hardware_state:                                  |                               |
