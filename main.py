@@ -1,5 +1,4 @@
 import argparse
-from input_output.Configuration import *
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
@@ -17,9 +16,7 @@ TASK_NAME = args.task
 def initial_sensors(sensor_name):
     if sensor_name == "realsense":
         from driver.sensors.camera.RealsenseController import RealsenseController
-        cfg = readConfiguration('/config/sensors/realsense.yaml')
-        realsense = RealsenseController(cfg)
-        # realsense = ''
+        realsense = RealsenseController("/config/sensors/realsense.yaml")
         return realsense
     else:
         print("Not support for this sensor.")
@@ -29,18 +26,15 @@ def initial_sensors(sensor_name):
 def initial_robot(robot_name):
     if robot_name == "ur10e":
         from driver.arms.UR10eController import UR10eController
-        cfg = readConfiguration('/config/arms/ur10e.yaml')
-        robot = UR10eController(cfg)
+        robot = UR10eController("/config/arms/ur10e.yaml")
         return robot
     elif robot_name == "ur5":
         from driver.arms.UR5Controller import UR5Controller
-        cfg = readConfiguration('/config/arms/ur5.yaml')
-        robot = UR5Controller(cfg)
+        robot = UR5Controller("/config/arms/ur5.yaml")
         return robot
     elif robot_name == "franka":
         from driver.arms.FrankaController import FrankaController
-        cfg = readConfiguration('/config/arms/franka.yaml')
-        robot = FrankaController(cfg)
+        robot = FrankaController("/config/arms/franka.yaml")
         return robot
     else:
         print("Don't support this robot!")
@@ -56,6 +50,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         from examples.IOTest import IOTest
         iotest = IOTest(perception_system, manipulation_system, is_debug)
         return iotest
+    elif task_name == "calibration":
+        from examples.Calibration import Calibration
+        task = Calibration(perception_system, manipulation_system, is_debug)
+        return task
     else:
         print('No such task.')
         return None
@@ -64,7 +62,6 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 if __name__ == '__main__':
     sensor = initial_sensors(SENSOR_NAME)
     robot = initial_robot(ROBOT_NAME)
-    # robot.matrix_load()
 
     if robot is not None and sensor is not None:
         perception_system = {'Camera': sensor, 'Recorder': sensor}
