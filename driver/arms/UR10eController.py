@@ -14,18 +14,19 @@ from modules.calibration.Calibration3D import *
 
 
 class UR10eController(ArmController):
-    def __init__(self, configuration):
+    def __init__(self, configuration_path):
         super(UR10eController, self).__init__()
-        self._cfg = configuration
+        self._cfg = readConfiguration(configuration_path)
         self._robot_ip = self._cfg['SOCKET_CONFIGURATION']['robot_ip']
         self._port = self._cfg['SOCKET_CONFIGURATION']['port_number']
         self._home_pose = self._cfg['HOME_POSE']
         self._home_joints = self._cfg['HOME_JOINTS']
         self._pick_z = self._cfg['PICK_Z']
         self._place_z = self._cfg['PLACE_Z']
-        self._calibration_tool = ''
-        self._R = np.zeros((3, 3))
-        self._t = np.zeros((3, 1))
+        self._R = None
+        self._t = None
+
+        self.load_calibration_matrix()
 
     def go_home(self):
         joint = [self._home_joints[0], self._home_joints[1], self._home_joints[2],

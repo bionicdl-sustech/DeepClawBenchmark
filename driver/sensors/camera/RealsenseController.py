@@ -10,15 +10,17 @@ _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
 
 from driver.sensors.camera.CameraController import CameraController, Frame
+from input_output.Configuration import *
 
 
 class RealsenseController(CameraController):
-    def __init__(self, configuration):
+    def __init__(self, configuration_path):
         super(RealsenseController, self).__init__()
-        self.width = configuration["FRAME_ARGS"]["width"]
-        self.height = configuration["FRAME_ARGS"]["height"]
-        self.fps = configuration["FRAME_ARGS"]["fps"]
-        self.serial_id = configuration["DEVICE_CONFIGURATION"]["serial_id"]
+        self._cfg = readConfiguration(configuration_path)
+        self.width = self._cfg["FRAME_ARGS"]["width"]
+        self.height = self._cfg["FRAME_ARGS"]["height"]
+        self.fps = self._cfg["FRAME_ARGS"]["fps"]
+        self.serial_id = self._cfg["DEVICE_CONFIGURATION"]["serial_id"]
 
         self.points = rs.points()
         self.pipeline = rs.pipeline()
