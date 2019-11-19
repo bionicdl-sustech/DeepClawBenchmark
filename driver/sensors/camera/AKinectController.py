@@ -16,7 +16,7 @@ import open3d as o3d
 _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.append(_root_path)
 
-from driver.sensors.camera.CameraController import CameraController
+from driver.sensors.camera.CameraController import CameraController, Frame
 
 # color resolution options
 #{"K4A_COLOR_RESOLUTION_720P", K4A_COLOR_RESOLUTION_720P},
@@ -28,10 +28,10 @@ from driver.sensors.camera.CameraController import CameraController
 
 
 class AKinectController(CameraController):
-    def __init__(self, configuration=_root_path+'/config/sensors/AKinect.json', device=0):
+    def __init__(self, configuration_path = _root_path+'/config/sensors/AKinect.json', device=0):
         super(AKinectController, self).__init__()
-        if configuration is not None:
-            config = o3d.io.read_azure_kinect_sensor_config(configuration)
+        if configuration_path is not None:
+            config = o3d.io.read_azure_kinect_sensor_config(configuration_path)
         else:
             config = o3d.io.AzureKinectSensorConfig()
         self.align_depth_to_color = True
@@ -44,7 +44,7 @@ class AKinectController(CameraController):
         if not self.sensor.connect(device):
             raise RuntimeError('Failed to connect to sensor')
 
-        config_dict = json.loads(open(configuration).read())
+        config_dict = json.loads(open(configuration_path).read())
         self.color_resolution = config_dict['color_resolution']
         if self.color_resolution == 'K4A_COLOR_RESOLUTION_720P':
             self.intrinsics = o3d.camera.PinholeCameraIntrinsic(1280, 720, 602.365, 602.393, 636.734, 363.352)
@@ -61,7 +61,7 @@ class AKinectController(CameraController):
         else:
             self.intrinsics = None
 
-    def getImage(self):
+    def get_frame(self):
         rgbd = self.sensor.capture_frame(self.align_depth_to_color)
         # the API returned color image is in RGB order
         # convert to BGR
@@ -71,7 +71,8 @@ class AKinectController(CameraController):
         # compute point cloud from depth image
         pointcloud = o3d.geometry.PointCloud.create_from_depth_image(rgbd.depth, self.intrinsics, depth_scale=1)
         pointcloud_xyz =  np.array(pointcloud.points)
-        return ([color_image], [depth_image], [None], [pointcloud_xyz])
+
+        return Frame([color_image], [depth_image], [pointcloud_xyz], [None])
 
     def get_intrinsics(self):
         if self.color_resolution == 'K4A_COLOR_RESOLUTION_720P':
