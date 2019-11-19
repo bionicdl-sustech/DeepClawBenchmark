@@ -1,0 +1,20 @@
+
+===== Device 0: 000647492212 =====
+resolution width: 3840
+resolution height: 2160
+principal point x: 1911.2
+principal point y: 1091.05
+focal length x: 1807.09
+focal length y: 1807.18
+radial distortion coefficients:
+k1: 0.514646
+k2: -2.67247
+k3: 1.57664
+k4: 0.3961
+k5: -2.50126
+k6: 1.50402
+center of distortion in Z=1 plane, x: 0
+center of distortion in Z=1 plane, y: 0
+tangential distortion coefficient x: -0.00021904
+tangential distortion coefficient y: -2.78752e-05
+metric radius: 0

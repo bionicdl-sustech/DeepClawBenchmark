@@ -1,12 +1,15 @@
-# Copyright (c) 2019 by Hank. All Rights Reserved.
+# Copyright (c) 2019 by Fang Wan. All Rights Reserved.
 # !/usr/bin/python
 # coding=utf-8
+# This is the driver for Photoneo and is dependent on PhoxiControl
+# Please open PhoxiControl interface and connect to the Phoxi scanner before using this driver
+
 import os
 import sys
 import numpy as np
 import open3d as o3d
 
-_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.path.append(_root_path)
 
 from driver.sensors.camera.CameraController import CameraController
@@ -14,13 +17,13 @@ from driver.sensors.camera.CameraController import CameraController
 
 class PhotoneoController(CameraController):
     def __init__(self):
-        super(PhotoneoController, self).__init__()
+        super(PhotoneoController, self).__init__(configuration=None)
         self.width = 2064
         self.height = 1544
 
     def getImage(self):
-        os.system(r'./lib/Photoneo/Photoneo ./lib/Photoneo/ 0')
-        pc = o3d.io.read_point_cloud("./lib/Photoneo/0.ply")
+        os.system(_root_path+'/lib/Photoneo/Photoneo ' + _root_path+'/lib/Photoneo/ 0')
+        pc = o3d.io.read_point_cloud(_root_path+"/lib/Photoneo/0.ply")
         # get texture image in gray scale between [0,1]
         texture_image = np.asarray(pc.colors).reshape([self.height, self.width, 3])
 
@@ -33,9 +36,9 @@ class PhotoneoController(CameraController):
 
 
     def get_intrinsics(self):
-        os.system("bash ./lib/Photoneo/intrinsic_parameters.sh")
+        os.system("bash "+_root_path+"/lib/Photoneo/intrinsic_parameters.sh")
         data = []
-        with open("./lib/Photoneo/intrinsic_parameters.txt") as fp:
+        with open(_root_path+"/lib/Photoneo/intrinsic_parameters.txt") as fp:
             for cnt, line in enumerate(fp):
                 if cnt in [2,4,6,7,15,16,17,18,19]:
                     data.append(float(line[:-1]))
