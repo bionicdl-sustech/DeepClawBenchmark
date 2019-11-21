@@ -35,6 +35,7 @@ class UR5Controller(ArmController):
         joint = [self._home_joints[0], self._home_joints[1], self._home_joints[2],
                  self._home_joints[3], self._home_joints[4], self._home_joints[5]]
         self.move_j(joint)
+        self.verify_state("Joint", joint)
 
     def move_j(self, joint, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -80,7 +81,15 @@ class UR5Controller(ArmController):
         command = bytes(command, encoding='utf-8')
         s.send(command)
 
-        packet = s.recv(444)
+        packet_1 = s.recv(252)
+        joint_1 = self.encode_information(s)
+        joint_2 = self.encode_information(s)
+        joint_3 = self.encode_information(s)
+        joint_4 = self.encode_information(s)
+        joint_5 = self.encode_information(s)
+        joint_6 = self.encode_information(s)
+
+        packet_2 = s.recv(144)
         x = self.encode_information(s)
         y = self.encode_information(s)
         z = self.encode_information(s)
@@ -92,7 +101,7 @@ class UR5Controller(ArmController):
         Ry = Ry * beta
         Rz = Rz * beta
 
-        return {"Position": [x, y, z, Rx, Ry, Rz]}
+        return {"Position": [x, y, z, Rx, Ry, Rz], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
     def verify_state(self, variable_name, target_value, error=0.2):
         cnt = 0
