@@ -19,7 +19,6 @@ while task_execute_condition:
     frame = camera_controller.getFrame()
     # localization
 
-
     # recognition
 
     # graspPlanning
