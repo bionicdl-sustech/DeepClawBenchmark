@@ -84,10 +84,8 @@ class PCLClawMachine(Task):
         self.publisher.sendData(tdata)
 
         # execution
-        position = [grasp_pose[0], grasp_pose[1], grasp_pose[2]]
-        orientation = [grasp_pose[3], grasp_pose[4], grasp_pose[5]]
         start = time.time()
-        self.arm.move([position, orientation])
+        self.arm.move_p(grasp_pose)
         end = time.time()
 
         tdata = {"Time": [subtask_name + ' execution_time', end - start]}
