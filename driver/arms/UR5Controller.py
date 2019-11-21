@@ -2,6 +2,9 @@
 # !/usr/bin/python
 # coding=utf-8
 import socket
+import struct
+import math
+import time
 import sys
 import os
 
@@ -32,6 +35,7 @@ class UR5Controller(ArmController):
         joint = [self._home_joints[0], self._home_joints[1], self._home_joints[2],
                  self._home_joints[3], self._home_joints[4], self._home_joints[5]]
         self.move_j(joint)
+        self.verify_state("Joint", joint)
 
     def move_j(self, joint, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -52,7 +56,7 @@ class UR5Controller(ArmController):
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
 
-        if solution_space=="Joint":
+        if solution_space == "Joint":
             move_command = f"movej([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
         else:
             move_command = f"movel([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
@@ -60,14 +64,72 @@ class UR5Controller(ArmController):
         s.send(move_command)
         s.close()
 
-    def set_io(self):
-        pass
+    def set_io(self, port, value):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, self._port))
+        command = f"set_digital_out({port}, {value})\n"
+        command = bytes(command, encoding='utf-8')
+        s.send(command)
+        s.close()
 
     def get_state(self):
-        pass
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, self._port))
+        command = f"get_state()\n"
+        command = bytes(command, encoding='utf-8')
+        s.send(command)
+
+        packet_1 = s.recv(252)
+        joint_1 = self.encode_information(s)
+        joint_2 = self.encode_information(s)
+        joint_3 = self.encode_information(s)
+        joint_4 = self.encode_information(s)
+        joint_5 = self.encode_information(s)
+        joint_6 = self.encode_information(s)
+
+        packet_2 = s.recv(144)
+        x = self.encode_information(s)
+        y = self.encode_information(s)
+        z = self.encode_information(s)
+        Rx = self.encode_information(s)
+        Ry = self.encode_information(s)
+        Rz = self.encode_information(s)
+        beta = (1 - 2 * 3.14 / math.sqrt(Rx * Rx + Ry * Ry + Rz * Rz))
+        Rx = Rx * beta
+        Ry = Ry * beta
+        Rz = Rz * beta
+
+        return {"Position": [x, y, z, Rx, Ry, Rz], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
     def verify_state(self, variable_name, target_value, error=0.2):
-        pass
+        cnt = 0
+        delay_flag = True
+        time_gap = 0.2
+        while delay_flag:
+            current_value = self.get_state()[variable_name]
+            if current_value is None:
+                print("Getting current value failed, please check variable name.")
+                return False
+            if cnt * time_gap >= 20:
+                print("Time out!")
+                return False
+            for c_value, t_value in zip(current_value, target_value):
+                if abs(c_value - t_value) > error:
+                    delay_flag = True
+                    break
+                else:
+                    delay_flag = False
+            time.sleep(time_gap)
+            cnt += 1
+        return True
+
+    def encode_information(self, s, length=8):
+        packet = s.recv(length)
+        packet = packet.encode("hex")
+        information = struct.unpack('!d', packet.decode('hex'))[0]
+        return information
 
     def load_calibration_matrix(self):
         d = np.load(os.path.dirname(_root_path)+self._cfg["CALIBRATION_DIR"])
