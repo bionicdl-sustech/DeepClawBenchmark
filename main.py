@@ -40,7 +40,7 @@ def initial_robot(robot_name):
         print("Don't support this robot!")
         return None
 
-
+# Todo: the perception_system lost the FT sense
 def initial_task(task_name, perception_system, manipulation_system, is_debug=False):
     if task_name == "test":
         from examples.TestCase import TestCase
