@@ -4,7 +4,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
 parser.add_argument("gripper", type=str, choices=['rg6'], help="name of robot gripper")
 parser.add_argument("sensor", type=str, choices=['realsense'], help="name of sensor")
-parser.add_argument("task", type=str, choices=['test', 'io-test'], help="task name")
+parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration'], help="task name")
 args = parser.parse_args()
 
 ROBOT_NAME = args.robot

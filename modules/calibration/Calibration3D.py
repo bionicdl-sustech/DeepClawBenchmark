@@ -1,5 +1,11 @@
 import numpy as np
+import time
 import cv2
+import sys
+import os
+
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 
 def image_callback(color_image, depth_image, depth_scale, intrinsics):
@@ -25,12 +31,12 @@ def image_callback(color_image, depth_image, depth_scale, intrinsics):
 
 
 def calibrating3d(arm, camera, calibration_cfg):
-    initial_pose = calibration_cfg['initial_pose']
-    x_step = calibration_cfg['x_step_length']
-    y_step = calibration_cfg['y_step_length']
-    z_step = calibration_cfg['z_step_length']
+    initial_pose = calibration_cfg['initial_position']
+    x_step = calibration_cfg['x_stride']
+    y_step = calibration_cfg['y_stride']
+    z_step = calibration_cfg['z_stride']
 
-    arm.move_j(initial_pose)
+    arm.move_p(initial_pose)
     x = initial_pose[0]
     y = initial_pose[1]
     z = initial_pose[2]
@@ -40,13 +46,15 @@ def calibrating3d(arm, camera, calibration_cfg):
     for i in range(4):
         for j in range(4):
             for k in range(4):
-                arm.move_j([x + x_step * i, y + y_step * j, z + z_step * k,
+                arm.move_p([x + x_step * i, y + y_step * j, z + z_step * k,
                             initial_pose[3], initial_pose[4], initial_pose[5]])
-                color_image, info = camera.getImage()
-                depth_image = info[0]
-                observed_pt = image_callback(color_image, depth_image, camera.get_depth_scale(), camera.getIntrinsics())
-                measured_pt = [x + x_step * i, y + y_step * j, z + z_step * k + 0.17]
+                # time.sleep(0.5)
+                frame = camera.get_frame()
+                color_image = frame.color_image[0]
+                depth_image = frame.depth_image[0]
+                observed_pt = image_callback(color_image, depth_image, camera.get_depth_scale(), camera.get_intrinsics())
+                measured_pt = [x + x_step * i, y + y_step * j, z + z_step * k + calibration_cfg["OFFSET"]]
                 if len(observed_pt) != 0:
                     observed_pts.append(observed_pt)
                     measured_pts.append(measured_pt)
-    np.savez(calibration_cfg["CALIBRATION_DIR"], observed_pts, measured_pts)
+    np.savez(os.path.dirname(_root_path)+calibration_cfg["CALIBRATION_DIR"], observed_pts, measured_pts)

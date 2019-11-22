@@ -23,3 +23,4 @@ class RandomSeg(Localization):
         z = np.random.uniform(self.min_z, self.max_z)
         centers = [[x, y, z]]
         return None, None, centers
+    

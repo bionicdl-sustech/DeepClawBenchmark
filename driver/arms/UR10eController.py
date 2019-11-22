@@ -41,34 +41,55 @@ class UR10eController(ArmController):
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
 
-        joint = joint * 3.14159 / 180.0
-        if solution_space=="Joint":
-            move_command = f"movej([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
+        # for i in range(6):
+        #     joint[i] = joint[i] * 3.14159 / 180.0
+        if solution_space == "Joint":
+            # move_command = f"movej([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
+            move_command = "movej([{},{},{},{},{},{}],a={},v={})\n".format(joint[0] * 3.14159 / 180.0,
+                                                                           joint[1] * 3.14159 / 180.0,
+                                                                           joint[2] * 3.14159 / 180.0,
+                                                                           joint[3] * 3.14159 / 180.0,
+                                                                           joint[4] * 3.14159 / 180.0,
+                                                                           joint[5] * 3.14159 / 180.0,
+                                                                           accelerate, velocity)
         else:
-            move_command = f"movel([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
-        move_command = bytes(move_command, encoding='utf-8')
+            # move_command = f"movel([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
+            move_command = "movel([{},{},{},{},{},{}],a={},v={})\n".format(joint[0], joint[1], joint[2],
+                                                                           joint[3], joint[4], joint[5],
+                                                                           accelerate, velocity)
+        # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
+        self.verify_state("Joint", joint)
 
     def move_p(self, position, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
+        Rx, Ry, Rz = self.rpy2rotation(position[3], position[4], position[5])
 
-        if solution_space=="Joint":
-            move_command = f"movej([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
+        if solution_space == "Joint":
+            # move_command = f"movej([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
+            move_command = "movej(p[{},{},{},{},{},{}],a={},v={})\n".format(position[0], position[1], position[2],
+                                                                            Rx, Ry, Rz,
+                                                                            accelerate, velocity)
         else:
-            move_command = f"movel([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
-        move_command = bytes(move_command, encoding='utf-8')
+            # move_command = f"movel([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
+            move_command = "movel(p[{},{},{},{},{},{}],a={},v={})\n".format(position[0], position[1], position[2],
+                                                                            Rx, Ry, Rz,
+                                                                            accelerate, velocity)
+        # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
+        self.verify_state("Position", position, error=0.001)
 
     def set_io(self, port, value):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
-        command = f"set_digital_out({port}, {value})\n"
-        command = bytes(command, encoding='utf-8')
+        # command = f"set_digital_out({port}, {value})\n"
+        # command = bytes(command, encoding='utf-8')
+        command = "set_digital_out({}, {})\n".format(port, value)
         s.send(command)
         s.close()
 
@@ -76,8 +97,9 @@ class UR10eController(ArmController):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
-        command = f"get_state()\n"
-        command = bytes(command, encoding='utf-8')
+        # command = f"get_state()\n"
+        # command = bytes(command, encoding='utf-8')
+        command = "get_state()\n"
         s.send(command)
 
         packet = s.recv(444)
@@ -87,10 +109,6 @@ class UR10eController(ArmController):
         Rx = self.encode_information(s)
         Ry = self.encode_information(s)
         Rz = self.encode_information(s)
-        beta = (1 - 2 * 3.14 / math.sqrt(Rx * Rx + Ry * Ry + Rz * Rz))
-        Rx = Rx * beta
-        Ry = Ry * beta
-        Rz = Rz * beta
 
         return {"Position": [x, y, z, Rx, Ry, Rz]}
 
@@ -114,6 +132,7 @@ class UR10eController(ArmController):
                     delay_flag = False
             time.sleep(time_gap)
             cnt += 1
+        time.sleep(0.5)
         return True
 
     def encode_information(self, s, length=8):

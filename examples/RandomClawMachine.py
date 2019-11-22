@@ -40,8 +40,6 @@ class RandomClawMachine(Task):
             self.args["subtask_counter"] = i
             self.subtask_display()
 
-
-
     def subtask_display(self):
         # subtask data path
         subtask_name = "subtask_" + str(self.args["subtask_counter"])

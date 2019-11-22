@@ -6,6 +6,8 @@ ROBOT=$2
 
 echo "Installing DeepClaw in ${ROBOT} arm with ${CAMERA} support"
 
+# numpy, yaml, pyrealsense2, cv2
+
 sudo apt-get install python-pip
 sudo apt-get install python-opencv
 pip install --upgrade pip
