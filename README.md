@@ -25,13 +25,13 @@ $ sudo pip install -U virtualenv
 Create a new virtual environment.
 
 ```shell
-$ virtualenv --system-site-packages -p python2.7 ./venv
+$ virtualenv -p /usr/bin/python2.7 ./py2venv
 ```
 
 Activate or retreat from virtual environment.
 
 ```shell
-$ source ./venv/bin/activate # activate virtual environment
+$ source ./py2venv/bin/activate # activate virtual environment
 $ deactivate # retreat from virtual environment
 ```
 
@@ -47,21 +47,14 @@ $ cd ./DeepClawBenchmark
 Run the DeepClaw installation helper script:
 
 ```shell
-$ sudo sh install.sh realsense ur
+$ sudo sh install.sh
 ```
 
-The brackets indicate optional arguments to switch installation methods.
+Run calibration task.
 
-The first argument specifies the version:
-
-- **realsense**: RealSense D435 support.
-
-The second argument specifies the installation mode:
-
-- **ur**: UNIVERSAL ROBOT arm series support (UR5 and UR10e).
-- **franka**: FRANKA arm support (update later).
-- **aubo**: AUBO arm support (update later).
-- **denso**: DENSO Cobotta arm support (update later).
+```shell
+$ python main.py ur5 rg6 realsense calibration
+```
 
 There are some test cases for testing your installation and calibration.
 
