@@ -13,7 +13,6 @@ DEBUG = False
 class DiffFrame(Localization):
     # set a pre_collected image as background, detect the foreground
     def __init__(self,workspace=[100,1000,200,600]):
-
         self.xmin = workspace[0]
         self.xmax = workspace[2]
         self.ymin = workspace[1]
