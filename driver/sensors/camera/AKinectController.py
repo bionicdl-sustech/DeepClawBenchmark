@@ -6,7 +6,6 @@
 # pip install open3d
 # pip install open3d_azure_kinect_ubuntu1604_fix
 #
-# On Ubuntu, you’ll need to set up a udev rule to use the Kinect camera without sudo, follow this instruction.
 # Copy 'https://github.com/microsoft/Azure-Kinect-Sensor-SDK/blob/develop/scripts/99-k4a.rules' into '/etc/udev/rules.d/'.
 
 import sys, os, json
@@ -65,7 +64,7 @@ class AKinectController(CameraController):
         rgbd = self.sensor.capture_frame(self.align_depth_to_color)
         # the API returned color image is in RGB order
         # convert to BGR
-        color_image = np.asarray(rgbd.color)[:,:,-1]
+        color_image = np.asarray(rgbd.color)[:,:,::-1]
         depth_image = np.asarray(rgbd.depth) # unit is mm
 
         # compute point cloud from depth image

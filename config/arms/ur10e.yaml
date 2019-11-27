@@ -1,6 +1,6 @@
 # initial params
 SOCKET_CONFIGURATION:
-  robot_ip: "192.168.31.10"
+  robot_ip: "192.168.1.10"
   port_number: 30003
 
 HOME_JOINTS:

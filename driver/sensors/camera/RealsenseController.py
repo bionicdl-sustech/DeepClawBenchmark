@@ -56,7 +56,7 @@ class RealsenseController(CameraController):
     def get_intrinsics(self):
         color_stream = self.profile.get_stream(rs.stream.color)
         intrinsics = color_stream.as_video_stream_profile().get_intrinsics()
-        return intrinsics
+        return (intrinsics.fx, intrinsics.fy, intrinsics.ppx, intrinsics.ppy, [None])
 
     def get_device(self):
         return self.profile.get_device()

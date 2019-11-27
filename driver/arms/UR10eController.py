@@ -29,7 +29,7 @@ class UR10eController(ArmController):
         self._R = None
         self._t = None
 
-        self.load_calibration_matrix()
+        # self.load_calibration_matrix()
 
     def go_home(self):
         joint = [self._home_joints[0], self._home_joints[1], self._home_joints[2],
@@ -163,10 +163,14 @@ class UR10eController(ArmController):
         t = np.dot(-R, centroid_A.T) + centroid_B.T
         return R, t
 
-    def uvd2xyz(self, u, v, depth_image, depth_scale, intrinsics):
-        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
-        camera_x = np.multiply(u - intrinsics.ppx, camera_z / intrinsics.fx)
-        camera_y = np.multiply(v - intrinsics.ppy, camera_z / intrinsics.fy)
+    def uvd2xyz(self, u, v, depth_image, intrinsics):
+        fx = intrinsics[0]
+        fy = intrinsics[1]
+        cx = intrinsics[2]
+        cy = intrinsics[3]
+        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5]))
+        camera_x = np.multiply(u - cx, camera_z / fx)
+        camera_y = np.multiply(v - cy, camera_z / fy)
 
         view = depth_image[v - 30:v + 30, u - 30:u + 30]
         view[view == 0] = 10000
@@ -174,9 +178,40 @@ class UR10eController(ArmController):
 
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        avoid_x = np.multiply(avoid_u - intrinsics.ppx, avoid_z * depth_scale / intrinsics.fx)
-        avoid_y = np.multiply(avoid_v - intrinsics.ppy, avoid_z * depth_scale / intrinsics.fy)
+        avoid_x = np.multiply(avoid_u - cx, avoid_z * depth_scale / fx)
+        avoid_y = np.multiply(avoid_v - cy, avoid_z * depth_scale / fy)
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
         return list(xyz.T), avoid_xyz[2]
+
+    def rpy2rotation(self, roll, pitch, yaw):
+        yawMatrix = np.matrix([
+            [math.cos(yaw), -math.sin(yaw), 0],
+            [math.sin(yaw), math.cos(yaw), 0],
+            [0, 0, 1]
+        ])
+
+        pitchMatrix = np.matrix([
+            [math.cos(pitch), 0, math.sin(pitch)],
+            [0, 1, 0],
+            [-math.sin(pitch), 0, math.cos(pitch)]
+        ])
+
+        rollMatrix = np.matrix([
+            [1, 0, 0],
+            [0, math.cos(roll), -math.sin(roll)],
+            [0, math.sin(roll), math.cos(roll)]
+        ])
+
+        R = yawMatrix * pitchMatrix * rollMatrix
+        theta = math.acos(((R[0, 0] + R[1, 1] + R[2, 2]) - 1) / 2)
+        multi = 1 / (2 * math.sin(theta))
+        rx = multi * (R[2, 1] - R[1, 2]) * theta
+        ry = multi * (R[0, 2] - R[2, 0]) * theta
+        rz = multi * (R[1, 0] - R[0, 1]) * theta
+        rotation = np.zeros(3)
+        rotation[0] = rx
+        rotation[1] = ry
+        rotation[2] = rz
+        return rotation

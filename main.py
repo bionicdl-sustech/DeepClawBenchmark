@@ -3,7 +3,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
 parser.add_argument("gripper", type=str, choices=['rg6'], help="name of robot gripper")
-parser.add_argument("sensor", type=str, choices=['realsense'], help="name of sensor")
+parser.add_argument("sensor", type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
 parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration'], help="task name")
 args = parser.parse_args()
 
@@ -18,6 +18,10 @@ def initial_sensors(sensor_name):
         from driver.sensors.camera.RealsenseController import RealsenseController
         realsense = RealsenseController("/config/sensors/realsense.yaml")
         return realsense
+    elif sensor_name == "kinect-azure":
+        from driver.sensors.camera.AKinectController import AKinectController
+        kinect = AKinectController()
+        return kinect
     else:
         print("Not support for this sensor.")
         return None
