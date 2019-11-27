@@ -18,6 +18,10 @@ def initial_sensors(sensor_name):
         from driver.sensors.camera.RealsenseController import RealsenseController
         realsense = RealsenseController("/config/sensors/realsense.yaml")
         return realsense
+    elif sensor_name == "kinect-azure":
+        from driver.sensors.camera.AKinectController import AKinectController
+        kinect = AKinectController()
+        return kinect
     else:
         print("Not support for this sensor.")
         return None
