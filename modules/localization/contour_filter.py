@@ -1,0 +1,57 @@
+import os
+import sys
+import cv2
+import numpy as np
+
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
+
+from modules.localization.localization import Localization
+
+
+class contour_filter(Localization):
+    def __init__(self, mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_NONE, area_threshold=None):
+        if area_threshold is None:
+            area_threshold = [80, 200]
+        self.mode = mode
+        self.method = method
+        self.area_threshold = area_threshold
+
+    def display(self, color_image, **kwargs):
+        gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
+        _, thresh = cv2.threshold(gray_image, 127, 255, 0)
+        raw_contours, hierarchy = cv2.findContours(thresh, self.mode, self.method)
+
+        # area filter
+        contours = []
+        for contour in raw_contours:
+            area = self.calculate_area(contour)
+            if self.area_threshold[0] < area < self.area_threshold[1]:
+                contours.append(contour)
+
+        # get mask
+        mask = np.zeros(thresh.shape)
+        cv2.drawContours(mask, contours, -1, 1, -1)
+
+        # calculate centers and bounding boxes
+        centers = []
+        bounding_boxes = []
+        for contour in contours:
+            centers.append(self.find_center(contour))
+            bounding_boxes.append(self.find_bounding_box(contour))
+
+        return bounding_boxes, mask, centers
+
+    def find_center(self, contour):
+        M = cv2.moments(contour)
+        center_x = int(M["m10"] / M["m00"])
+        center_y = int(M["m01"] / M["m00"])
+        return [center_x, center_y]
+
+    def find_bounding_box(self, contour):
+        x, y, w, h = cv2.boundingRect(contour)
+        return [[x, y], [w, h]]
+
+    def calculate_area(self, contour):
+        area = cv2.contourArea(contour)
+        return area
