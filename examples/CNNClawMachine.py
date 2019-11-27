@@ -15,8 +15,10 @@ from modules.end2end.grasp_alexnet.Predictor import Predictor
 class CNNClawMachine(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
         super(CNNClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
-        self.experiment_name = "experiment_1"
-        self.data_path = _root_path+"/data/CNNClawMachine/"+self.experiment_name+"/"
+        time_s = time.localtime(int(time.time()))
+        self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
+                               str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
+        self.data_path = _root_path + "/data/" + os.path.basename(__file__) + "/" + self.experiment_name + "/"
         self.args = {}
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
