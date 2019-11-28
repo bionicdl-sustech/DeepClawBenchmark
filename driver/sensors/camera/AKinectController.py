@@ -65,7 +65,7 @@ class AKinectController(CameraController):
         rgbd = self.sensor.capture_frame(self.align_depth_to_color)
         # the API returned color image is in RGB order
         # convert to BGR
-        color_image = np.asarray(rgbd.color)[:,:,-1]
+        color_image = np.asarray(rgbd.color)[:,:,::-1]
         depth_image = np.asarray(rgbd.depth) # unit is mm
 
         # compute point cloud from depth image
