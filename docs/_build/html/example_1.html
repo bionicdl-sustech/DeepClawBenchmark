@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>DeepClawBenchmark Documentation! &mdash; DeepClawBenchmark  documentation</title>
+  <title>Overview &mdash; DeepClawBenchmark  documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" /> 
+    <link rel="prev" title="Getting started" href="getting_started.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -49,7 +49,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> DeepClawBenchmark
+            <a href="index.html" class="icon icon-home"> DeepClawBenchmark
           
 
           
@@ -80,12 +80,16 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Minimum system and network requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation_linux.html">Installation on Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_1.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Baseline algorithms</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -100,7 +104,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">DeepClawBenchmark</a>
+          <a href="index.html">DeepClawBenchmark</a>
         
       </nav>
 
@@ -129,15 +133,15 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="#">Docs</a> &raquo;</li>
+      <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>DeepClawBenchmark Documentation!</li>
+      <li>Overview</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/example_1.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -150,41 +154,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="deepclawbenchmark-documentation">
-<h1>DeepClawBenchmark Documentation!<a class="headerlink" href="#deepclawbenchmark-documentation" title="Permalink to this headline">¶</a></h1>
-<p>DeepClawBenchmark is framework for robot manipulation benchmarking. The source code is provided on <a class="reference external" href="https://github.com/bionicdl-sustech/DeepClawBenchmark">GitHub</a>.
-We welcome contributions and suggestions for improvements.</p>
-<div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#id1">Drivers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#id2">Baseline algorithms</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="requirements.html">Minimum system and network requirements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="requirements.html#workstation-pc">Workstation PC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="requirements.html#network">Network</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation_linux.html">Installation on Linux</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation_linux.html#installing-from-the-ros-repositories">Installing from the ROS repositories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation_linux.html#building-from-source">Building from source</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation_linux.html#setting-up-the-real-time-kernel">Setting up the real-time kernel</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#operating-the-robot">Operating the robot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#setting-up-the-network">Setting up the network</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#verifying-the-connection">Verifying the connection</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="example_1.html">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="example_1.html#id1">Drivers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_1.html#id2">Baseline algorithms</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="align-center figure" id="id3">
+<img alt="_images/deepclaw-framework.png" src="_images/deepclaw-framework.png" />
+<p class="caption"><span class="caption-text">Schematic overview.</span></p>
+</div>
+<p>The DeepClaw benchmark is a framework for establishing a reproducible and shareable benchmarking for dexterous manipulation.
+DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four subtasks: <strong>localization, recognition, grasp planning, and motion planning</strong>.
+It also provide necessary components to benchmark manipulations including hardware drivers, data I/O utilities, baseline algorithm modules and evaluations metrics.</p>
+<p>The DeepClaw has been used extensively to benchmark a series of manipulation tasks including claw machine, jigsaw game and TicTacToe. The source codes of these experiments
+are placed under /examples.</p>
+<div class="section" id="id1">
+<h2>Drivers<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Supporting Hardwares</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Robot arms</td>
+<td>UR5, UR10, Franka Panda</td>
+</tr>
+<tr class="row-odd"><td>Grippers</td>
+<td>RG6, Robotiq HandE</td>
+</tr>
+<tr class="row-even"><td>Cameras</td>
+<td>Realsense, Azure Kinect, Photoneo</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="first admonition-title">Hint</p>
+<p class="last">The best performance can be achieved when connecting directly to the LAN port of Control.
+This requires setting up a static IP for the shop floor network in the administrator’s interface
+beforehand. See <a class="reference internal" href="getting_started.html#setting-up-the-network"><span class="std std-ref">Setting up the network</span></a>.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Baseline algorithms<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Baseline algorithms for manipulation pipeline</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>localization</td>
+<td>UR5, UR10, Franka Panda</td>
+</tr>
+<tr class="row-odd"><td>recognition</td>
+<td>RG6, Robotiq HandE</td>
+</tr>
+<tr class="row-even"><td>grasp planning</td>
+<td>Realsense, Azure Kinect, Photoneo</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
@@ -196,8 +229,8 @@ We welcome contributions and suggestions for improvements.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -5,21 +5,16 @@
 
 DeepClawBenchmark Documentation!
 =============================================
-DeepClawBenchmark is
+DeepClawBenchmark is framework for robot manipulation benchmarking. The source code is provided on `GitHub <https://github.com/bionicdl-sustech/DeepClawBenchmark>`_.
+We welcome contributions and suggestions for improvements.
 
-Contents:
-=============================================
 
 .. toctree::
    :maxdepth: 2
+   :caption: Contents:
 
-   getting_started.rst
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   overview
+   requirements
+   installation_linux
+   getting_started
+   example_1
