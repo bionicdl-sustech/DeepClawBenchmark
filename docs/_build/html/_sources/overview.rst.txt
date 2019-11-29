@@ -10,14 +10,14 @@ Overview
 
 The DeepClaw benchmark is a framework for establishing a reproducible and shareable benchmarking for dexterous manipulation.
 DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four subtasks: **localization, recognition, grasp planning, and motion planning**.
-It also provide necessary components to benchmark manipulations including hardware drivers, data I/O utilities, baseline algorithm modules and evaluations metrics.
+It also provide necessary components to benchmark manipulations including hardware drivers, data I/O utilities, baseline algorithm modules and evaluation metrics.
 
 The DeepClaw has been used extensively to benchmark a series of manipulation tasks including claw machine, jigsaw game and TicTacToe. The source codes of these experiments
 are placed under /examples.
 
 .. _drivers:
 Drivers
---------------
+-------
 +---------------------------------------------------------+
 | Supporting Hardwares                                    |
 +===================+=====================================+
@@ -30,17 +30,27 @@ Drivers
 
 .. hint::
     The driver modules provides a base python class for each type of hardware. The functionality of each type have been standardized.
-    The users are encouraged to follow the `guidelines <https://github.com/bionicdl-sustech/DeepClawBenchmark/docs/_static/Driver_functionaity_requirement.docx>`_. to add new hardwares.
+    The users are encouraged to follow the `guidelines <https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/docs/_static/Driver_functionaity_requirement.docx>`_ to add new hardwares.
 
 .. _baseline-algorithms:
 Baseline algorithms
---------------
+-------------------
 +---------------------------------------------------------+
 | Baseline algorithms for manipulation pipeline           |
 +===================+=====================================+
-| localization      | UR5, UR10, Franka Panda             |
+| Localization      | Image edge detection                |
+|                   | Point cloud segmentation            |
 +-------------------+-------------------------------------+
-| recognition       | RG6, Robotiq HandE                  |
+| Recognition       | Sift feature detection, AlexNet     |
 +-------------------+-------------------------------------+
-| grasp planning    | Realsense, Azure Kinect, Photoneo   |
+| Grasp planning    | Centroid and Principle axis         |
 +-------------------+-------------------------------------+
+| End-to-end methods| SSD, Maskrcnn, SD-maskrcnn,         |
+|                   | DeepClaw                            |
++-------------------+-------------------------------------+
+
+Examples
+--------
+Robot can learning skills that applicable for the similar tasks, called the task familiy[1].
+We have implemented several manipulation tasks in three task families representing assembly tasks, reasoning tasks and bin-picking tasks separately.
+You can find them in

@@ -15,6 +15,6 @@ We welcome contributions and suggestions for improvements.
 
    overview
    requirements
-   installation_linux
+   installation
    getting_started
    example_1

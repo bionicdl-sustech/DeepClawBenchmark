@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Minimum system and network requirements &mdash; DeepClawBenchmark  documentation</title>
+  <title>Minimum system setup &mdash; DeepClawBenchmark  documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation on Linux" href="installation_linux.html" />
+    <link rel="next" title="Installation on Linux" href="installation.html" />
     <link rel="prev" title="Overview" href="overview.html" /> 
 </head>
 
@@ -83,14 +83,10 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Minimum system and network requirements</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#workstation-pc">Workstation PC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#network">Network</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation_linux.html">Installation on Linux</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Minimum system setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation on Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="example_1.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example: TicTacToe</a></li>
 </ul>
 
             
@@ -136,7 +132,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Minimum system and network requirements</li>
+      <li>Minimum system setup</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -155,80 +151,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="minimum-system-and-network-requirements">
-<h1>Minimum system and network requirements<a class="headerlink" href="#minimum-system-and-network-requirements" title="Permalink to this headline">¶</a></h1>
-<p>This page only specifies the requirements for running the Franka Control Interface (FCI)
-Additional requirements are specified in the documents that you have received with your robot.</p>
-<div class="section" id="workstation-pc">
-<h2>Workstation PC<a class="headerlink" href="#workstation-pc" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="minimum-system-setup">
+<h1>Minimum system setup<a class="headerlink" href="#minimum-system-setup" title="Permalink to this headline">¶</a></h1>
+<p>This page specifies the minimum system setup for running the DeepClaw benchmark.
+Additional requirements are specified in the documents of each example task.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="34%" />
-<col width="66%" />
+<col width="33%" />
+<col width="67%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head" colspan="2">Minimum System Requirements</th>
+<tr class="row-odd"><th class="head" colspan="2">Minimum System</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Computer</td>
-<td>Ubuntu 16.04, python3</td>
+<td>With Ubuntu 16.04, python3</td>
 </tr>
 <tr class="row-odd"><td>Robot arm</td>
-<td>100BASE-TX</td>
+<td>proving basic control API like movej</td>
+</tr>
+<tr class="row-even"><td>End-effector</td>
+<td>Multi-finger gripper or suction cup</td>
+</tr>
+<tr class="row-odd"><td>camera</td>
+<td>RGB, depth map, point cloud</td>
 </tr>
 </tbody>
 </table>
-<p>Since the robot sends data at 1 kHz frequency, it is important that the workstation PC is configured
-to minimize latencies. For example, we recommend to
-<span class="xref std std-ref">disable CPU frequency scaling</span>. Other possible optimizations
-will depend on your particular system.</p>
-</div>
-<div class="section" id="network">
-<span id="requirement-network"></span><h2>Network<a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h2>
-<p>If possible, directly connect your workstation PC to the LAN port of Control, i.e. avoid any
-intermediate devices such as switches.</p>
-<div class="admonition important">
-<p class="first admonition-title">Important</p>
-<p class="last">The workstation PC which commands your robot using the FCI must always be connected to the LAN
-port of Control (shop floor network) and <strong>not</strong> to the LAN port of the Arm (robot network).</p>
-</div>
-<p>Having relays in between could lead to delay, jitter or packet loss. This will decrease the
-performance of your controller or make it unusable.</p>
-<div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last">The best performance can be achieved when connecting directly to the LAN port of Control.
-This requires setting up a static IP for the shop floor network in the administrator’s interface
-beforehand. See <a class="reference internal" href="getting_started.html#setting-up-the-network"><span class="std std-ref">Setting up the network</span></a>.</p>
-</div>
-<p>To control the robot, it must be guaranteed that the sum of the following time measurements is
-less than 1 ms:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Round trip time (RTT) between the workstation PC and FCI.</li>
-<li>Execution time of your motion generator or control loop.</li>
-<li>Time needed by the robot to process your data and step the internal controller.</li>
-</ul>
-</div></blockquote>
-<div class="admonition caution">
-<p class="first admonition-title">Caution</p>
-<p class="last">If the <strong>&lt;1 ms constraint</strong> is violated for a cycle, the received packet is dropped by
-FCI. After 20 consecutively dropped packets, your robot <cite>will stop</cite> with the
-<code class="docutils literal notranslate"><span class="pre">communication_constraints_violation</span></code> error. Current measure of communication quality
-can be read from the  <code class="docutils literal notranslate"><span class="pre">RobotState::control_command_success_rate</span></code> field.</p>
-</div>
-<p>If a <strong>motion generator command packet is dropped</strong>, the robot takes the previous waypoints and
-performs a linear extrapolation (keep acceleration constant and integrate) for the missed
-time step. If more than 20 packets are lost or dropped in a row, your robot <cite>will stop</cite>.</p>
-<p>If a <strong>controller command packet is dropped</strong>, FCI will reuse the torques of the last successful
-received packet. Again, more than 20 consecutive lost or dropped packets will cause your robot to
-<cite>stop</cite>.</p>
-<div class="admonition hint">
-<p class="first admonition-title">Hint</p>
-<p class="last">Measure the performance of your network (see <span class="xref std std-ref">network-bandwidth-delay-test</span>) and the
-control or motion generator loop beforehand.</p>
-</div>
-</div>
+<p>The DeepClaw provides a convenient script for hand-eye calibration under /modules/calibration. The method use a printed chessboard attached to the robot arms.</p>
 </div>
 
 
@@ -239,7 +190,7 @@ control or motion generator loop beforehand.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation_linux.html" class="btn btn-neutral float-right" title="Installation on Linux" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation on Linux" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="overview.html" class="btn btn-neutral float-left" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
