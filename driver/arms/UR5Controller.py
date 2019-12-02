@@ -9,12 +9,13 @@ import sys
 import os
 from scipy.spatial.transform import Rotation as R
 
-_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_root_path)
 
 from driver.arms.ArmController import ArmController
 from input_output.Configuration import *
 from modules.calibration.Calibration3D import *
+from driver.sensors.FT.getFT_Data import detectCollision
 
 
 class UR5Controller(ArmController):
@@ -37,6 +38,7 @@ class UR5Controller(ArmController):
                  self._home_joints[3], self._home_joints[4], self._home_joints[5]]
         self.move_j(joint)
 
+        #the unit of joint is degrees
     def move_j(self, joint, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
@@ -55,13 +57,16 @@ class UR5Controller(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        #self.verify_state("Joint", joint)
+        collosion_bool = self.verify_state("Joint", joint,error = 1,FT = True)
+        return collosion_bool
 
     def move_p(self, position, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
-        Rx, Ry, Rz = self.rpy2rotation(position[3], position[4], position[5])
+        # Rx, Ry, Rz = self.rpy2rotation(position[3], position[4], position[5])
+        r = R.from_euler('xyz', [position[3], position[4], position[5]], degrees=False)
+        Rx, Ry, Rz = r.as_rotvec()
 
         if solution_space == "Joint":
             # move_command = f"movej([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
@@ -76,7 +81,8 @@ class UR5Controller(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        #self.verify_state("Position", position, error=0.01)
+        collosion_bool = self.verify_state("Position", position, error=0.01,FT = True)
+        return collosion_bool
 
     def set_io(self, port, value):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -119,34 +125,88 @@ class UR5Controller(ArmController):
 
         return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
-    def verify_state(self, variable_name, target_value, error=0.2):
+    # def verify_state(self, variable_name, target_value, error=0.2):
+    #     cnt = 0
+    #     delay_flag = True
+    #     time_gap = 0.2
+    #     error_list = []
+    #     while delay_flag:
+    #         current_value = self.get_state()[variable_name]
+    #         if current_value is None:
+    #             print("Getting current value failed, please check variable name.")
+    #             return False
+    #         if cnt * time_gap >= 20:
+    #             print("Time out!")
+    #             return False
+    #         # for c_value, t_value in zip(current_value, target_value):
+    #         #     if abs(c_value - t_value) > error:
+    #         #         delay_flag = True
+    #         #         break
+    #         #     else:
+    #         #         delay_flag = False
+    #         for c_value, t_value in zip(current_value, target_value):
+    #             error_list.append(abs(c_value - t_value))
+    #         print(np.mean(error_list))
+    #         if np.mean(error_list) < error:
+    #             delay_flag = False
+    #         time.sleep(time_gap)
+    #         cnt += 1
+    #     time.sleep(0.1)
+    #     return True
+
+
+    def verify_state(self, variable_name, target_value,error=0.002,FT = False):
+        delay_time = True
         cnt = 0
-        delay_flag = True
-        time_gap = 0.2
-        error_list = []
-        while delay_flag:
-            current_value = self.get_state()[variable_name]
-            if current_value is None:
+        timeGap = 0.25
+        while(delay_time and cnt < 100):
+            currentStatus = self.get_state()
+            currentPose = currentStatus[variable_name]
+            if currentPose is None:
                 print("Getting current value failed, please check variable name.")
                 return False
-            if cnt * time_gap >= 20:
-                print("Time out!")
+            dpose = np.zeros(6)
+            dpose[0] = abs(currentPose[0]-target_value[0])
+            dpose[1] = abs(currentPose[1]-target_value[1])
+            dpose[2] = abs(currentPose[2]-target_value[2])
+            dpose[3] = abs(currentPose[3]-target_value[3])
+            if dpose[3]>6:
+                dpose[3] = dpose[3] - 2* 3.141592653589793
+            elif dpose[3]<-6:
+                dpose[3] = dpose[3] + 2* 3.141592653589793
+            else:
+                pass
+            dpose[4] = abs(currentPose[4]-target_value[4])
+            if dpose[4]>6:
+                dpose[4] = dpose[4] - 2* 3.141592653589793
+            elif dpose[4]<-6:
+                dpose[4] = dpose[4] + 2* 3.141592653589793
+            else:
+                pass
+            dpose[5] = abs(currentPose[5]-target_value[5])
+            if dpose[5]>6:
+                dpose[5] = dpose[5] - 2* 3.141592653589793
+            elif dpose[5]<-6:
+                dpose[5] = dpose[5] + 2* 3.141592653589793
+            else:
+                pass
+
+            if(FT == True):
+                collosion_bool = detectCollision()
+                if collosion_bool==True:
+                    return False
+                else:
+                    pass
+
+            if (max(dpose) < error):
+                delay_time = False
+                return True
+            else:
+                time.sleep(timeGap)
+                cnt = cnt + 1
+            if(cnt*timeGap >= 20):
+                print("Time Out!")
                 return False
-            # for c_value, t_value in zip(current_value, target_value):
-            #     if abs(c_value - t_value) > error:
-            #         delay_flag = True
-            #         break
-            #     else:
-            #         delay_flag = False
-            for c_value, t_value in zip(current_value, target_value):
-                error_list.append(abs(c_value - t_value))
-            print(np.mean(error_list))
-            if np.mean(error_list) < error:
-                delay_flag = False
-            time.sleep(time_gap)
-            cnt += 1
-        time.sleep(0.1)
-        return True
 
     def encode_information(self, s, length=8):
         packet = s.recv(length)
@@ -195,33 +255,33 @@ class UR5Controller(ArmController):
         return list(xyz.T), avoid_xyz[2]
 
 
-    def rpy2rotation(self, roll, pitch, yaw):
-        yawMatrix = np.matrix([
-            [math.cos(yaw), -math.sin(yaw), 0],
-            [math.sin(yaw), math.cos(yaw), 0],
-            [0, 0, 1]
-        ])
-
-        pitchMatrix = np.matrix([
-            [math.cos(pitch), 0, math.sin(pitch)],
-            [0, 1, 0],
-            [-math.sin(pitch), 0, math.cos(pitch)]
-        ])
-
-        rollMatrix = np.matrix([
-            [1, 0, 0],
-            [0, math.cos(roll), -math.sin(roll)],
-            [0, math.sin(roll), math.cos(roll)]
-        ])
-
-        R = yawMatrix * pitchMatrix * rollMatrix
-        theta = math.acos(((R[0, 0] + R[1, 1] + R[2, 2]) - 1) / 2)
-        multi = 1 / (2 * math.sin(theta))
-        rx = multi * (R[2, 1] - R[1, 2]) * theta
-        ry = multi * (R[0, 2] - R[2, 0]) * theta
-        rz = multi * (R[1, 0] - R[0, 1]) * theta
-        rotation = np.zeros(3)
-        rotation[0] = rx
-        rotation[1] = ry
-        rotation[2] = rz
-        return rotation
+    # def rpy2rotation(self, roll, pitch, yaw):
+    #     yawMatrix = np.matrix([
+    #         [math.cos(yaw), -math.sin(yaw), 0],
+    #         [math.sin(yaw), math.cos(yaw), 0],
+    #         [0, 0, 1]
+    #     ])
+    #
+    #     pitchMatrix = np.matrix([
+    #         [math.cos(pitch), 0, math.sin(pitch)],
+    #         [0, 1, 0],
+    #         [-math.sin(pitch), 0, math.cos(pitch)]
+    #     ])
+    #
+    #     rollMatrix = np.matrix([
+    #         [1, 0, 0],
+    #         [0, math.cos(roll), -math.sin(roll)],
+    #         [0, math.sin(roll), math.cos(roll)]
+    #     ])
+    #
+    #     R = yawMatrix * pitchMatrix * rollMatrix
+    #     theta = math.acos(((R[0, 0] + R[1, 1] + R[2, 2]) - 1) / 2)
+    #     multi = 1 / (2 * math.sin(theta))
+    #     rx = multi * (R[2, 1] - R[1, 2]) * theta
+    #     ry = multi * (R[0, 2] - R[2, 0]) * theta
+    #     rz = multi * (R[1, 0] - R[0, 1]) * theta
+    #     rotation = np.zeros(3)
+    #     rotation[0] = rx
+    #     rotation[1] = ry
+    #     rotation[2] = rz
+    #     return rotation
