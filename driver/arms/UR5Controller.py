@@ -54,7 +54,7 @@ class UR5Controller(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        self.verify_state("Joint", joint)
+        #self.verify_state("Joint", joint)
 
     def move_p(self, position, velocity=0.5, accelerate=0.6, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -75,7 +75,7 @@ class UR5Controller(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        self.verify_state("Position", position, error=0.01)
+        #self.verify_state("Position", position, error=0.01)
 
     def set_io(self, port, value):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -112,7 +112,9 @@ class UR5Controller(ArmController):
         Ry = self.encode_information(s)
         Rz = self.encode_information(s)
 
-        return {"Position": [x, y, z, Rx, Ry, Rz], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
+        euler_angle = rpy2rotation(Rx,Ry,Rz)
+
+        return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
     def verify_state(self, variable_name, target_value, error=0.2):
         cnt = 0
