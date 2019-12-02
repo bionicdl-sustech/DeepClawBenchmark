@@ -7,6 +7,7 @@ import math
 import time
 import sys
 import os
+from scipy.spatial.transform import Rotation as R
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
@@ -112,7 +113,9 @@ class UR5Controller(ArmController):
         Ry = self.encode_information(s)
         Rz = self.encode_information(s)
 
-        euler_angle = rpy2rotation(Rx,Ry,Rz)
+        #transfer to euler angle
+        r = R.from_rotvec([Rx, Ry, Rz])
+        euler_angle = r.as_euler('xyz',degrees=False)
 
         return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
@@ -190,6 +193,7 @@ class UR5Controller(ArmController):
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
         return list(xyz.T), avoid_xyz[2]
+
 
     def rpy2rotation(self, roll, pitch, yaw):
         yawMatrix = np.matrix([
