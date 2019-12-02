@@ -10,3 +10,9 @@ DeepClaw framework has only been tested with Python 3.5 and Ubuntu 16.04 LTS.
 
 Installation
 ------------
+
+
+Notes
+-----
+ * RG6 Driver: uncheck the ``Enable RG`` box under Installation/RG Configuration tab in UR5's teach pendent.
+ 
