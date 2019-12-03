@@ -58,6 +58,7 @@ class UR5Controller(ArmController):
         s.send(move_command)
         s.close()
         collosion_bool = self.verify_state("Joint", joint,error = 1,FT = True)
+        # collosion_bool is True, means the collision is happended
         return collosion_bool
 
     def move_p(self, position, velocity=0.5, accelerate=0.6, solution_space="Joint"):
