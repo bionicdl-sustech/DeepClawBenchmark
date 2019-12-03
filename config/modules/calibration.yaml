@@ -15,4 +15,4 @@ z_stride: 0.02
 #y_stride: 0.1
 #z_stride: 0.04
 CALIBRATION_DIR: "/data/calibration_data/ur10e-kinect.npz"
-OFFSET: 0.14
+OFFSET: 0.16

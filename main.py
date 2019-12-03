@@ -2,9 +2,9 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
-parser.add_argument("gripper", type=str, choices=['rg6'], help="name of robot gripper")
-parser.add_argument("sensor", type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
-parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration'], help="task name")
+parser.add_argument("gripper", default='rg6', type=str, choices=['rg6', 'hande'], help="name of robot gripper")
+parser.add_argument("sensor", default='realsense', type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
+parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe'], help="task name")
 args = parser.parse_args()
 
 ROBOT_NAME = args.robot
@@ -16,7 +16,7 @@ TASK_NAME = args.task
 def initial_sensors(sensor_name):
     if sensor_name == "realsense":
         from driver.sensors.camera.RealsenseController import RealsenseController
-        realsense = RealsenseController("/config/sensors/realsense.yaml")
+        realsense = RealsenseController()
         return realsense
     elif sensor_name == "kinect-azure":
         from driver.sensors.camera.AKinectController import AKinectController
@@ -24,6 +24,16 @@ def initial_sensors(sensor_name):
         return kinect
     else:
         print("Not support for this sensor.")
+        return None
+
+def initial_gripper(gripper_name):
+    if gripper_name == "hande":
+        from driver.grippers.handE_controller.gripper_controller import HandEController
+        gripper = HandEController()
+        gripper.active_gripper()
+        return gripper
+    else:
+        print("not support for this gripper.")
         return None
 
 
@@ -58,6 +68,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         from examples.Calibration import Calibration
         task = Calibration(perception_system, manipulation_system, is_debug)
         return task
+    elif task_name == "tic-tac-toe":
+        from examples.TicTacToe import TicTacToe
+        task = TicTacToe(perception_system, manipulation_system, is_debug)
+        return task
     else:
         print('No such task.')
         return None
@@ -66,10 +80,13 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 if __name__ == '__main__':
     sensor = initial_sensors(SENSOR_NAME)
     robot = initial_robot(ROBOT_NAME)
+    gripper = initial_gripper(GRIPPER_NAME)
 
     if robot is not None and sensor is not None:
         perception_system = {'Camera': sensor, 'Recorder': sensor}
-        manipulation_system = {'Arm': robot, 'Gripper': robot}
+        manipulation_system = {'Arm': robot, 'Gripper': gripper}
+        if TASK_NAME != "calibration":
+            robot.load_calibration_matrix()
 
         task = initial_task(TASK_NAME, perception_system, manipulation_system, is_debug=True)
         if task is not None:

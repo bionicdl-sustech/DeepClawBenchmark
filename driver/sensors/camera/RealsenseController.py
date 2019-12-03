@@ -14,7 +14,7 @@ from input_output.Configuration import *
 
 
 class RealsenseController(CameraController):
-    def __init__(self, configuration_path):
+    def __init__(self, configuration_path="/config/sensors/realsense.yaml"):
         super(RealsenseController, self).__init__()
         self._cfg = readConfiguration(configuration_path)
         self.width = self._cfg["FRAME_ARGS"]["width"]

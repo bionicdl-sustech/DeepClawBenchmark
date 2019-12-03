@@ -81,7 +81,7 @@ class UR10eController(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        self.verify_state("Position", position, error=0.001)
+        self.verify_state("Position", position, error=0.01)
 
     def set_io(self, port, value):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -102,7 +102,15 @@ class UR10eController(ArmController):
         command = "get_state()\n"
         s.send(command)
 
-        packet = s.recv(444)
+        packet_1 = s.recv(252)
+        joint_1 = self.encode_information(s) / 3.14 * 180
+        joint_2 = self.encode_information(s) / 3.14 * 180
+        joint_3 = self.encode_information(s) / 3.14 * 180
+        joint_4 = self.encode_information(s) / 3.14 * 180
+        joint_5 = self.encode_information(s) / 3.14 * 180
+        joint_6 = self.encode_information(s) / 3.14 * 180
+
+        packet_2 = s.recv(144)
         x = self.encode_information(s)
         y = self.encode_information(s)
         z = self.encode_information(s)
@@ -110,13 +118,16 @@ class UR10eController(ArmController):
         Ry = self.encode_information(s)
         Rz = self.encode_information(s)
 
-        return {"Position": [x, y, z, Rx, Ry, Rz]}
+        return {"Position": [x, y, z, Rx, Ry, Rz], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
     def verify_state(self, variable_name, target_value, error=0.2):
         cnt = 0
         delay_flag = True
-        time_gap = 0.2
+        time_gap = 0.02
+        last_error = 0
+        # error_list = []
         while delay_flag:
+            error_list = []
             current_value = self.get_state()[variable_name]
             if current_value is None:
                 print("Getting current value failed, please check variable name.")
@@ -125,14 +136,14 @@ class UR10eController(ArmController):
                 print("Time out!")
                 return False
             for c_value, t_value in zip(current_value, target_value):
-                if abs(c_value - t_value) > error:
-                    delay_flag = True
-                    break
-                else:
-                    delay_flag = False
+                error_list.append(abs(c_value - t_value))
+            # print(np.mean(error_list))
+            if np.mean(error_list) < error or abs(np.mean(error_list) - last_error) <= 0.001:
+                delay_flag = False
             time.sleep(time_gap)
+            last_error = np.mean(error_list)
             cnt += 1
-        time.sleep(0.5)
+        # time.sleep(0.1)
         return True
 
     def encode_information(self, s, length=8):
@@ -168,7 +179,7 @@ class UR10eController(ArmController):
         fy = intrinsics[1]
         cx = intrinsics[2]
         cy = intrinsics[3]
-        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5]))
+        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) / 1000.0
         camera_x = np.multiply(u - cx, camera_z / fx)
         camera_y = np.multiply(v - cy, camera_z / fy)
 
@@ -178,11 +189,12 @@ class UR10eController(ArmController):
 
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        avoid_x = np.multiply(avoid_u - cx, avoid_z * depth_scale / fx)
-        avoid_y = np.multiply(avoid_v - cy, avoid_z * depth_scale / fy)
+        avoid_z = avoid_z / 1000.0
+        avoid_x = np.multiply(avoid_u - cx, avoid_z / fx)
+        avoid_y = np.multiply(avoid_v - cy, avoid_z / fy)
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
-        avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
+        avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z]).T) + self._t.T
         return list(xyz.T), avoid_xyz[2]
 
     def rpy2rotation(self, roll, pitch, yaw):
