@@ -22,7 +22,7 @@ class TicTacToe(Task):
         time_s = time.localtime(int(time.time()))
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
-        self.data_path = _root_path+"/data/"+os.path.basename(__file__)+"/"+self.experiment_name+"/"
+        self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
         self.args = {"WorkSpace": [[350, 550], [450, 850]]}
         # self.args = {"WorkSpace": [[100, 550], [450, 850]]}
         self.publisher = Publisher("publisher")
@@ -49,9 +49,11 @@ class TicTacToe(Task):
         # sub-task display
         self.arm.go_home()
         for i in range(5):
+            print("Sutask "+str(i+1)+" displaying...")
             self.args["subtask_counter"] = i
             self.subtask_display()
-            raw_input("waiting...")
+            # raw_input("waiting...")
+        return self.data_path
 
     def subtask_display(self):
         # subtask data path

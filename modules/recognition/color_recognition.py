@@ -1,6 +1,12 @@
+import os
+import sys
 import cv2
 import numpy as np
-from recognition import Recognition
+
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
+
+from modules.recognition.recognition import Recognition
 
 
 class color_recognition(Recognition):
