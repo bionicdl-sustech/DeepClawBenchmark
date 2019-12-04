@@ -1,7 +1,8 @@
+import socket
 import struct
 import numpy as np
 HOST = "192.168.1.10" # The remote host
-# the 30003 port is a realtime port, there are no 1108 data from other port 
+# the 30003 port is a realtime port, there are no 1108 data from other port
 PORT = 30003 # The same port as used by the server
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
@@ -19,15 +20,15 @@ start_mark = 24
 size_length = 16
 for m in range(6):
     q_target[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print('q_target',q_target*180/np.pi)  
-    
+print('q_target',q_target*180/np.pi)
+
 #joint velocities
 qd_target = np.zeros(6)
 start_mark = 120
 size_length = 16
 for m in range(6):
     qd_target[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print('qd_target',qd_target*180/np.pi)  
+print('qd_target',qd_target*180/np.pi)
 
 #joint accelerations
 qdd_target = np.zeros(6)
@@ -35,7 +36,7 @@ start_mark = 216
 size_length = 16
 for m in range(6):
     qdd_target[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print('qdd_target',qdd_target*180/np.pi)  
+print('qdd_target',qdd_target*180/np.pi)
 
 #Target joint currents
 I_target = np.zeros(6)
@@ -43,7 +44,7 @@ start_mark = 312
 size_length = 16
 for m in range(6):
     I_target[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print("I_target",I_target) 
+print("I_target",I_target)
 
 # Target joint moments (torques)
 M_target = np.zeros(6)
@@ -51,7 +52,7 @@ start_mark = 408
 size_length = 16
 for m in range(6):
     M_target[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print("M_target",M_target) 
+print("M_target",M_target)
 
 # Actual joint positions
 q_actual = np.zeros(6)
@@ -59,7 +60,7 @@ start_mark = 504
 size_length = 16
 for m in range(6):
     q_actual[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print("q_actual",q_actual*180/np.pi) 
+print("q_actual",q_actual*180/np.pi)
 
 # Actual joint velocities
 qd_actual = np.zeros(6)
@@ -67,7 +68,7 @@ start_mark = 600
 size_length = 16
 for m in range(6):
     qd_actual[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
-print('qd_actual',qd_actual*180/np.pi) 
+print('qd_actual',qd_actual*180/np.pi)
 
 # Actual joint currents
 I_actual = np.zeros(6)
@@ -85,7 +86,7 @@ for m in range(6):
     I_control[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
 print('I_control',I_control)
 
-# Actual Cartesian coordinates of the tool: (x,y,z,rx,ry,rz), where rx, ry and rz is a rotation vector 
+# Actual Cartesian coordinates of the tool: (x,y,z,rx,ry,rz), where rx, ry and rz is a rotation vector
 Tool_vector_actual = np.zeros(6)
 start_mark = 888
 size_length = 16
@@ -93,7 +94,7 @@ for m in range(6):
     Tool_vector_actual[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
 print('Tool_vector_actual',Tool_vector_actual)
 
-# Actual speed of the tool given in Cartesian coordinates 
+# Actual speed of the tool given in Cartesian coordinates
 TCP_speed_actual = np.zeros(6)
 start_mark = 984
 size_length = 16
@@ -109,7 +110,7 @@ for m in range(6):
     TCP_force[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
 print('TCP_force',TCP_force)
 
-#Target Cartesian coordinates of the tool: (x,y,z,rx,ry,rz), where rx, ry and rz is a rotation vector 
+#Target Cartesian coordinates of the tool: (x,y,z,rx,ry,rz), where rx, ry and rz is a rotation vector
 Tool_vector_target = np.zeros(6)
 start_mark = 1176
 size_length = 16
