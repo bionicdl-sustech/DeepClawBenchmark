@@ -20,4 +20,4 @@ HOME_POSE:
   - 0
 PICK_Z: 0.
 PLACE_Z: 0.08
-CALIBRATION_DIR: "/data/calibration_data/ur10e.npz"
+CALIBRATION_DIR: "/data/calibration_data/ur10e-kinect.npz"

@@ -23,13 +23,13 @@ def image_callback(color_image, depth_image, intrinsics):
 
         # Get observed checkerboard center 3D point in camera space
         checkerboard_pix = np.round(corners_refined[4, 0, :]).astype(int)
-        checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20]))
-        print("Found checkerboard, Z = ", checkerboard_z)
+        checkerboard_z = np.mean(np.mean(depth_image[checkerboard_pix[1]-20:checkerboard_pix[1]+20,checkerboard_pix[0]-20:checkerboard_pix[0]+20])) / 1000.0
         checkerboard_x = np.multiply(checkerboard_pix[0] - cx, checkerboard_z / fx)  # 1920, 1080
         checkerboard_y = np.multiply(checkerboard_pix[1] - cy, checkerboard_z / fy)  # 1920, 1080
+        print("Found checkerboard, X,Y,Z = ", [checkerboard_x, checkerboard_y, checkerboard_z])
         if checkerboard_z > 0:
             # Save calibration point and observed checkerboard center
-            observed_pt = np.array([checkerboard_x,checkerboard_y,checkerboard_z])
+            observed_pt = np.array([checkerboard_x, checkerboard_y, checkerboard_z])
             return observed_pt
     return []
 
@@ -58,6 +58,7 @@ def calibrating3d(arm, camera, calibration_cfg):
                 depth_image = frame.depth_image[0]
                 observed_pt = image_callback(color_image, depth_image, camera.get_intrinsics())
                 measured_pt = [x + x_step * i, y + y_step * j, z + z_step * k + calibration_cfg["OFFSET"]]
+                print(measured_pt)
                 if len(observed_pt) != 0:
                     observed_pts.append(observed_pt)
                     measured_pts.append(measured_pt)

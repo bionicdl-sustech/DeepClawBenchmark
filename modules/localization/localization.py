@@ -18,7 +18,5 @@ class Custom(Localization):
     def __init__(self, a1, a2, a3, ):
         raise NotImplementedError
 
-    def set(self, ):
-
     def display(self, **kwargs):
         raise NotImplementedError

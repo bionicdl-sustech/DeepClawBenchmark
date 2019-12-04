@@ -7,7 +7,7 @@ class GraspPlaner(object):
         '''
 
         :param point_cloud:
-        :param color_image: array of shape (width, height, 3)， optional
+        :param color_image: array of shape (width, height, 3), optional
         :param depth_image: array of shape (width, height, 1), optional
         :param point_cloud: array of shape (number of points, 3), optional
         :param bounding_box:

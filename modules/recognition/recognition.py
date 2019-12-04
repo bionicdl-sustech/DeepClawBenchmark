@@ -4,7 +4,7 @@ class Recognition(object):
     def display(self, color_image, depth_image, point_cloud, bounding_box, mask, centers):
         '''
 
-        :param color_image: array of shape (width, height, 3)， optional
+        :param color_image: array of shape (width, height, 3), optional
         :param depth_image: array of shape (width, height, 1), optional
         :param point_cloud: array of shape (number of points, 3), optional
         :param bounding_box: array of shape (2, 2) or array of shape (3, 3), optional
