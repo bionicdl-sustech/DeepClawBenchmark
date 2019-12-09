@@ -68,6 +68,16 @@ def convert_index(index):
     else:
         return index
 
+def board_area_filter(centers, board_area):
+    if board_area is not None and centers is not None:
+        new_centers = []
+        for center in centers:
+            if center[0] < board_area[0][0] or center[0] > board_area[1][0] or center[1] < board_area[0][1] or center[1] > board_area[1][1]:
+                new_centers.append(center)
+        return new_centers
+    else:
+        return centers
+
 
 class TicTacToe3(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
@@ -76,7 +86,7 @@ class TicTacToe3(Task):
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
         self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
-        self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0} # kinect
+        self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0, "board_area": None} # kinect
         # self.args = {"WorkSpace": [[100, 550], [450, 850]]} # realsense
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
@@ -106,14 +116,17 @@ class TicTacToe3(Task):
         # sub-task display
         self.arm.go_home()
         self.gripper.open_gripper()
-        for i in range(10):
+        result = None
+        i = 0
+        while result is None:
             print("Sutask "+str(i+1)+" displaying...")
             self.args["subtask_counter"] = i
             print("picking...")
             self.subtask_pick_display()
             print("placing...")
-            self.subtask_place_display()
-            raw_input("waiting...")
+            result = self.subtask_place_display()
+            i += 1
+            # raw_input("waiting...")
         return self.data_path
 
     def subtask_pick_display(self):
@@ -135,10 +148,12 @@ class TicTacToe3(Task):
         self.publisher.sendData(cidata)
         self.image_monitor.img_name = subtask_name + "_d_piece.jpg"
         self.publisher.sendData(didata)
+        board_area = self.args["board_area"]
 
         # segmentation
         start = time.time()
         bounding_box, mask, centers = self.piece_localization_operator.display(sub_image)
+        centers = board_area_filter(centers, board_area)
         end = time.time()
 
         # data process
@@ -160,7 +175,7 @@ class TicTacToe3(Task):
         for center in centers:
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
-        print(centers, labels)
+        # print(centers, labels)
         pose = self.pick_grasp_planner.display(centers, labels)
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
@@ -218,6 +233,7 @@ class TicTacToe3(Task):
         # segmentation
         start = time.time()
         bounding_box, mask, centers = self.board_localization_operator.display(sub_image)
+        self.args["board_area"] = [[centers[0][0]-45, centers[0][1]-45], [centers[0][0]+45, centers[0][1]+45]]
         if len(centers) != 0:
             centers = find_block_centers(centers[0], -bounding_box[0][2] * math.pi / 180)
         end = time.time()
@@ -245,6 +261,7 @@ class TicTacToe3(Task):
         self.publisher.sendData(tdata)
 
         # grasp planning
+        game_result = None
         for center in centers:
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
@@ -252,10 +269,16 @@ class TicTacToe3(Task):
             start = time.time()
             pose = self.blue_grasp_planner.display(centers, labels)
             end = time.time()
+            self.blue_grasp_planner.show()
+            if self.blue_grasp_planner.game_over():
+                game_result = "Blue"
         else:
             start = time.time()
             pose = self.green_grasp_planner.display(centers, labels)
             end = time.time()
+            self.green_grasp_planner.show()
+            if self.green_grasp_planner.game_over():
+                game_result = "Green"
         tdata = {"Time": [subtask_name+' grasp_planning_time_sub2', end - start]}
         self.publisher.sendData(tdata)
 
@@ -290,3 +313,4 @@ class TicTacToe3(Task):
         self.publisher.sendData(tttdata)
 
         self.arm.go_home()
+        return game_result

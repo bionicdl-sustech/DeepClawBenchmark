@@ -116,10 +116,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         task = Calibration(perception_system, manipulation_system, is_debug)
         return task
     elif task_name == "tic-tac-toe":
-        from examples.TicTacToe2 import TicTacToe2
-        FILES.append("./examples/TicTacToe2.py")
-        read_task_file("./examples/TicTacToe2.py", FILES)
-        task = TicTacToe2(perception_system, manipulation_system, is_debug)
+        from examples.TicTacToe3 import TicTacToe3
+        FILES.append("./examples/TicTacToe3.py")
+        read_task_file("./examples/TicTacToe3.py", FILES)
+        task = TicTacToe3(perception_system, manipulation_system, is_debug)
         return task
     else:
         print('No such task.')
