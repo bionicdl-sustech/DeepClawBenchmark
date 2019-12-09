@@ -46,7 +46,6 @@ class TicTacToePlanner(GraspPlaner):
         else:
             index = random.choice(self.available_moves())
         self.make_move(index, self.player)
-        index = self.board2center(index)
         u, v = centers[index][0], centers[index][1]
         return [u, v, 0, 3.14, 0, 0]
 
@@ -60,36 +59,20 @@ class TicTacToePlanner(GraspPlaner):
           {} | {} | {}
         """.format(*self.board))
 
-    def board2center(self, index):
-        if index == 0:
-            return 4
-        elif index == 1:
-            return 3
-        elif index == 2:
-            return 2
-        elif index == 3:
-            return 5
-        elif index == 4:
-            return 0
-        elif index == 5:
-            return 1
-        else:
-            return index
-
     def update_board(self, labels):
-        """
-        4 | 3 | 2        0 | 1 | 2
-        ---------        ---------
-        5 | 0 | 1  ===>  3 | 4 | 5
-        ---------        ---------
-        6 | 7 | 8        6 | 7 | 8
-        """
-        new_labels = list(np.zeros(len(labels)))
-        new_labels[0], new_labels[1], new_labels[2] = labels[4], labels[3], labels[2]
-        new_labels[3], new_labels[4], new_labels[5] = labels[5], labels[0], labels[1]
-        new_labels[6], new_labels[7], new_labels[8] = labels[6], labels[7], labels[8]
+        # """
+        # 4 | 3 | 2        0 | 1 | 2
+        # ---------        ---------
+        # 5 | 0 | 1  ===>  3 | 4 | 5
+        # ---------        ---------
+        # 6 | 7 | 8        6 | 7 | 8
+        # """
+        # new_labels = list(np.zeros(len(labels)))
+        # new_labels[0], new_labels[1], new_labels[2] = labels[4], labels[3], labels[2]
+        # new_labels[3], new_labels[4], new_labels[5] = labels[5], labels[0], labels[1]
+        # new_labels[6], new_labels[7], new_labels[8] = labels[6], labels[7], labels[8]
 
-        for i, label in enumerate(new_labels):
+        for i, label in enumerate(labels):
             if label == 1:
                 self.board[i] = "B"
             elif label == 2:
