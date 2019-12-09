@@ -1,5 +1,4 @@
 import os
-import glob
 import shutil
 import argparse
 
@@ -15,8 +14,8 @@ ROBOT_NAME = args.robot
 GRIPPER_NAME = args.gripper
 SENSOR_NAME = args.sensor
 TASK_NAME = args.task
-
 FILES = []
+
 
 def read_task_file(file_name, imp_lines):
     file = open(file_name)
@@ -41,6 +40,7 @@ def save_files(path, files):
             os.makedirs(target_path)
         shutil.copy(file, path+"/".join(name_list))
 
+
 def initial_sensors(sensor_name):
     if sensor_name == "realsense":
         from driver.sensors.camera.RealsenseController import RealsenseController
@@ -57,6 +57,7 @@ def initial_sensors(sensor_name):
     else:
         print("Not support for this sensor.")
         return None
+
 
 def initial_gripper(gripper_name):
     if gripper_name == "hande":
