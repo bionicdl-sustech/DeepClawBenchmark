@@ -14,7 +14,7 @@ from input_output.observers.TicTacToeDataMonitor import TicTacToeDataMonitor
 from modules.localization.contour_filter import contour_filter
 from modules.recognition.color_recognition import color_recognition
 from modules.grasp_planning.random_planner import RandomPlanner
-from modules.grasp_planning.tictactoe_planner import TicTacToePlanner
+from modules.grasp_planning.minmax_planner import MinMaxPlanner
 
 
 def calculate_rotation(point, theta):
@@ -45,7 +45,28 @@ def find_block_centers(center, theta, length=30):
         angle = -((i * math.pi / 4) + theta)
         l = length * (1 - (i%2) + math.sqrt(2) * (i%2))
         centers.append(calculate_relative_point(center, l, angle))
-    return centers
+    converted_centers = [[], [], [], [], [], [], [], [], []]
+    for i in range(len(centers)):
+        index = convert_index(i)
+        converted_centers[index] = centers[i]
+    return converted_centers
+
+
+def convert_index(index):
+    if index == 0:
+        return 4
+    elif index == 1:
+        return 5
+    elif index == 2:
+        return 2
+    elif index == 3:
+        return 1
+    elif index == 4:
+        return 0
+    elif index == 5:
+        return 3
+    else:
+        return index
 
 
 class TicTacToe3(Task):
@@ -65,14 +86,14 @@ class TicTacToe3(Task):
         self.publisher.registerObserver(self.image_monitor)
         self.publisher.registerObserver(self.data_monitor)
 
-        self.piece_localization_operator = contour_filter(area_threshold=[300, 500]) # kinect
+        self.piece_localization_operator = contour_filter(area_threshold=[300, 500])  # kinect
         self.board_localization_operator = contour_filter(area_threshold=[10000, 10300], minAreaBox=True)
-        # self.localization_operator = contour_filter(area_threshold=[900, 1050]) # realsense
-        self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255]) # blue
-        self.green_recognition_operator = color_recognition([35, 43, 46], [77, 255, 255]) # green
-        self.pick_grasp_planner = Random
-        self.green_grasp_planner = TicTacToePlanner(player="G")
-        self.blue_grasp_planner = TicTacToePlanner(player="B")
+        # self.localization_operator = contour_filter(area_threshold=[900, 1050])  # realsense
+        self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255])  # blue
+        self.green_recognition_operator = color_recognition([35, 43, 46], [77, 255, 255])  # green
+        self.pick_grasp_planner = RandomPlanner([[3.14, 3.14], [0, 0], [0, 0]])
+        self.green_grasp_planner = MinMaxPlanner(player="G")
+        self.blue_grasp_planner = MinMaxPlanner(player="B")
         self.motion_planner = ''
 
     def task_display(self):
@@ -140,7 +161,7 @@ class TicTacToe3(Task):
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
         print(centers, labels)
-        pose = self.pick_grasp_planner(centers, labels)
+        pose = self.pick_grasp_planner.display(centers, labels)
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
             pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.25

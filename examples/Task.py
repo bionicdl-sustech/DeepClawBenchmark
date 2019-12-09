@@ -14,8 +14,6 @@ class Task(object):
     def task_display(self):
         raise NotImplementedError(' goHome method does not implement. ')
 
-    def subtask_display(self):
-        raise NotImplementedError(' goHome method does not implement. ')
 
 
 
