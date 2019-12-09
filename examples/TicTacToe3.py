@@ -14,6 +14,7 @@ from input_output.observers.TicTacToeDataMonitor import TicTacToeDataMonitor
 from modules.localization.contour_filter import contour_filter
 from modules.recognition.color_recognition import color_recognition
 from modules.grasp_planning.random_planner import RandomPlanner
+from modules.grasp_planning.tictactoe_planner import TicTacToePlanner
 
 
 def calculate_rotation(point, theta):
@@ -47,14 +48,14 @@ def find_block_centers(center, theta, length=30):
     return centers
 
 
-class TicTacToe2(Task):
+class TicTacToe3(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
-        super(TicTacToe2, self).__init__(perception_system, manipulation_system, is_debug)
+        super(TicTacToe3, self).__init__(perception_system, manipulation_system, is_debug)
         time_s = time.localtime(int(time.time()))
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
         self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
-        self.args = {"WorkSpace": [[350, 550], [450, 850]]} # kinect
+        self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0} # kinect
         # self.args = {"WorkSpace": [[100, 550], [450, 850]]} # realsense
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
@@ -69,7 +70,9 @@ class TicTacToe2(Task):
         # self.localization_operator = contour_filter(area_threshold=[900, 1050]) # realsense
         self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255]) # blue
         self.green_recognition_operator = color_recognition([35, 43, 46], [77, 255, 255]) # green
-        self.grasp_planner = RandomPlanner([[3.14, 3.14], [0, 0], [0, 0]])
+        self.pick_grasp_planner = Random
+        self.green_grasp_planner = TicTacToePlanner(player="G")
+        self.blue_grasp_planner = TicTacToePlanner(player="B")
         self.motion_planner = ''
 
     def task_display(self):
@@ -123,7 +126,10 @@ class TicTacToe2(Task):
 
         # recognition
         start = time.time()
-        labels, _ = self.blue_recognition_operator.display(centers, sub_image)
+        if self.args["subtask_counter"] % 2 == 0:
+            labels, _ = self.blue_recognition_operator.display(centers, sub_image)
+        else:
+            labels, _ = self.green_recognition_operator.display(centers, sub_image)
         end = time.time()
 
         tdata = {"Time": [subtask_name+' recognition_time_sub1', end - start]}
@@ -134,9 +140,7 @@ class TicTacToe2(Task):
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
         print(centers, labels)
-        start = time.time()
-        pose = self.grasp_planner.display(centers, labels)
-        end = time.time()
+        pose = self.pick_grasp_planner(centers, labels)
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
             pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.25
@@ -203,7 +207,17 @@ class TicTacToe2(Task):
 
         # recognition
         start = time.time()
-        labels = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        b_labels, _ = self.blue_recognition_operator.display(centers, sub_image)
+        g_labels, _ = self.green_recognition_operator.display(centers, sub_image)
+        labels = []
+        for b, g in zip(b_labels, g_labels):
+            if b != g:
+                if b:
+                    labels.append(1)
+                elif g:
+                    labels.append(2)
+            else:
+                labels.append(0)
         end = time.time()
 
         tdata = {"Time": [subtask_name+' recognition_time_sub2', end - start]}
@@ -213,10 +227,14 @@ class TicTacToe2(Task):
         for center in centers:
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
-        print(centers, labels)
-        start = time.time()
-        pose = self.grasp_planner.display(centers, labels)
-        end = time.time()
+        if self.args["subtask_counter"] % 2 == 0:
+            start = time.time()
+            pose = self.blue_grasp_planner.display(centers, labels)
+            end = time.time()
+        else:
+            start = time.time()
+            pose = self.green_grasp_planner.display(centers, labels)
+            end = time.time()
         tdata = {"Time": [subtask_name+' grasp_planning_time_sub2', end - start]}
         self.publisher.sendData(tdata)
 
