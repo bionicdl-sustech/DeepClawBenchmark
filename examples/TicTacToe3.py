@@ -1,9 +1,7 @@
-import gc
 import os
 import sys
 import time
 import math
-import thread
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
@@ -13,7 +11,6 @@ from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
 from input_output.observers.ImageMonitor import ImageMonitor
 from input_output.observers.TicTacToeDataMonitor import TicTacToeDataMonitor
-from input_output.VideoRecorder import VideoRecorder
 from modules.localization.contour_filter import ContourFilter
 from modules.recognition.color_recognition import color_recognition
 from modules.grasp_planning.random_planner import RandomPlanner
