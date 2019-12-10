@@ -36,7 +36,7 @@ class MinMaxPlanner(TicTacToePlanner):
                     break
                 elif move_value == self.value:
                     choices.append(move)
-        print("choices: ", choices)
+        # print("choices: ", choices)
         if len(choices) > 0:
             index = random.choice(choices)
         else:
