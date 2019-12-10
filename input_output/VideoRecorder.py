@@ -11,14 +11,13 @@ class VideoRecorder(object):
         self.video_dir = ''
 
     def start(self):
-        # fourcc = cv2.cv.CV_FOURCC('M','J','P','G')#opencv2.4
         fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')  # opencv3.0
-        if self.video_dir!='':
+        if self.video_dir != '':
             videoWriter = cv2.VideoWriter(self.video_dir, fourcc, self.fps, self.image_size)
 
-            while self.flag==0:
-                frame, _ = self.camera.getImage()
-                videoWriter.write(frame)
+            while self.flag == 0:
+                frame = self.camera.get_frame()
+                videoWriter.write(frame.color_image[0])
 
             videoWriter.release()
 

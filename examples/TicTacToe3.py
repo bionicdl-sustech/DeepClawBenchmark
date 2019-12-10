@@ -1,7 +1,9 @@
+import gc
 import os
 import sys
 import time
 import math
+import thread
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
@@ -11,6 +13,7 @@ from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
 from input_output.observers.ImageMonitor import ImageMonitor
 from input_output.observers.TicTacToeDataMonitor import TicTacToeDataMonitor
+from input_output.VideoRecorder import VideoRecorder
 from modules.localization.contour_filter import ContourFilter
 from modules.recognition.color_recognition import color_recognition
 from modules.grasp_planning.random_planner import RandomPlanner
@@ -113,11 +116,17 @@ class TicTacToe3(Task):
         self.data_monitor.dir = self.data_path
         self.data_monitor.csv_name = self.experiment_name+"_TicTacToeData.csv"
 
+        # parameters
+        recorder = VideoRecorder(self.camera)
+        recorder.video_dir = self.data_path + "video.avi"
+        result = None
+        i = 0
+
         # sub-task display
         self.arm.go_home()
         self.gripper.open_gripper()
-        result = None
-        i = 0
+        thread.start_new_thread(recorder.start, ())
+
         while result is None:
             print("Sutask "+str(i+1)+" displaying...")
             self.args["subtask_counter"] = i
@@ -127,6 +136,9 @@ class TicTacToe3(Task):
             result = self.subtask_place_display()
             i += 1
             # raw_input("waiting...")
+        recorder.stop()
+        del recorder
+        gc.collect()
         return self.data_path
 
     def subtask_pick_display(self):
