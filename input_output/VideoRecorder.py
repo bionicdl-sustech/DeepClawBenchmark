@@ -12,6 +12,7 @@ class VideoRecorder(object):
 
     def start(self):
         fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')  # opencv3.0
+        # fourcc = cv2.VideoWriter_fourcc('M', 'P', '4', '2')
         if self.video_dir != '':
             videoWriter = cv2.VideoWriter(self.video_dir, fourcc, self.fps, self.image_size)
 

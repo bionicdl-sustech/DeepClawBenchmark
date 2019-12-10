@@ -117,15 +117,12 @@ class TicTacToe3(Task):
         self.data_monitor.csv_name = self.experiment_name+"_TicTacToeData.csv"
 
         # parameters
-        recorder = VideoRecorder(self.camera)
-        recorder.video_dir = self.data_path + "video.avi"
         result = None
         i = 0
 
         # sub-task display
         self.arm.go_home()
         self.gripper.open_gripper()
-        thread.start_new_thread(recorder.start, ())
 
         while result is None:
             print("Sutask "+str(i+1)+" displaying...")
@@ -136,9 +133,6 @@ class TicTacToe3(Task):
             result = self.subtask_place_display()
             i += 1
             # raw_input("waiting...")
-        recorder.stop()
-        del recorder
-        gc.collect()
         return self.data_path
 
     def subtask_pick_display(self):

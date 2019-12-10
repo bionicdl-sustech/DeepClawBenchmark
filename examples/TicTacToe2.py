@@ -1,7 +1,9 @@
+import gc
 import os
 import sys
 import time
 import math
+import thread
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
@@ -11,9 +13,11 @@ from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
 from input_output.observers.ImageMonitor import ImageMonitor
 from input_output.observers.TicTacToeDataMonitor import TicTacToeDataMonitor
-from modules.localization.contour_filter import contour_filter
+from input_output.VideoRecorder import VideoRecorder
+from modules.localization.contour_filter import ContourFilter
 from modules.recognition.color_recognition import color_recognition
 from modules.grasp_planning.random_planner import RandomPlanner
+from modules.grasp_planning.minmax_planner import MinMaxPlanner
 
 
 def calculate_rotation(point, theta):
@@ -44,7 +48,38 @@ def find_block_centers(center, theta, length=30):
         angle = -((i * math.pi / 4) + theta)
         l = length * (1 - (i%2) + math.sqrt(2) * (i%2))
         centers.append(calculate_relative_point(center, l, angle))
-    return centers
+    converted_centers = [[], [], [], [], [], [], [], [], []]
+    for i in range(len(centers)):
+        index = convert_index(i)
+        converted_centers[index] = centers[i]
+    return converted_centers
+
+
+def convert_index(index):
+    if index == 0:
+        return 4
+    elif index == 1:
+        return 5
+    elif index == 2:
+        return 2
+    elif index == 3:
+        return 1
+    elif index == 4:
+        return 0
+    elif index == 5:
+        return 3
+    else:
+        return index
+
+def board_area_filter(centers, board_area):
+    if board_area is not None and centers is not None:
+        new_centers = []
+        for center in centers:
+            if center[0] < board_area[0][0] or center[0] > board_area[1][0] or center[1] < board_area[0][1] or center[1] > board_area[1][1]:
+                new_centers.append(center)
+        return new_centers
+    else:
+        return centers
 
 
 class TicTacToe2(Task):
@@ -54,7 +89,7 @@ class TicTacToe2(Task):
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
         self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
-        self.args = {"WorkSpace": [[350, 550], [450, 850]]} # kinect
+        self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0, "board_area": None} # kinect
         # self.args = {"WorkSpace": [[100, 550], [450, 850]]} # realsense
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
@@ -64,12 +99,12 @@ class TicTacToe2(Task):
         self.publisher.registerObserver(self.image_monitor)
         self.publisher.registerObserver(self.data_monitor)
 
-        self.piece_localization_operator = contour_filter(area_threshold=[300, 500]) # kinect
-        self.board_localization_operator = contour_filter(area_threshold=[10000, 10300], minAreaBox=True)
-        # self.localization_operator = contour_filter(area_threshold=[900, 1050]) # realsense
-        self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255]) # blue
-        self.green_recognition_operator = color_recognition([35, 43, 46], [77, 255, 255]) # green
-        self.grasp_planner = RandomPlanner([[3.14, 3.14], [0, 0], [0, 0]])
+        self.piece_localization_operator = ContourFilter(area_threshold=[300, 500])  # kinect
+        self.board_localization_operator = ContourFilter(area_threshold=[10000, 10300], minAreaBox=True)
+        # self.localization_operator = contour_filter(area_threshold=[900, 1050])  # realsense
+        self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255])  # blue
+        self.pick_grasp_planner = RandomPlanner([[3.14, 3.14], [0, 0], [0, 0]])
+        self.blue_grasp_planner = MinMaxPlanner(player="B")
         self.motion_planner = ''
 
     def task_display(self):
@@ -79,17 +114,21 @@ class TicTacToe2(Task):
         self.data_monitor.dir = self.data_path
         self.data_monitor.csv_name = self.experiment_name+"_TicTacToeData.csv"
 
+        # parameters
+        result = None
+
         # sub-task display
         self.arm.go_home()
         self.gripper.open_gripper()
-        for i in range(10):
+
+        for i in range(20):
             print("Sutask "+str(i+1)+" displaying...")
             self.args["subtask_counter"] = i
             print("picking...")
             self.subtask_pick_display()
             print("placing...")
-            self.subtask_place_display()
-            raw_input("waiting...")
+            result = self.subtask_place_display()
+            # raw_input("waiting...")
         return self.data_path
 
     def subtask_pick_display(self):
@@ -111,10 +150,12 @@ class TicTacToe2(Task):
         self.publisher.sendData(cidata)
         self.image_monitor.img_name = subtask_name + "_d_piece.jpg"
         self.publisher.sendData(didata)
+        board_area = self.args["board_area"]
 
         # segmentation
         start = time.time()
         bounding_box, mask, centers = self.piece_localization_operator.display(sub_image)
+        centers = board_area_filter(centers, board_area)
         end = time.time()
 
         # data process
@@ -133,9 +174,8 @@ class TicTacToe2(Task):
         for center in centers:
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
-        print(centers, labels)
         start = time.time()
-        pose = self.grasp_planner.display(centers, labels)
+        pose = self.pick_grasp_planner.display(centers, labels)
         end = time.time()
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
@@ -157,6 +197,9 @@ class TicTacToe2(Task):
             pose[2] = 0.165
             self.arm.move_p(pose)
             self.gripper.close_gripper()
+            pose[2] = 0.25
+            self.arm.move_p(pose)
+            self.arm.go_home()
             end = time.time()
         else:
             start = time.time()
@@ -167,8 +210,6 @@ class TicTacToe2(Task):
 
         tttdata = {"TicTacToeData": [bounding_box, centers, labels, pose]}
         self.publisher.sendData(tttdata)
-
-        self.arm.go_home()
         
     def subtask_place_display(self):
         # subtask data path
@@ -193,6 +234,7 @@ class TicTacToe2(Task):
         # segmentation
         start = time.time()
         bounding_box, mask, centers = self.board_localization_operator.display(sub_image)
+        self.args["board_area"] = [[centers[0][0]-45, centers[0][1]-45], [centers[0][0]+45, centers[0][1]+45]]
         if len(centers) != 0:
             centers = find_block_centers(centers[0], -bounding_box[0][2] * math.pi / 180)
         end = time.time()
@@ -203,20 +245,23 @@ class TicTacToe2(Task):
 
         # recognition
         start = time.time()
-        labels = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+        labels = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         end = time.time()
 
         tdata = {"Time": [subtask_name+' recognition_time_sub2', end - start]}
         self.publisher.sendData(tdata)
 
         # grasp planning
+        game_result = None
         for center in centers:
             center[0] = self.args["WorkSpace"][1][0] + center[0]
             center[1] = self.args["WorkSpace"][0][0] + center[1]
-        print(centers, labels)
         start = time.time()
-        pose = self.grasp_planner.display(centers, labels)
+        pose = self.blue_grasp_planner.display(centers, labels)
         end = time.time()
+        self.blue_grasp_planner.show()
+        self.blue_grasp_planner.board = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+        
         tdata = {"Time": [subtask_name+' grasp_planning_time_sub2', end - start]}
         self.publisher.sendData(tdata)
 
@@ -239,6 +284,7 @@ class TicTacToe2(Task):
             self.gripper.open_gripper()
             pose[2] = 0.25
             self.arm.move_p(pose)
+            self.arm.go_home()
             end = time.time()
         else:
             start = time.time()
@@ -250,4 +296,4 @@ class TicTacToe2(Task):
         tttdata = {"TicTacToeData": [bounding_box, centers, labels, pose]}
         self.publisher.sendData(tttdata)
 
-        self.arm.go_home()
+        return game_result
