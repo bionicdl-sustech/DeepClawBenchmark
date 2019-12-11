@@ -148,7 +148,13 @@ class Segment(object):
             cv2.imshow('mask',mask)
             cv2.waitKey()
 
-        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        result = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        if(len(result)==2):
+            contours = result[0]
+            hierarchy = result[1]
+        elif(len(result)==3):
+            contours = result[1]
+            hierarchy = result[2]
 
         rect = [] #4 points of a rectangle
         for i in range(len(contours)):
