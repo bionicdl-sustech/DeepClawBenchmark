@@ -13,7 +13,7 @@ Additional requirements are specified in the documents of each example task.
 +-------------------+--------------------------------------+
 | End-effector      | Multi-finger gripper or suction cup  |
 +-------------------+--------------------------------------+
-| camera            | RGB, depth map, point cloud          |
+| Camera            | RGB, depth map, point cloud          |
 +-------------------+--------------------------------------+
 
 The DeepClaw provides a convenient script for hand-eye calibration under /modules/calibration. The method use a printed chessboard attached to the robot arms.

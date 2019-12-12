@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Example: TicTacToe &mdash; DeepClawBenchmark  documentation</title>
+  <title>Example: Jigsaw Puzzle &mdash; DeepClawBenchmark  documentation</title>
   
 
   
@@ -34,8 +34,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Getting started" href="getting_started.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -80,18 +79,12 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Minimum system setup</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation on Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example: TicTacToe</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#tasks-description">Tasks Description</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#procedure">Procedure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metrics">Metrics</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="example_1.html">Example: TicTacToe</a></li>
 </ul>
 
             
@@ -137,13 +130,13 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Example: TicTacToe</li>
+      <li>Example: Jigsaw Puzzle</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/example_1.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/example_3.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,14 +149,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="example-tictactoe">
-<h1>Example: TicTacToe<a class="headerlink" href="#example-tictactoe" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="example-jigsaw-puzzle">
+<h1>Example: Jigsaw Puzzle<a class="headerlink" href="#example-jigsaw-puzzle" title="Permalink to this headline">¶</a></h1>
 <div class="align-center figure">
-<img alt="_images/deepclaw-framework.png" src="_images/deepclaw-framework.png" />
+<img alt="_static/deepclaw-framew" src="_static/deepclaw-framew" />
 </div>
 <div class="section" id="tasks-description">
 <h2>Tasks Description<a class="headerlink" href="#tasks-description" title="Permalink to this headline">¶</a></h2>
-<p>Description of this task family, such as name of tasks, organization of tasks and so on.</p>
+<p>The jigsaw tasks contain 3 tasks, which evaluate the different performance of the robot manipulation.</p>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
@@ -171,9 +164,9 @@
 <div><ol class="arabic simple">
 <li><dl class="simple">
 <dt>Manipulation Environment Description</dt><dd><ul class="simple">
-<li><p>Workspace size</p></li>
-<li><p>Functions of regions</p></li>
-<li><p>Constrains</p></li>
+<li><p>Workspace size: 600 mm * 700 mm</p></li>
+<li><p>Functions of regions: the objects are placed on the pick space in the begining, and putted on the place space in the end.</p></li>
+<li><p>Constrains: the face with texture is upside</p></li>
 <li><p>…</p></li>
 </ul>
 </dd>
@@ -249,7 +242,6 @@ Pseudo-code:</p>
 </li>
 </ol>
 </div></blockquote>
-<p>…</p>
 </div>
 </div>
 
@@ -258,13 +250,6 @@ Pseudo-code:</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

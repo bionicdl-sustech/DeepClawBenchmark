@@ -57,5 +57,7 @@ Robot can learning skills that applicable for the similar tasks, called the task
 We have implemented several manipulation tasks in three task families representing assembly tasks, reasoning tasks and bin-picking tasks separately.
 
 [1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning for manipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
+
 [2] Ester, Martin, et al. "A density-based algorithm for discovering clusters in large spatial databases with noise." Kdd. Vol. 96. No. 34. 1996.
+
 [3] Danielczuk, Michael, et al. "Segmenting unknown 3d objects from real depth images using mask r-cnn trained on synthetic data." 2019 International Conference on Robotics and Automation (ICRA). IEEE, 2019.
