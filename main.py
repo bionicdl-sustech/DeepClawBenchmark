@@ -121,6 +121,12 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         read_task_file("./examples/TicTacToe2.py", FILES)
         task = TicTacToe2(perception_system, manipulation_system, is_debug)
         return task
+    elif task_name == "Jigsaw":
+        from examples.Jigsaw import Jigsaw
+        FILES.append("./examples/Jigsaw.py")
+        read_task_file("./examples/Jigsaw.py", FILES)
+        task = TicTacToe2(perception_system, manipulation_system, is_debug)
+        return task
     else:
         print('No such task.')
         return None
