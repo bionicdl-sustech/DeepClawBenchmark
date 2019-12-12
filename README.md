@@ -2,12 +2,9 @@
 
 paper | poster | video
 
-Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *identification*, *multiple points motion planning*, and *execution*. 
+The DeepClaw benchmark is a framework for establishing a reproducible and shareable benchmarking for dexterous manipulation. DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four subtasks: localization, recognition, grasp planning, and motion planning. It also provide necessary components to benchmark manipulations including hardware drivers, data I/O utilities, baseline algorithm modules and evaluation metrics.
 
-Robot can learning skills that applicable for the similar tasks, called the *task familiy*[1]. We have implemented several manipulation tasks in three task families representing assembly tasks, reasoning tasks and bin-picking tasks separately. You can find them <a href="#tasks">here</a>. 
-
-In addition, we propose certain metrics measuring manipulations in many dimensions, such as xxx.
-
+The DeepClaw has been used extensively to benchmark a series of manipulation tasks including claw machine, jigsaw game and TicTacToe. The source codes of these experiments are placed under /examples.
 ![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
 
 ## Quick Start
@@ -25,13 +22,13 @@ $ sudo pip install -U virtualenv
 Create a new virtual environment.
 
 ```shell
-$ virtualenv -p /usr/bin/python2.7 ./py2venv
+$ virtualenv -p /usr/bin/python2.7 ./DCvenv
 ```
 
 Activate or retreat from virtual environment.
 
 ```shell
-$ source ./py2venv/bin/activate # activate virtual environment
+$ source ./DCvenv/bin/activate # activate virtual environment
 $ deactivate # retreat from virtual environment
 ```
 
@@ -44,29 +41,35 @@ $ git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
 $ cd ./DeepClawBenchmark
 ```
 
-Run the DeepClaw installation helper script:
+Install Prerequisites:
 
 ```shell
-$ sudo sh install.sh
+$ pip install -r requirements.txt
 ```
 
-Run calibration task.
+### Verify Installation
+Run calibration task with your drivers, for example, UR10e, HandE, Kinect and so on.
 
 ```shell
-$ python main.py ur5 rg6 realsense calibration
+$ python main.py ur10e hande kinect-azure calibration true
 ```
 
-There are some test cases for testing your installation and calibration.
+There also are some test cases for testing your installation and calibration.
 
 [Test cases](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/TestCases.md)
 
 ## <a name="tasks">Tasks</a>
-We have implemented some task families with DeepClaw:
+We have implemented some tasks using DeepClaw with classical algorithm modules:
 - Task Family 1: [Jigsaw](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Jigsaw_task/task_description.md)
-- Task Family 2: Tictactoe Game
-- Task Family 3: Toy-Claw
+- Task Family 2: Tic-tac-toe Game
+- Task Family 3: Toy Claw Machine
 
-Find the task desription template [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Task-Description-Template.md).
+Find the task description template [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Task-Description-Template.md).
+And we encourage developers to create new tasks ([how to create](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/python2.7/documents/How-to-Create-Task.md)).
+## Algorithm Modules
+We also provide modules pool for developers to assembly their own manipulation tasks.
 
+Find all modules description [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/python2.7/modules).
+And how to create a new module.
 ## References
 [1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning for manipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.

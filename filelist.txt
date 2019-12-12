@@ -1,0 +1,258 @@
+文件夹 PATH 列表
+卷序列号为 8662-71F8
+D:.
+│  .gitignore
+│  filelist.txt
+│  install.sh
+│  main.py
+│  README.md
+│  
+├─.idea
+│  │  .gitignore
+│  │  DeepClawBenchmark.iml
+│  │  misc.xml
+│  │  modules.xml
+│  │  vcs.xml
+│  │  workspace.xml
+│  │  
+│  └─inspectionProfiles
+│          profiles_settings.xml
+│          
+├─config
+│  │  README.md
+│  │  __init__.py
+│  │  
+│  ├─arms
+│  │      franka.yaml
+│  │      ur10e.yaml
+│  │      ur5.yaml
+│  │      
+│  ├─modules
+│  │      calibration.yaml
+│  │      
+│  └─sensors
+│      │  AKinect.json
+│      │  realsense.yaml
+│      │  
+│      └─AKinect_intrinsics
+│              1080_color.txt
+│              1440_color.txt
+│              1536_color.txt
+│              2160_color.txt
+│              3072_color.txt
+│              720_color.txt
+│              depth.txt
+│              
+├─data
+│  │  __init__.py
+│  │  
+│  ├─calibration_data
+│  │      ur10e-kinect.npz
+│  │      ur10e-realsense.npz
+│  │      
+│  └─test_data
+│          ori.jpg
+│          ref.jpg
+│          
+├─documents
+│  │  How-to-Create-Task.md
+│  │  Task-Description-Template.md
+│  │  TestCases.md
+│  │  
+│  ├─Figs
+│  │      deepclaw-framework.png
+│  │      
+│  └─Jigsaw_task
+│          all in one.pdf
+│          AP.png
+│          area rate.png
+│          IoU.png
+│          IoU_calculate.png
+│          metrics.png
+│          task_description.md
+│          
+├─driver
+│  │  README.md
+│  │  __init__.py
+│  │  
+│  ├─arms
+│  │  │  ArmController.py
+│  │  │  FrankaController.py
+│  │  │  UR10eController.py
+│  │  │  UR5Controller.py
+│  │  │  UR_get_state.py
+│  │  │  __init__.py
+│  │  │  
+│  │  └─Fanka
+│  │          client.py
+│  │          Franka.py
+│  │          geotransfer.py
+│  │          model.urdf
+│  │          panda.so
+│  │          server
+│  │          __init__.py
+│  │          
+│  ├─grippers
+│  │  │  GripperController.py
+│  │  │  RG6.py
+│  │  │  __init__.py
+│  │  │  
+│  │  └─handE_controller
+│  │          gripper_active.script
+│  │          gripper_close.script
+│  │          gripper_controller.py
+│  │          gripper_open.script
+│  │          __init__.py
+│  │          
+│  └─sensors
+│      │  __init__.py
+│      │  
+│      ├─camera
+│      │      AKinectController.py
+│      │      CameraController.py
+│      │      PhotoneoController.py
+│      │      RealsenseController.py
+│      │      __init__.py
+│      │      
+│      └─FT
+│              getFT_Data.py
+│              get_serial.py
+│              optoforce.py
+│              __init__.py
+│              
+├─examples
+│      Calibration.py
+│      CNNClawMachine.py
+│      IOTest.py
+│      PCLClawMachine.py
+│      RandomClawMachine.py
+│      Task.py
+│      TestCase.py
+│      TicTacToe.py
+│      TicTacToe2.py
+│      TicTacToe3.py
+│      __init__.py
+│      
+├─input_output
+│  │  Configuration.py
+│  │  DataCollector.py
+│  │  Monitor.py
+│  │  package_files.py
+│  │  VideoRecorder.py
+│  │  vis_data.py
+│  │  __init__.py
+│  │  
+│  ├─observers
+│  │      AbstractObserver.py
+│  │      GraspMonitor.py
+│  │      ImageMonitor.py
+│  │      PCLMonitor.py
+│  │      TicTacToeDataMonitor.py
+│  │      TimeMonitor.py
+│  │      __init__.py
+│  │      
+│  └─publishers
+│          AbstractSubject.py
+│          Publisher.py
+│          __init__.py
+│          
+├─lib
+│  └─Photoneo
+│      │  intrinsic_parameters.sh
+│      │  intrinsic_parameters.txt
+│      │  log.txt
+│      │  Photoneo
+│      │  settings.txt
+│      │  set_params
+│      │  set_params.sh
+│      │  
+│      └─Photoneo_CPP
+│          │  CMakeCache.txt
+│          │  CMakeLists.txt
+│          │  cmake_install.cmake
+│          │  Makefile
+│          │  Photoneo
+│          │  Photoneo.cbp
+│          │  Photoneo.cpp
+│          │  Photoneo_backup.cpp
+│          │  Photoneo_MotionX.cpp
+│          │  ReadMe.txt
+│          │  
+│          └─.idea
+│              │  .name
+│              │  misc.xml
+│              │  modules.xml
+│              │  Photoneo_CPP.iml
+│              │  workspace.xml
+│              │  
+│              └─codeStyles
+│                      Project.xml
+│                      
+└─modules
+    │  README.md
+    │  __init__.py
+    │  
+    ├─calibration
+    │      Calibration2D.py
+    │      Calibration3D.py
+    │      __init__.py
+    │      
+    ├─end2end
+    │  │  __init__.py
+    │  │  
+    │  ├─grasp_alexnet
+    │  │      fc_graspNet.py
+    │  │      Predictor.py
+    │  │      __init__.py
+    │  │      
+    │  └─SSD
+    │      │  seg_rec.py
+    │      │  __init__.py
+    │      │  
+    │      └─SSD-Tensorflow
+    ├─grasp_planning
+    │  │  grasp_planning.py
+    │  │  minmax_planner.py
+    │  │  principal_axis_planner.py
+    │  │  random_planner.py
+    │  │  tictactoe_planner.py
+    │  │  __init__.py
+    │  │  
+    │  └─Jigsaw
+    │      │  PredictAngleWithAlex.py
+    │      │  __init__.py
+    │      │  
+    │      └─AlexNet
+    │              alexnet.py
+    │              caffe_classes.py
+    │              cvtTFrecord.py
+    │              datagenerator.py
+    │              finetune.py
+    │              finetune_360.py
+    │              finetune_tfrecord.py
+    │              jigsaw_game.py
+    │              PredictAngle.py
+    │              sift.py
+    │              test.py
+    │              test_video_demo.py
+    │              train_real.txt
+    │              utils.py
+    │              val_real.txt
+    │              
+    ├─localization
+    │      contour_filter.py
+    │      dbscan.py
+    │      DetectForeground.py
+    │      localization.py
+    │      random_seg.py
+    │      __init__.py
+    │      
+    ├─motion_planning
+    │      __init__.py
+    │      
+    └─recognition
+            color_recognition.py
+            color_recognition_bak.py
+            recognition.py
+            __init__.py
+            
