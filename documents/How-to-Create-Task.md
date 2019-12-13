@@ -34,7 +34,7 @@ The basic structure of NewTask.py is as follows:
 
 ```python
 # import algorithm modules
-# from modules.segmentation.algorithm_A import algorithm_A
+# from modules.localization.algorithm_A import algorithm_A
 # from modules.recognition.algorithm_B import algorithm_B
 # from modules.grap_planning.algorithm_C import algorithm_C
 # from modules.motion_planning.algorithm_D import algorithm_D
@@ -54,7 +54,7 @@ class NewTask(Task):
     # section 3
     # in suggestion, performe functions step by step here
     # for example
-        # output_a = self.segmentation_operator.display(input_a)
+        # output_a = self.localization_operator.display(input_a)
         # output_b = self.recognition_operator.display(input_b)
         # output_c = self.grasp_planner.display(input_c)
         # output_d = self.motion_planner.display(input_d)
@@ -67,7 +67,7 @@ class NewTask(Task):
 
 ## <a name="modules-in-task">Modules in Task</a>
 
-Please check [here]([https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/python2.7/modules](https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/python2.7/modules) to find all modules can be used in each stage in task.
+Please check [here](https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/python2.7/modules) to find all modules can be used in each stage in task.
 
 > Modules implement standardized I/O information between stages, thus developer can substitute them without doing any extra work.
 

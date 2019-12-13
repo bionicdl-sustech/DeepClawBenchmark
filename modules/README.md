@@ -1,35 +1,39 @@
 # Hierarchical Manipulation Tasks
 
-DeepClaw benchmarking has streamlined the manipulation process into four stages: *localization*, *identification*, *multiple points motion planning*, and *execution*. In this part, we propose a algorithm modules pool corresponding to each stage which has standardized input and output.
+DeepClaw benchmarking has streamlined the manipulation process into five stages: *localization*, *recognition*, *grasp planning*, *motion planning*and *execution*. In this part, we propose a algorithm modules pool corresponding to each stage which has standardized input and output.
 
 ## Algorithm Modules Pool
 
 ### Calibration
 
-- 2D
-- 3D
+- 2D: using only 2D information to calibrate arm and camera in one plane.
+- 3D: using one more depth information to calibrate arm and camera in 3D space.
 
 ### Localization
 
-- Random Segmentation
-- DBSCAN
+- Contour Detection: applied edage detection method and area filter to detect the location of the specifical objects.
+- DBSCAN: 
+- Detect Foreground: 
+- Random Segmentation: return a random position in the workspace.
 
 ### Recognition
 
-- Classification
+- Color Recognition: using color filter to recognize the typical objects.
 
 ### Grasp Planning
 
 - Random Planner
 - Principal Axis Planner
+- Minmax Algorithm Planner (Tic-tac-toe Game)
 
 ### Motion Planning
 
-- xxxx
+- None
 
 ### End-to-end
 
 - Grasp AlexNet
+- SSD
 
 ## Standardized Stages Inputs/Outputs
 
