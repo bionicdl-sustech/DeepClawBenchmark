@@ -166,13 +166,13 @@ class Jigsaw(Task):
 
         for i in range(len(pick_pos)):
             start = time.time()
-            subtask_display(pick_pose_base[i],pick_class[i],place_pos[i])
+            self.subtask_display(pick_pose_base[i],pick_class[i],place_pos[i])
             end = time.time()
             tdata = {"Time": ['pick_execution_'+str(i), end - start]}
             self.publisher.sendData(tdata)
 
         #score
-        score = Result()
+        score = self.Result()
         cv2.putText(color_image,'Task score: ' + task_result, org=(10, 200), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                     fontScale=0.8, color=(0, 0, 255), thickness=2)
         #save final result
@@ -187,7 +187,7 @@ class Jigsaw(Task):
         self.publisher.sendData(finaldata)
 
     # for pick and place, and assembly
-    def Result():
+    def Result(self):
         str_complete = raw_input("Enter the scores nmu: ")
         sc = float(str_complete)
         return sc
