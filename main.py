@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
 parser.add_argument("gripper", type=str, choices=['hande'], help="name of robot gripper")
 parser.add_argument("sensor", type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
-parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe'], help="task name")
+parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe','Jigsaw'], help="task name")
 parser.add_argument("save", type=str, choices=['true', 'false'], help="whether saving program")
 args = parser.parse_args()
 
@@ -123,8 +123,8 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         return task
     elif task_name == "Jigsaw":
         from examples.Jigsaw import Jigsaw
-        FILES.append("./examples/Jigsaw.py")
-        read_task_file("./examples/Jigsaw.py", FILES)
+        FILES.append("./examples/Jigsaw_pickandplace.py")
+        read_task_file("./examples/Jigsaw_pickandplace.py", FILES)
         task = TicTacToe2(perception_system, manipulation_system, is_debug)
         return task
     else:
