@@ -101,7 +101,7 @@ class Jigsaw(Task):
         start = time.time()
         sr = seg_rec(works_box)
         sr.setCheckPoint(_root_path + '/modules/end2end/SSD/SSD-Tensorflow/checkpoints/model.ckpt-454522')
-        rclasses rscores, rect_seg = sr.display(color_image)
+        rclasses, rscores, rect_seg = sr.display(color_image)
         end = time.time()
         tdata = {"Time": ['localization&recognition', end - start]}
         self.publisher.sendData(tdata)
@@ -264,11 +264,11 @@ class Jigsaw(Task):
 
         # go above the pick position
         pick_up_pos =[pick_pos[0], pick_pos[1], pick_z+up_z, Rx, Ry, Rz]
-        self.arm.movep(pick_up_pos, 1.2, 1.6,False)
+        self.arm.movep(pick_up_pos, 0.7, 1.6,False)
 
         # go down and pick
         pick_pos = [pick_pos[0],pick_pos[1],pick_z,Rx, Ry, Rz]
-        self.arm.movep(pick_pos, 1.2, 1.6)
+        self.arm.movep(pick_pos, 0.5, 0.5)
 
         # end-effector action
         suction_on()
@@ -276,7 +276,7 @@ class Jigsaw(Task):
         time.sleep(1.5)
         # go above the pick position
         pick_up_pos = [pick_pos[0],pick_pos[1],pick_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(pick_up_pos, 1.2, 1.6,False)
+        self.arm.movep(pick_up_pos, 0.7, 1.6,False)
 
         # go above the place position
         place_rpy = [3.14,0,-0.0*3.14/180.0]
@@ -287,10 +287,10 @@ class Jigsaw(Task):
         Rx, Ry, Rz = r.as_rotvec()
 
         place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(place_up_pos, 1.2, 1.6,False)
+        self.arm.movep(place_up_pos, 0.7, 1.6,False)
         # go down and place
         place_pos = [place_pos[0],place_pos[1],place_z,Rx, Ry, Rz]
-        self.arm.movep(place_pos, 0.8, 0.8,False)
+        self.arm.movep(place_pos, 0.7, 1.6,False)
 
         # end-effector release
         self.suction_action(0,True)
@@ -298,7 +298,7 @@ class Jigsaw(Task):
 
         # go above the place position
         place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(place_up_pos, 1.2, 1.6,False)
+        self.arm.movep(place_up_pos, 0.7, 1.6,False)
 
         # go home
         self.arm.goHome()
