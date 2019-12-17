@@ -38,8 +38,8 @@ class PredictAngle():
 
 
 if __name__ == '__main__':
-    a = cv2.imread('../Data/sample.jpg')
+    a = cv2.imread(_root_path+'/data/test_data/ref.jpg')
     pa = PredictAngle()
     pa.loadImg(a)
-    angle = pa.getGraspPose()
+    angle = pa.display()
     print('angle: ',angle)
