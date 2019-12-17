@@ -19,12 +19,15 @@ FILES = []
 
 def read_task_file(file_name, imp_lines):
     file = open(file_name)
-    # imp_lines = []
+    # ignored files
+    file_ignore = ["scipy","numpy","cv2","os","sys","pyrealsense2","yaml","socket","struct","math","time","optoforce","serial"]
     for line in file.readlines():
         strs = line.strip("\n").split(" ")
         if strs[0] == "import" or strs[0] == "from":
             tem = strs[1].split(".")
-            if len(tem) > 1:
+	    if(tem[0] in file_ignore):
+		continue
+            if len(tem[0]) > 1:
                 imp_line = "."
                 for s in tem:
                     imp_line += "/"+s
