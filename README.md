@@ -16,7 +16,7 @@ DeepClaw framework has only been tested with *Python 2.7* and *Ubuntu 16.04 LTS*
 Install virtualenv.
 
 ```shell
-$ sudo pip install -U virtualenv
+$ pip install -U virtualenv
 ```
 
 Create a new virtual environment.
