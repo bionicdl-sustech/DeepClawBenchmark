@@ -8,7 +8,7 @@ import time
 import sys
 import os
 from scipy.spatial.transform import Rotation as R
-  
+
 
 _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(_root_path)
@@ -127,36 +127,6 @@ class UR5Controller(ArmController):
 
         return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
 
-    # def verify_state(self, variable_name, target_value, error=0.2):
-    #     cnt = 0
-    #     delay_flag = True
-    #     time_gap = 0.2
-    #     error_list = []
-    #     while delay_flag:
-    #         current_value = self.get_state()[variable_name]
-    #         if current_value is None:
-    #             print("Getting current value failed, please check variable name.")
-    #             return False
-    #         if cnt * time_gap >= 20:
-    #             print("Time out!")
-    #             return False
-    #         # for c_value, t_value in zip(current_value, target_value):
-    #         #     if abs(c_value - t_value) > error:
-    #         #         delay_flag = True
-    #         #         break
-    #         #     else:
-    #         #         delay_flag = False
-    #         for c_value, t_value in zip(current_value, target_value):
-    #             error_list.append(abs(c_value - t_value))
-    #         print(np.mean(error_list))
-    #         if np.mean(error_list) < error:
-    #             delay_flag = False
-    #         time.sleep(time_gap)
-    #         cnt += 1
-    #     time.sleep(0.1)
-    #     return True
-
-
     def verify_state(self, variable_name, target_value,error=0.002,FT = False):
         delay_time = True
         cnt = 0
@@ -238,10 +208,14 @@ class UR5Controller(ArmController):
         t = np.dot(-R, centroid_A.T) + centroid_B.T
         return R, t
 
-    def uvd2xyz(self, u, v, depth_image, depth_scale, intrinsics):
-        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) * depth_scale
-        camera_x = np.multiply(u - intrinsics.ppx, camera_z / intrinsics.fx)
-        camera_y = np.multiply(v - intrinsics.ppy, camera_z / intrinsics.fy)
+    def uvd2xyz(self, u, v, depth_image, intrinsics):
+        fx = intrinsics[0]
+        fy = intrinsics[1]
+        cx = intrinsics[2]
+        cy = intrinsics[3]
+        camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) / 1000.0
+        camera_x = np.multiply(u - cx, camera_z / fx)
+        camera_y = np.multiply(v - cy, camera_z / fy)
 
         view = depth_image[v - 30:v + 30, u - 30:u + 30]
         view[view == 0] = 10000
@@ -249,11 +223,12 @@ class UR5Controller(ArmController):
 
         avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
         avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-        avoid_x = np.multiply(avoid_u - intrinsics.ppx, avoid_z * depth_scale / intrinsics.fx)
-        avoid_y = np.multiply(avoid_v - intrinsics.ppy, avoid_z * depth_scale / intrinsics.fy)
+        avoid_z = avoid_z / 1000.0
+        avoid_x = np.multiply(avoid_u - cx, avoid_z / fx)
+        avoid_y = np.multiply(avoid_v - cy, avoid_z / fy)
 
         xyz = self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T
-        avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z * depth_scale]).T) + self._t.T
+        avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z]).T) + self._t.T
         return list(xyz.T), avoid_xyz[2]
 
 
