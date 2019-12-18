@@ -4,7 +4,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
-parser.add_argument("gripper", type=str, choices=['hande'], help="name of robot gripper")
+parser.add_argument("gripper", type=str, choices=['hande','suction_cup'], help="name of robot gripper")
 parser.add_argument("sensor", type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
 parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe','Jigsaw'], help="task name")
 parser.add_argument("save", type=str, choices=['true', 'false'], help="whether saving program")
@@ -20,12 +20,13 @@ FILES = []
 def read_task_file(file_name, imp_lines):
     file = open(file_name)
     # ignored files
-    file_ignore = ["scipy","numpy","cv2","os","sys","pyrealsense2","yaml","socket","struct","math","time","optoforce","serial"]
+    #file_ignore = ["scipy","numpy","cv2","os","sys","pyrealsense2","yaml","socket","struct","math","time","optoforce","serial","copy"]
+    file_save = ["config","data","driver","example","input_output","modules"]
     for line in file.readlines():
         strs = line.strip("\n").split(" ")
         if strs[0] == "import" or strs[0] == "from":
             tem = strs[1].split(".")
-	    if(tem[0] in file_ignore):
+	    if(tem[0] not in file_save):
 		continue
             if len(tem[0]) > 1:
                 imp_line = "."
@@ -125,10 +126,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         task = TicTacToe2(perception_system, manipulation_system, is_debug)
         return task
     elif task_name == "Jigsaw":
-        from examples.Jigsaw import Jigsaw
+        from examples.Jigsaw_pickandplace import Jigsaw
         FILES.append("./examples/Jigsaw_pickandplace.py")
         read_task_file("./examples/Jigsaw_pickandplace.py", FILES)
-        task = TicTacToe2(perception_system, manipulation_system, is_debug)
+        task = Jigsaw(perception_system, manipulation_system, is_debug)
         return task
     else:
         print('No such task.')
@@ -138,7 +139,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
 if __name__ == '__main__':
     sensor = initial_sensors(SENSOR_NAME)
     robot = initial_robot(ROBOT_NAME)
-    gripper = initial_gripper(GRIPPER_NAME)
+    if GRIPPER_NAME == "suction_cup":
+	gripper = robot
+    else:
+        gripper = initial_gripper(GRIPPER_NAME)
 
     if robot is not None and sensor is not None:
         perception_system = {'Camera': sensor, 'Recorder': sensor}
