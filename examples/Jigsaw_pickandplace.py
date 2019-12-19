@@ -14,11 +14,11 @@ from input_output.observers.ImageMonitor import ImageMonitor
 
 
 from input_output.observers.JigsawDataMonitor import JigsawDataMonitor
-from modules.localization.contour_filter import contour_filter
+#from modules.localization.contour_filter import contour_filter
 from modules.localization.DetectForeground import Segment
 from modules.end2end.SSD.seg_rec import seg_rec
-from modules.grasp_planning.AlexNet.PredictAngleWithAlex import PredictAngle
-from modules.calibration.Calibration2D import calibration
+from modules.grasp_planning.Jigsaw.PredictAngleWithAlex import PredictAngle
+from modules.calibration.Calibration2D import Calibration2D as calibration
 from scipy.spatial.transform import Rotation as R
 
 
@@ -59,9 +59,8 @@ class Jigsaw(Task):
         works_box = [470,120,850,650] # [xmin,ymin,xmax,ymax] , in image coordinate
         place_box = [850,120,1150,650] # [xmin,ymin,xmax,ymax] , in image coordinate
 
-        place_position = [246.20, -533.9, 93.0, 3.14, 0.0, 0.0]
         # gohome
-        self.arm.goHome()
+        self.arm.go_home()
         # ==================================== task begin ===================================================================
         # take a picture without objects
         frame= self.camera.get_frame()
@@ -77,10 +76,13 @@ class Jigsaw(Task):
         # take a picture when objects are placed
         frame = self.camera.get_frame()
         color_image = frame.color_image[0]
-
+        depth_image = frame.depth_image[0]
         cidata = {"Image": color_image}
-        self.image_monitor.img_name = "initial_image.jpg"
+        didata = {"Image": depth_image}
+        self.image_monitor.img_name = "initial_Colorimage.jpg"
         self.publisher.sendData(cidata)
+        self.image_monitor.img_name = "initial_Depthimage.jpg"
+        self.publisher.sendData(didata)
 
         # ==================================== localization ground truth =====================================================
         #the groundTruth of object rect
@@ -122,7 +124,7 @@ class Jigsaw(Task):
         pick_pose = [] # [[u,v,angle],...]
         pick_class = [] # [class,...]
         pick_pose_base = []
-        hand_eye = calibration()
+        #hand_eye = calibration()
         for i in range(len(rect_seg)):
             if(rclasses[i] > 4):
                 continue
@@ -131,8 +133,10 @@ class Jigsaw(Task):
             pick_pose.append(temp)
             pick_class.append(rclasses[i])
             # calibration,covert to robot base
-            x_p,y_p = hand_eye.cvt(temp[0],temp[1])
-            pick_pose_base.append([x_p,y_p,temp[2]])
+            #x_p,y_p = hand_eye.cvt(temp[0],temp[1])
+            #pick_pose_base.append([x_p,y_p,temp[2]])
+	        xyz, avoidz = self.arm.uvd2xyz(temp[0],temp[1], depth_image, self.camera.get_intrinsics())
+            pick_pose_base.append([xyz[0], xyz[1],temp[2]])
 
             end = time.time()
             tdata = {"Time": ['grasp_planner_'+str(rclasses[i]), end - start]}
@@ -154,9 +158,9 @@ class Jigsaw(Task):
         # placed pose (x,y,angle) in robot base
         start = time.time()
         place_pos = []
-        place_pos = self.PlacePlan(color_image,place_box)
+        place_pos = self.PlacePlan(color_image,depth_image,place_box)
         end = time.time()
-        tdata = {"Time": ['place_planner'), end - start]}
+        tdata = {"Time": ['place_planner', end - start]}
         self.publisher.sendData(tdata)
 
         # ==================================== execution =====================================================
@@ -185,6 +189,7 @@ class Jigsaw(Task):
 
         finaldata = {"JigsawData": [rect_truth, rect_seg, rclasses, pick_pose,place_pos,score]}
         self.publisher.sendData(finaldata)
+        return self.data_path
 
     # for pick and place, and assembly
     def Result(self):
@@ -194,7 +199,7 @@ class Jigsaw(Task):
 
     #placed on the template
     # the place position is different in different tasks
-    def PlacePlan(self,color_image,place_box):
+    def PlacePlan(self,color_image,depth_image,place_box):
         # in the place area
         # the black block
         crop_img = color_image[place_box[1]:place_box[3],place_box[0]:place_box[2]]
@@ -241,8 +246,11 @@ class Jigsaw(Task):
                     cv2.waitKey()
 
                 # calibration
-                hand_eye = calibration()
-                x_p,y_p = hand_eye.cvt(x,y)
+                # hand_eye = calibration()
+                # x_p,y_p = hand_eye.cvt(x,y)
+                xyz, avoidz = self.arm.uvd2xyz(x, y, depth_image, self.camera.get_intrinsics())
+                x_p = xyz[0]
+                y_p = xyz[1]
                 angle = min_Box[2]
                 # return
                 placed_pose.append([x_p,y_p,angle*3.14/180.0])
@@ -251,9 +259,9 @@ class Jigsaw(Task):
 
 
     def subtask_display(self,pick_pos,pick_class,place_pos):
-        up_z = 40 #mm
-        pick_z = 78
-        place_z = 85
+        up_z = 0.04 #meter
+        pick_z = 0.078
+        place_z = 0.085
         init_rpy = [3.14,0,-0.0*3.14/180.0]
         pick_rpy = init_rpy
         pick_rpy[2] = init_rpy[2]-pick_pos[2]
@@ -271,8 +279,7 @@ class Jigsaw(Task):
         self.arm.movep(pick_pos, 0.5, 0.5)
 
         # end-effector action
-        suction_on()
-        self.suction_action(0,False)
+        self.arm.set_io(0,False)
         time.sleep(1.5)
         # go above the pick position
         pick_up_pos = [pick_pos[0],pick_pos[1],pick_z+up_z,Rx, Ry, Rz]
@@ -293,7 +300,7 @@ class Jigsaw(Task):
         self.arm.movep(place_pos, 0.7, 1.6,False)
 
         # end-effector release
-        self.suction_action(0,True)
+        self.arm.set_io(0,True)
         time.sleep(1.5)
 
         # go above the place position
@@ -301,10 +308,8 @@ class Jigsaw(Task):
         self.arm.movep(place_up_pos, 0.7, 1.6,False)
 
         # go home
-        self.arm.goHome()
+        self.arm.go_home()
 
-    def suction_action(self,input=0,state=True):
-        self.robot_gripper.io_controller(input,state)
 
     def PickPlan(self,rect,color_image):
         xmin = rect[0]
