@@ -349,7 +349,8 @@ if __name__ == '__main__':
 	robot.moveJ(robot.q_home)
 	pos = [0.5,0.1,0.3]
 	rot = robot.euler_matrix(pi,pi/8,pi/16)
-
+	
+	# test
 	while True:
 		s = time.time()
 		robot.ik(pos,rot)
