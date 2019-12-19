@@ -11,6 +11,7 @@ import panda
 import math
 import warnings
 import copy
+import multiprocessing as mp
 
 class franka():
 	def __init__(self,ip,gripper=True):
@@ -35,18 +36,22 @@ class franka():
 									[ 0.7071067811865476, 0.7071067811865476, 0, 0],
 									[ 0					, 0                 , 1,-0.1034],
 									[ 0					, 0                 , 0, 1]])
-
+		self.calibration_H = []
+		
 		# init
 		self.init_arm(self.ip)
 		self.gripper = gripper
 		if self.gripper == True:
 			self.init_gripper(self.ip)
-
 		self.recover()
+
 	def __del__(self):
 		command = "kill -9 $(netstat -nlp|grep ''':8080'''|awk '{print $6}'|awk -F '[/]' '{print $1}')"
 		os.system(command)
 		pass
+	
+	def set_calibration_H(self,filename):
+		self.calibration_H = np.load(filename)
 
 	def euler_to_quat(self,r, p, y):
 		sr, sp, sy = np.sin(r/2.0), np.sin(p/2.0), np.sin(y/2.0)
@@ -333,9 +338,20 @@ class franka():
 	def gripper_stop(self):
 		msg = 'gripper_stop,1'
 
+	#TODO
+	# def real_time_control(self, control_type='q', real_time_call_back_function):
+	# 	control_type ==> send UDP massage to define the control type in server
+	#	real_time_back_funtion recive robot_state and duration send control data via UDP 
+	
 if __name__ == '__main__':
 
 	robot = franka('192.168.1.100',gripper=True)
 	robot.moveJ(robot.q_home)
-	#robot.moveP([500,0,200,pi,pi/8,0],axes='sxyz')
+	pos = [0.5,0.1,0.3]
+	rot = robot.euler_matrix(pi,pi/8,pi/16)
+
+	while True:
+		s = time.time()
+		robot.ik(pos,rot)
+		print(1/(time.time() - s))
 	#print(robot.get_pose())
