@@ -7,12 +7,6 @@ find_package(Eigen3 REQUIRED)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-#add_library(examples_common STATIC
-#  examples_common.cpp
-#)
-
-#target_link_libraries(examples_common PUBLIC Franka::Franka)
-
 include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${FRANKA_INCLUDE_DIRS})
 
