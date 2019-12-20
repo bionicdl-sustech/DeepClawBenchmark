@@ -6,6 +6,7 @@ find_package(Eigen3 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/..) 
 
 include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${FRANKA_INCLUDE_DIRS})
