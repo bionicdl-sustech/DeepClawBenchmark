@@ -46,7 +46,14 @@ Install Prerequisites:
 ```shell
 $ pip install -r requirements.txt
 ```
-
+Build libfranka server
+```shell
+$ cd ./DeepClawBenchmark/driver/arms/Franka/libfraka_server
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
 ### Verify Installation
 Run calibration task with your drivers, for example, UR10e, HandE, Kinect and so on.
 
