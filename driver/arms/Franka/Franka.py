@@ -308,7 +308,7 @@ class franka():
 		return True
 
 	def recover(self):
-		self.send_recv_msg('revcover,1')
+		self.send_recv_msg('recover,1')
 
 	def gripper_home(self):
 		self.send_recv_msg('gripper_home,1')
