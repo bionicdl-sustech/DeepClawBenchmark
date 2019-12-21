@@ -7,7 +7,6 @@ import socket
 import numpy as np
 from math import pi, cos, sin 
 import PyKDL as kdl
-import panda
 import math
 import warnings
 import copy
@@ -233,9 +232,9 @@ class franka():
 		self.send_recv_msg("gripper_init,"+ip)
 	
 	def go_home(self):
-		self.moveJ(self.q_home)
+		self.move_j(self.q_home)
 
-	def moveJ(self,joints,v=0.5,a=0,solve_space='J'):
+	def move_j(self,joints,v=0.5,a=0,solve_space='J'):
 		#print(_joints,type(_joints))
 		if type(joints) == type(None):
 			print('\n KDL fail! \n')
@@ -249,7 +248,7 @@ class franka():
 		self.send_recv_msg(msg)
 		return 1
 
-	def moveP(self,position,v=0.5,a=0,solve_space='L',axes = 'sxyz'):
+	def move_p(self,position,v=0.5,a=0,solve_space='L',axes = 'sxyz'):
 		rot = self.euler_matrix(position[3],position[4],position[5],axes)
 		pos = np.array([position[0]/1000.0,position[1]/1000.0,position[2]/1000.0])
 		#print(rot,pos)
@@ -271,7 +270,7 @@ class franka():
 			
 		'''
 		q = self.ik(pos,rot)
-		return self.moveJ(q,v=v)
+		return self.move_j(q,v=v)
 
 	def get_joints(self):
 		self.send_recv_msg('get_joints,1')
