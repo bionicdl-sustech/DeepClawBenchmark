@@ -14,5 +14,6 @@ class Calibration(Task):
         super(Calibration, self).__init__(perception_system, manipulation_system, is_debug)
 
     def task_display(self):
+    	self.arm.close_gripper()
         calibration_cfg = readConfiguration("/config/modules/calibration.yaml")
         calibrating3d(self.arm, self.camera, calibration_cfg)

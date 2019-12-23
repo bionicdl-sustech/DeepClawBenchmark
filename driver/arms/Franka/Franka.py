@@ -1,6 +1,13 @@
+# gesheng
+# !/usr/bin/python
+# coding=utf-8
 import os
-current_path = os.path.dirname(os.path.abspath(__file__))
 import sys
+current_path = os.path.dirname(os.path.abspath(__file__))
+_root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
+sys.path.append(_root_path)
+
 import time
 from urdf_parser_py.urdf import URDF
 import socket
@@ -11,14 +18,16 @@ import math
 import warnings
 import copy
 import multiprocessing as mp
+from input_output.Configuration import readConfiguration
 
 class franka():
-	def __init__(self,ip,gripper=True):
+	def __init__(self,configuration_path,gripper=True):
+		self._cfg = readConfiguration(configuration_path)
 
 		# start server
 		command='gnome-terminal -e '+current_path+'/server'
 		os.system(command)
-		self.ip = ip
+		self.ip = self._cfg['robot_ip']
 		self.num_joints = 7
 		self.server_address = ('127.0.0.1', 8080)
 		self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -250,7 +259,7 @@ class franka():
 
 	def move_p(self,position,v=0.5,a=0,solve_space='L',axes = 'sxyz'):
 		rot = self.euler_matrix(position[3],position[4],position[5],axes)
-		pos = np.array([position[0]/1000.0,position[1]/1000.0,position[2]/1000.0])
+		pos = np.array([position[0],position[1],position[2]])
 		#print(rot,pos)
 		
 		if self.gripper == True:
@@ -327,6 +336,12 @@ class franka():
 		msg = 'gripper_move,'+str(width)+':'+str(speed)
 		self.send_recv_msg(msg)
 
+	def open_gripper(self):
+		self.gripper_move(width=40)
+
+	def close_gripper(self):
+		self.gripper_grasp(width=0)
+
 	def gripper_width(self):
 		msg = 'gripper_width,1'
 		self.send_recv_msg(msg)
@@ -340,6 +355,51 @@ class franka():
 	def gripper_stop(self):
 		msg = 'gripper_stop,1'
 
+	def load_calibration_matrix(self):
+		d = np.load(_root_path+self._cfg["CALIBRATION_DIR"])
+		observed_pts = d['arr_0']
+		measured_pts = d['arr_1']
+		self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)
+
+	def get_rigid_transform(self, A, B):
+		assert len(A) == len(B)
+		N = A.shape[0]  # Total points
+		centroid_A = np.mean(A, axis=0)
+		centroid_B = np.mean(B, axis=0)
+		AA = A - np.tile(centroid_A, (N, 1))  # Centre the points
+		BB = B - np.tile(centroid_B, (N, 1))
+		H = np.dot(np.transpose(AA), BB)  # Dot is matrix multiplication for array
+		U, S, Vt = np.linalg.svd(H)
+		R = np.dot(Vt.T, U.T)
+		if np.linalg.det(R) < 0:  # Special reflection case
+		    Vt[2, :] *= -1
+		    R = np.dot(Vt.T, U.T)
+		t = np.dot(-R, centroid_A.T) + centroid_B.T
+		return R, t
+
+	def uvd2xyz(self, u, v, depth_image, intrinsics):
+		fx = intrinsics[0]
+		fy = intrinsics[1]
+		cx = intrinsics[2]
+		cy = intrinsics[3]
+		camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) / 1000.0
+		camera_x = np.multiply(u - cx, camera_z / fx)
+		camera_y = np.multiply(v - cy, camera_z / fy)
+
+		view = depth_image[v - 30:v + 30, u - 30:u + 30]
+		view[view == 0] = 10000
+		avoid_z = np.min(view)
+
+		avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
+		avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
+		avoid_z = avoid_z / 1000.0
+		avoid_x = np.multiply(avoid_u - cx, avoid_z / fx)
+		avoid_y = np.multiply(avoid_v - cy, avoid_z / fy)
+
+		xyz = (self._R.dot(np.array([camera_x, camera_y, camera_z]).T) + self._t.T)
+		avoid_xyz = (self._R.dot(np.array([avoid_x, avoid_y, avoid_z]).T) + self._t.T)
+		return list(xyz.T), avoid_xyz[2]
+
 	#TODO
 	# def real_time_control(self, control_type='q', real_time_call_back_function):
 	# 	control_type ==> send UDP massage to define the control type in server
@@ -347,5 +407,5 @@ class franka():
 	
 if __name__ == '__main__':
 
-	robot = franka('192.168.1.100',gripper=True)
+	robot = franka('192.168.31.159',gripper=True)
 	robot.go_home()
