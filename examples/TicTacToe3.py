@@ -1,3 +1,4 @@
+import cv2
 import os
 import sys
 import time
@@ -86,8 +87,8 @@ class TicTacToe3(Task):
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
         self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
-        self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0, "board_area": None} # kinect
-        # self.args = {"WorkSpace": [[100, 550], [450, 850]]} # realsense
+        # self.args = {"WorkSpace": [[350, 550], [450, 850]], "subtask_counter": 0, "board_area": None} # kinect
+        self.args = {"WorkSpace": [[50, 450], [400, 800]], "subtask_counter": 0, "board_area": None} # realsense
         self.publisher = Publisher("publisher")
         self.time_monitor = TimeMonitor("time_monitor")
         self.image_monitor = ImageMonitor("image_monitor")
@@ -96,8 +97,8 @@ class TicTacToe3(Task):
         self.publisher.registerObserver(self.image_monitor)
         self.publisher.registerObserver(self.data_monitor)
 
-        self.piece_localization_operator = ContourFilter(area_threshold=[300, 500])  # kinect
-        self.board_localization_operator = ContourFilter(area_threshold=[10000, 10300], minAreaBox=True)
+        self.piece_localization_operator = ContourFilter(area_threshold=[850, 1250])  # kinect
+        self.board_localization_operator = ContourFilter(area_threshold=[18000, 19000], minAreaBox=True)
         # self.localization_operator = contour_filter(area_threshold=[900, 1050])  # realsense
         self.blue_recognition_operator = color_recognition([100, 43, 46], [124, 255, 255])  # blue
         self.green_recognition_operator = color_recognition([35, 43, 46], [77, 255, 255])  # green
@@ -182,10 +183,14 @@ class TicTacToe3(Task):
             center[1] = self.args["WorkSpace"][0][0] + center[1]
         start = time.time()
         pose = self.pick_grasp_planner.display(centers, labels)
+        print(pose)
+        # cv2.circle(color_image, (pose[0], pose[1]), 3, (0, 0, 255), -1)
+        # cv2.imshow("c", color_image)
+        # cv2.waitKey(0)
         end = time.time()
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
-            pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.25
+            pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.05
         tdata = {"Time": [subtask_name+' grasp_planning_time_sub1', end - start]}
         self.publisher.sendData(tdata)
 
@@ -197,13 +202,14 @@ class TicTacToe3(Task):
         self.publisher.sendData(tdata)
 
         # execution
+        print(pose)
         if pose is not None:
             start = time.time()
             self.arm.move_p(pose)
-            pose[2] = 0.165
+            pose[2] = 0.01
             self.arm.move_p(pose)
             self.gripper.close_gripper()
-            pose[2] = 0.25
+            pose[2] = 0.05
             self.arm.move_p(pose)
             self.arm.go_home()
             end = time.time()
@@ -240,6 +246,7 @@ class TicTacToe3(Task):
         # segmentation
         start = time.time()
         bounding_box, mask, centers = self.board_localization_operator.display(sub_image)
+        print("centers", centers)
         self.args["board_area"] = [[centers[0][0]-45, centers[0][1]-45], [centers[0][0]+45, centers[0][1]+45]]
         if len(centers) != 0:
             centers = find_block_centers(centers[0], -bounding_box[0][2] * math.pi / 180)
@@ -291,7 +298,7 @@ class TicTacToe3(Task):
 
         if pose is not None:
             xyz, avoidz = self.arm.uvd2xyz(pose[0], pose[1], depth_image, self.camera.get_intrinsics())
-            pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.25
+            pose[0], pose[1], pose[2] = xyz[0], xyz[1], 0.05
         # motion planning
         start = time.time()
         end = time.time()
@@ -303,10 +310,10 @@ class TicTacToe3(Task):
         if pose is not None:
             start = time.time()
             self.arm.move_p(pose)
-            pose[2] = 0.165
+            pose[2] = 0.01
             self.arm.move_p(pose)
             self.gripper.open_gripper()
-            pose[2] = 0.25
+            pose[2] = 0.05
             self.arm.move_p(pose)
             self.arm.go_home()
             end = time.time()
