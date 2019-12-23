@@ -65,7 +65,7 @@ class AKinectController(CameraController):
         # the API returned color image is in RGB order
         # convert to BGR
         color_image = np.asarray(rgbd.color)[:,:,::-1]
-        depth_image = np.asarray(rgbd.depth)/1000.0 # original unit is mm, converting to m
+        depth_image = np.asarray(rgbd.depth)/1000 # original unit is mm, converting to m
 
         # compute point cloud from depth image
         pointcloud = o3d.geometry.PointCloud.create_from_depth_image(rgbd.depth, self.intrinsics, depth_scale=1)

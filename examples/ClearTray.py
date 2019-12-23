@@ -5,8 +5,7 @@ from PIL import Image, ImageDraw
 import numpy as np
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
-import heapq
-import random
+
 from examples.Task import Task
 from input_output.publishers.Publisher import Publisher
 from input_output.observers.TimeMonitor import TimeMonitor
@@ -19,10 +18,10 @@ from modules.grasp_planning.random_planner import RandomPlanner
 
 NUM_BOXES = 20
 WIDTH = 120
-crop_box = [400,70,850,480]
-class CNNClawMachine(Task):
+crop_box = [450,300,950,650]
+class ClearTray(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
-        super(CNNClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
+        super(ClearTray, self).__init__(perception_system, manipulation_system, is_debug)
         time_s = time.localtime(int(time.time()))
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
@@ -39,12 +38,12 @@ class CNNClawMachine(Task):
         self.motion_planner = ''
         self.arm.load_calibration_matrix()
         self.localization_operator_pick = RandomSeg([[-0.2,0.2], [-0.76, -0.46], [0.25, 0.25]])
-        self.localization_operator_place = RandomSeg([[-0.1,0.1], [-0.6, -0.6], [0.50, 0.50]])
+        self.localization_operator_place = RandomSeg([[-0.1,0.1], [-0.6, -0.6], [0.25, 0.25]])
         self.recognition_operator = ''
         self.grasp_planner = RandomPlanner([[3.14, 3.14],[0, 0],[-1.57, 1.57]])
         self.motion_planner = ''
         self.path=''
-        self.Pick_z = 0.41
+        self.Pick_z = 0.11
         self.uv_range = [7, 11]
     def task_display(self):
         # initialize robots
@@ -59,7 +58,7 @@ class CNNClawMachine(Task):
         self.result_monitor.csv_name = self.experiment_name+".csv"
         count_success = 0
         # sub-task display
-        for i in range(10):
+        for i in range(20):
             self.args["subtask_counter"] = i
             # subtask data path
             subtask_name = "subtask_pick_" + str(self.args["subtask_counter"])
@@ -98,14 +97,10 @@ class CNNClawMachine(Task):
         img = img.crop(crop_box)
         patches, boxes = self.network.generate_patches(img, NUM_BOXES, WIDTH)
         candidates_theta, candidates_probability = self.network.eval_theta(patches)
-        # best_idx = np.argmax(candidates_probability)
-        candidates_probability_1 = list(candidates_probability)
-        idx = map(candidates_probability_1.index, heapq.nlargest(3,candidates_probability_1))
-        best_idx = random.sample(idx,1)
-        best_idx = best_idx[0]
+        best_idx = np.argmax(candidates_probability)
         end = time.time()
 
-        #publish dataget_frame
+        #publish data
         tdata = {"Time": [subtask_name+' grasp_planning_time', end - start]}
         self.publisher.sendData(tdata)
         self.image_monitor.img_name = self.experiment_name + '_image1.png'
@@ -128,7 +123,7 @@ class CNNClawMachine(Task):
         x = (boxes[best_idx][0]+boxes[best_idx][2])/2+crop_box[0]
         y = (boxes[best_idx][1]+boxes[best_idx][3])/2+crop_box[1]
         best_theta = (-1.57 + (candidates_theta[best_idx]-0.5)*(1.57/9))
-        # best_theta = -0.78
+
         # motion planning
         start = time.time()
         position,z = self.arm.uvd2xyz(x,y,frame_1.depth_image[0],self.camera.get_intrinsics())
@@ -149,7 +144,7 @@ class CNNClawMachine(Task):
         #verify success
         frame_2= self.camera.get_frame()
         color_image_2 = frame_2.color_image[0]
-        compare_space=[650,710,500,750]
+        compare_space=[50,200,630,830]
         compare_label,img1,img2 = success_label(color_image_1,color_image_2,compare_space)
 
         #publish data
@@ -169,42 +164,7 @@ class CNNClawMachine(Task):
 
     def subtask_display_place(self):
         print('subtask_display_place')
-        subtask_name = "subtask_place_" + str(self.args["subtask_counter"])
-
-        # segmentation
-        print('segmentation')
-        start = time.time()
-        bounding_box, mask, centers = self.localization_operator_place.display()
-        end = time.time()
-
-        tdata = {"Time": [subtask_name+' segmentation_time', end - start]}
-        self.publisher.sendData(tdata)
-
-        # recognition
-        print('recognition')
-        start = time.time()
-        end = time.time()
-
-        tdata = {"Time": [subtask_name+' recognition_time', end - start]}
-        self.publisher.sendData(tdata)
-
-        # grasp planning
-        print('grasp planning')
-        start = time.time()
-        grasp_pose = self.grasp_planner.display(centers)
-        end = time.time()
-
-        tdata = {"Time": [subtask_name+' grasp_planning_time', end - start]}
-        self.publisher.sendData(tdata)
-
-        # motion planning
-        print('motion planning')
-        start = time.time()
-        self.arm.move_p(grasp_pose)
+        self.arm.move_j([-12.68,-75.69,-105.52,-89.02,89.33,77.42])
         self.arm.set_io(8,False)
         time.sleep(2)
         self.arm.go_home()
-        end = time.time()
-
-        tdata = {"Time": [subtask_name + ' motion_planning_time', end - start]}
-        self.publisher.sendData(tdata)

@@ -40,7 +40,7 @@ class UR5Controller(ArmController):
         self.move_j(joint)
 
         #the unit of joint is degrees
-    def move_j(self, joint, velocity=0.5, accelerate=0.6, solution_space="Joint"):
+    def move_j(self, joint, velocity=2, accelerate=1, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
@@ -93,6 +93,13 @@ class UR5Controller(ArmController):
         # command = f"set_digital_out({port}, {value})\n"
         # command = bytes(command, encoding='utf-8')
         command = "set_digital_out({}, {})\n".format(port, value)
+        s.send(command)
+        s.close()
+    def protective_release(self):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(10)
+        s.connect((self._robot_ip, 29999))
+        command = "unlock protective stop\n"
         s.send(command)
         s.close()
 
@@ -179,6 +186,17 @@ class UR5Controller(ArmController):
             if(cnt*timeGap >= 20):
                 print("Time Out!")
                 return False
+    def collsion_detection(self,t=2,gap=0.1):
+        cnt = 0
+        while(cnt*gap<t):
+            cnt+=1
+            collosion_bool = detectCollision()
+            if collosion_bool == True:
+                return False
+            else:
+                pass
+            time.sleep(gap)
+        return True
 
     def encode_information(self, s, length=8):
         packet = s.recv(length)
@@ -187,7 +205,7 @@ class UR5Controller(ArmController):
         return information
 
     def load_calibration_matrix(self):
-        d = np.load(os.path.dirname(_root_path)+self._cfg["CALIBRATION_DIR"])
+        d = np.load(_root_path+self._cfg["CALIBRATION_DIR"])
         observed_pts = d['arr_0']
         measured_pts = d['arr_1']
         self._R, self._t = self.get_rigid_transform(observed_pts, measured_pts)
@@ -231,7 +249,6 @@ class UR5Controller(ArmController):
         avoid_xyz = self._R.dot(np.array([avoid_x, avoid_y, avoid_z]).T) + self._t.T
         return list(xyz.T), avoid_xyz[2]
 
-
     # def rpy2rotation(self, roll, pitch, yaw):
     #     yawMatrix = np.matrix([
     #         [math.cos(yaw), -math.sin(yaw), 0],
@@ -262,3 +279,8 @@ class UR5Controller(ArmController):
     #     rotation[1] = ry
     #     rotation[2] = rz
     #     return rotation
+if __name__=="__main__":
+    _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+    ur5 = UR5Controller(_root_path + '/config/arms/ur5.yaml')
+    ur5.go_home()
