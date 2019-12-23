@@ -6,7 +6,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("robot", type=str, choices=['ur10e', 'ur5', 'franka'], help="name of robot arm")
 parser.add_argument("gripper", type=str, choices=['hande','suction_cup'], help="name of robot gripper")
 parser.add_argument("sensor", type=str, choices=['realsense', 'kinect-azure'], help="name of sensor")
-parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe','Jigsaw'], help="task name")
+parser.add_argument("task", type=str, choices=['test', 'io-test', 'calibration', 'tic-tac-toe','Jigsaw','RandomClawMachine','CNNClawMachine_fc','CNNClawMachine','cv2ClawMachine','ClearTray','ClearTray_fc'], help="task name")
 parser.add_argument("save", type=str, choices=['true', 'false'], help="whether saving program")
 args = parser.parse_args()
 
@@ -130,6 +130,30 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         FILES.append("./examples/Jigsaw_pickandplace.py")
         read_task_file("./examples/Jigsaw_pickandplace.py", FILES)
         task = Jigsaw(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == "RandomClawMachine":
+        from examples.RandomClawMachine import RandomClawMachine
+        task = RandomClawMachine(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == "CNNClawMachine_fc":
+        from examples.CNNClawMachine import CNNClawMachine_fc
+        task = CNNClawMachine(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == "CNNClawMachine":
+        from examples.CNNClawMachine import CNNClawMachine
+        task = CNNClawMachine(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == 'cv2ClawMachine':
+        from examples.cv2ClawMachine import cv2ClawMachine
+        task = cv2ClawMachine(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == 'ClearTray':
+        from examples.ClearTray import ClearTray
+        task = ClearTray(perception_system, manipulation_system, is_debug)
+        return task
+    elif task_name == 'ClearTray_fc':
+        from examples.ClearTray_fc import ClearTray_fc
+        task = ClearTray_fc(perception_system, manipulation_system, is_debug)
         return task
     else:
         print('No such task.')

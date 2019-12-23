@@ -8,8 +8,9 @@ _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.
 sys.path.append(_root_path)
 
 
-def detectCollision(min_fx = 0.3,min_fy = 0.3,min_fz = 1.0,min_tx = 1,min_ty = 1,min_tz = 1):
-    f = optoforce.OptoforceDriver("/dev/ttyACM0", "s-ch/6-axis" ,[[10, 10, 10,1000,1000,1000]])
+f = optoforce.OptoforceDriver("/dev/ttyACM0", "s-ch/6-axis" ,[[10, 10, 10,1000,1000,1000]])
+
+def detectCollision(min_fx = 20.0,min_fy = 20.0,min_fz = 20.0,min_tx = 5,min_ty = 5,min_tz = 5):
     f._serial.reset_input_buffer()
     FT = f.read().force
     print(FT)
@@ -23,22 +24,9 @@ def detectCollision(min_fx = 0.3,min_fy = 0.3,min_fz = 1.0,min_tx = 1,min_ty = 1
 # go to pont A and detect collision
 if __name__ =='__main__':
     #
-    print(detectCollision())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# collision detection example
+    # print(detectCollision())
+    while True:
+        f = optoforce.OptoforceDriver("/dev/ttyACM0", "s-ch/6-axis" ,[[10, 10, 10,1000,1000,1000]])
+        time.sleep(1)
+        FT = f.read().force
+        print(FT)
