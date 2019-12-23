@@ -1,18 +1,27 @@
 initial_position:
-  - 0.35
-  - -0.55
-  - 0.25
-  - 3.14
-  - 0
+  - 0.300
+  - 0.100
+  - 0.350
+  - 1.5707963267948966
+  - 1.5707963267948966
   - 0
 # the numebr of sampled points is cube_size*cube_size*cube_size
 cube_size: 4
-x_stride: 0.05
-y_stride: 0.05
-z_stride: 0.02
+x_stride: 0.050 
+y_stride: -0.050
+z_stride: 0.030
 #cube_size: 2
 #x_stride: 0.1
 #y_stride: 0.1
 #z_stride: 0.04
-CALIBRATION_DIR: "/data/calibration_data/ur10e-kinect.npz"
-OFFSET: 0.16
+checkerboard_type: 'chessboard' # 'aruco' 'chessboard'
+
+aruco_settings: # only be used when checkerboard type is aruco
+ aruco_size: 0.045 # unit: (m)
+ aruco_type: 'original' # 'original' '4x4' '5x5' '6x6'  ''7x7
+
+CALIBRATION_DIR: "/data/calibration_data/franka-realsense.npz"
+OFFSET: # unit: (m)
+  - 0
+  - 0.0085
+  - 0.0172

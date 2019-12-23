@@ -90,10 +90,10 @@ def initial_robot(robot_name):
         robot = UR5Controller("/config/arms/ur5.yaml")
         return robot
     elif robot_name == "franka":
-        from driver.arms.FrankaController import FrankaController
-        FILES.append("./driver/arms/FrankaController.py")
-        read_task_file("./driver/arms/FrankaController.py", FILES)
-        robot = FrankaController("/config/arms/franka.yaml")
+        from driver.arms.Franka.Franka import franka
+        FILES.append("./driver/arms/Franka/Franka.py")
+        read_task_file("./driver/arms/Franka/Franka.py", FILES)
+        robot = franka("/config/arms/franka.yaml")
         return robot
     else:
         print("Don't support this robot!")
@@ -120,10 +120,10 @@ def initial_task(task_name, perception_system, manipulation_system, is_debug=Fal
         task = Calibration(perception_system, manipulation_system, is_debug)
         return task
     elif task_name == "tic-tac-toe":
-        from examples.TicTacToe2 import TicTacToe2
-        FILES.append("./examples/TicTacToe2.py")
-        read_task_file("./examples/TicTacToe2.py", FILES)
-        task = TicTacToe2(perception_system, manipulation_system, is_debug)
+        from examples.TicTacToe3 import TicTacToe3
+        FILES.append("./examples/TicTacToe3.py")
+        read_task_file("./examples/TicTacToe3.py", FILES)
+        task = TicTacToe3(perception_system, manipulation_system, is_debug)
         return task
     elif task_name == "Jigsaw":
         from examples.Jigsaw_pickandplace import Jigsaw
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     sensor = initial_sensors(SENSOR_NAME)
     robot = initial_robot(ROBOT_NAME)
     if GRIPPER_NAME == "suction_cup":
-	gripper = robot
+		gripper = robot
     else:
         gripper = initial_gripper(GRIPPER_NAME)
 
@@ -154,4 +154,5 @@ if __name__ == '__main__':
         if task is not None:
             data_path = task.task_display()
             FILES.sort()
-            save_files(data_path+"code/", FILES)
+            if data_path is not None:
+	            save_files(data_path+"code/", FILES)
