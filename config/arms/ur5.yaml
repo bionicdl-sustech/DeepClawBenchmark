@@ -20,5 +20,5 @@ HOME_POSE:
   - 0
 PICK_Z: 0.34
 PLACE_Z: 0.40
-CALIBRATION_DIR: "/data/calibration_data/ur5.npz"
+CALIBRATION_DIR: "/data/calibration_data/ur5-realsense.npz"
 
