@@ -1,10 +1,12 @@
 import socket
-import time
+import time,sys,os
 import numpy as np
+
+_root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(_root_path)
 
 robot_ip = "192.168.1.27" # The remote robot_ip
 port = 30003
-print("Starting Program of drawing 4 circles using servoj!")
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.settimeout(10)
@@ -12,42 +14,41 @@ s.connect((robot_ip, port))
 
 ##################################################################
 # TODO: Testing servoj and speedl
+
 # set time step of servoj
 # set the scale of wait time for execution of each waypoint, the small this number is, the fast the move is
 # the wait time should be less the dt, otherwise the movement will stop at every waypoints
-dt = 0.01
-scale = 0.7
-for j in range(1):
-    # set radius of the jth circle
-    R = 0.08 - 0.01*j
-    t1 = time.time()
-    for i in range(1100):
-        if i>1000:
-            theta = 3.1415/500 * 1000
-        else:
-            theta = 3.1415/500 * i
-        x = -0.0253 + R*np.cos(theta)
-        y = -0.53275418 + R*np.sin(theta)
-        tcp_command = "servoj(get_inverse_kin(p [%s, %s,  0.50, 3.14030481,  0.06973561, 0.0102991]), t=%s,gain=100)\n"%(x,y, dt)
-        l = s.send(str.encode(tcp_command))
-        time.sleep(dt*scale)
-    t2=time.time()
-    print("Time cost of drawing %sth circle: %s"%(j, t2-t1))
+# dt = 0.01
+# scale = 0.7
+# print("Starting Program of drawing 4 circles using servoj!")
+# for j in range(1):
+#     # set radius of the jth circle
+#     R = 0.08 - 0.01*j
+#     t1 = time.time()
+#     for i in range(1100):
+#         if i>1000:
+#             theta = 3.1415/500 * 1000
+#         else:
+#             theta = 3.1415/500 * i
+#         x = -0.0253 + R*np.cos(theta)
+#         y = -0.53275418 + R*np.sin(theta)
+#         tcp_command = "servoj(get_inverse_kin(p [%s, %s,  0.50, 3.14030481,  0.06973561, 0.0102991]), t=%s,gain=100)\n"%(x,y, dt)
+#         l = s.send(str.encode(tcp_command))
+#         time.sleep(dt*scale)
+#     t2=time.time()
+#     print("Time cost of drawing %sth circle: %s"%(j, t2-t1))
 
 # speedl([X, Y, Z Rx, Ry, Rz], accl, time)
-dt = 0.1
-scale = 0.7
-for i in range(8):
-    tcp_command = "speedl([-0.05, 0, 0, 0, 0, 0],1.0,%s)\n"%(dt)
-    l = s.send(str.encode(tcp_command))
-    time.sleep(dt*scale)
+# dt = 0.1
+# scale = 0.7
+# for i in range(8):
+#     tcp_command = "speedl([-0.05, 0, 0, 0, 0, 0],1.0,%s)\n"%(dt)
+#     l = s.send(str.encode(tcp_command))
+#     time.sleep(dt*scale)
 
-s.close()
 ##################################################################
 # TODO: Position based visual servoing
 # Task: Tool0 of UR5 follows a chessboard
-import numpy as np
-import time
 import cv2
 import cv2.aruco as aruco
 import urx
@@ -85,6 +86,7 @@ oMed = inv(edMo)
 
 dt = 0.3
 scale = 0.6
+print("Starting Program of following a chessboard!")
 for i in range(1000):
     t0 = time.time()
     frame = camera.get_frame()
@@ -104,7 +106,7 @@ for i in range(1000):
     p_desired = np.array([bMed[0,3], bMed[1,3],bMed[2,3],t_desired[0],t_desired[1],t_desired[2]])
     p_current = rob.get_pose().get_pose_vector()
     t2 = time.time()
-    print("Computing time cost: %s,%s, %s"%(t1-t0, t2-t1))
+    print("Computing time cost: %s,%s"%(t1-t0, t2-t1))
     dp = (p_desired - p_current)/1
     dp[3:] = dp[3:]- (dp[3:]>3.1415926)*2*3.1415926
     dp[3:] = dp[3:]+ (dp[3:]<-3.1415926)*2*3.1415926
@@ -115,9 +117,8 @@ for i in range(1000):
     l = s.send(str.encode(tcp_command))
     # time.sleep(dt*scale)
 
-cv2.imshow("hi",color_image)
-cv2.waitKey()
-cv2.destroyAllWindows()
+s.close()
+rob.close()
 
 def chessboard_detector():
     def draw(img, corners, imgpts):
