@@ -2,14 +2,27 @@
 
 import rospy
 from tf import TransformBroadcaster, TransformerROS, transformations as tfs
-import tf, os
+import tf, os, time
 from geometry_msgs.msg import Transform
 import numpy as np
 
-os.system("roslaunch panda_moveit_config panda_control_moveit_rviz.launch  load_gripper:=true robot_ip:=192.168.31.159")
-os.system("roslaunch realsense2_camera rs_rgbd.launch")
+# Uncomment below to verify handeye calibration accuracy in Rviz
 
-d = np.load("data/calibration_data/franka-realsense.npz")
+# For Franka, Run the following script before publishing the handeye matrix
+# os.system("gnome-terminal -e roslaunch panda_moveit_config panda_control_moveit_rviz.launch  load_gripper:=true robot_ip:=192.168.31.159")
+# time.sleep(3)
+# os.system("gnome-terminal -e roslaunch realsense2_camera rs_rgbd.launch")
+# time.sleep(3)
+
+# For UR5
+os.system("gnome-terminal -x roslaunch ur_robot_driver ur5_bringup.launch limited:=true robot_ip:=192.168.1.27 kinematics_config:=$(rospack find ur_calibration)/etc/ur5_calibration.yaml")
+time.sleep(3)
+os.system("gnome-terminal -x roslaunch realsense2_camera rs_rgbd.launch")
+time.sleep(3)
+os.system("gnome-terminal -x rosrun rviz rviz")
+time.sleep(3)
+
+d = np.load("../../data/calibration_data/ur5-realsense.npz")
 observed_pts = d['arr_0']
 measured_pts = d['arr_1']
 
@@ -47,5 +60,5 @@ print("Publishing handeye matrix!")
 broad = TransformBroadcaster()
 rate = rospy.Rate(50)
 while not rospy.is_shutdown():
-    broad.sendTransform((t[0],t[1],t[2]), (q[0],q[1],q[2],q[3]), rospy.Time.now(), "camera_color_optical_frame", "panda_link0")  # takes ..., child, parent
+    broad.sendTransform((t[0],t[1],t[2]), (q[0],q[1],q[2],q[3]), rospy.Time.now(), "camera_color_optical_frame", "base_link")  # takes ..., child, parent
     rate.sleep()
