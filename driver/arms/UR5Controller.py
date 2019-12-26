@@ -16,7 +16,7 @@ sys.path.append(_root_path)
 from driver.arms.ArmController import ArmController
 from input_output.Configuration import *
 from modules.calibration.Calibration3D import *
-from driver.sensors.FT.getFT_Data import detectCollision
+# from driver.sensors.FT.getFT_Data import detectCollision
 
 
 class UR5Controller(ArmController):
@@ -103,37 +103,72 @@ class UR5Controller(ArmController):
         s.send(command)
         s.close()
 
+    # def get_state(self):
+    #     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #     s.settimeout(10)
+    #     s.connect((self._robot_ip, self._port))
+    #     # command = f"get_state()\n"
+    #     # command = bytes(command, encoding='utf-8')
+    #     command = "get_state()\n"
+    #     s.send(command)
+    #
+    #     packet_1 = s.recv(252)
+    #     joint_1 = self.encode_information(s) / 3.14 * 180
+    #     joint_2 = self.encode_information(s) / 3.14 * 180
+    #     joint_3 = self.encode_information(s) / 3.14 * 180
+    #     joint_4 = self.encode_information(s) / 3.14 * 180
+    #     joint_5 = self.encode_information(s) / 3.14 * 180
+    #     joint_6 = self.encode_information(s) / 3.14 * 180
+    #
+    #     packet_2 = s.recv(144)
+    #     x = self.encode_information(s)
+    #     y = self.encode_information(s)
+    #     z = self.encode_information(s)
+    #     Rx = self.encode_information(s)
+    #     Ry = self.encode_information(s)
+    #     Rz = self.encode_information(s)
+    #
+    #     #transfer to euler angle
+    #     r = R.from_rotvec([Rx, Ry, Rz])
+    #     euler_angle = r.as_euler('xyz',degrees=False)
+    #
+    #     return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
+
     def get_state(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(10)
         s.connect((self._robot_ip, self._port))
-        # command = f"get_state()\n"
-        # command = bytes(command, encoding='utf-8')
-        command = "get_state()\n"
-        s.send(command)
+        # 1108 for e-series (CB5); 1116 for CB3
+        # the 30003 port is a realtime port, other ports need different parsers
+        ur_msg = s.recv(1116)
+        ur_msg = ur_msg.encode("hex")
 
-        packet_1 = s.recv(252)
-        joint_1 = self.encode_information(s) / 3.14 * 180
-        joint_2 = self.encode_information(s) / 3.14 * 180
-        joint_3 = self.encode_information(s) / 3.14 * 180
-        joint_4 = self.encode_information(s) / 3.14 * 180
-        joint_5 = self.encode_information(s) / 3.14 * 180
-        joint_6 = self.encode_information(s) / 3.14 * 180
+        # Actual joint positions, radius
+        q_actual = np.zeros(6)
+        start_mark = 504
+        size_length = 16
+        for m in range(6):
+            q_actual[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
 
-        packet_2 = s.recv(144)
-        x = self.encode_information(s)
-        y = self.encode_information(s)
-        z = self.encode_information(s)
-        Rx = self.encode_information(s)
-        Ry = self.encode_information(s)
-        Rz = self.encode_information(s)
-
+        # Actual Cartesian coordinates of the tool: (x,y,z,rx,ry,rz), where rx, ry and rz is a rotation vector
+        Tool_vector_actual = np.zeros(6)
+        start_mark = 888
+        size_length = 16
+        for m in range(6):
+            Tool_vector_actual[m] = struct.unpack('!d', ur_msg[start_mark+m*size_length:start_mark+(m+1)*size_length].decode('hex'))[0]
         #transfer to euler angle
-        r = R.from_rotvec([Rx, Ry, Rz])
+        r = R.from_rotvec([Tool_vector_actual[3],Tool_vector_actual[4], Tool_vector_actual[5]])
         euler_angle = r.as_euler('xyz',degrees=False)
+        # quat = r.as_quat()
+        pose = [Tool_vector_actual[0],Tool_vector_actual[1],Tool_vector_actual[2],euler_angle[0],euler_angle[1],euler_angle[2]]
+        return {"Position": pose, "Joint": q_actual}
 
-        return {"Position": [x, y, z, euler_angle[0], euler_angle[1], euler_angle[2]], "Joint": [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6]}
-
+        '''
+        # description: check the robot whether move to target position
+        # variable_name: the tpye of the target pose, "Joint" or "Position"
+        # target_value: euler angle, the target pose
+        # error: the precision
+        # FT: use force sensor or not
+        '''
     def verify_state(self, variable_name, target_value,error=0.002,FT = False):
         delay_time = True
         cnt = 0
@@ -171,6 +206,8 @@ class UR5Controller(ArmController):
                 pass
 
             if(FT == True):
+                # import ft mudules
+                from driver.sensors.FT.getFT_Data import detectCollision
                 collosion_bool = detectCollision()
                 if collosion_bool==True:
                     return False
@@ -186,17 +223,17 @@ class UR5Controller(ArmController):
             if(cnt*timeGap >= 20):
                 print("Time Out!")
                 return False
-    def collsion_detection(self,t=2,gap=0.1):
-        cnt = 0
-        while(cnt*gap<t):
-            cnt+=1
-            collosion_bool = detectCollision()
-            if collosion_bool == True:
-                return False
-            else:
-                pass
-            time.sleep(gap)
-        return True
+    # def collsion_detection(self,t=2,gap=0.1):
+    #     cnt = 0
+    #     while(cnt*gap<t):
+    #         cnt+=1
+    #         collosion_bool = detectCollision()
+    #         if collosion_bool == True:
+    #             return False
+    #         else:
+    #             pass
+    #         time.sleep(gap)
+    #     return True
 
     def encode_information(self, s, length=8):
         packet = s.recv(length)
