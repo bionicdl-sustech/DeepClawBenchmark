@@ -251,7 +251,7 @@ void handle_udp_msg(int fd)
     std::array<double, 7> q, q_get;
     std::string buf_str, cmd, args, ip;
     std::vector<std::string> str_v, args_v, q_v, grasp_v, gripper_move_v;
-    Robot * robot;
+    franka::Robot * robot;
     franka::Gripper * gripper;
     franka::RobotState robot_state;
     franka::GripperState gripper_state;
@@ -285,8 +285,8 @@ void handle_udp_msg(int fd)
                 {
                     ip = args;
                     init_flag = 1;
-                    robot = new Robot(ip);
-
+                    robot = new franka::Robot(ip);
+                    robot->automaticErrorRecovery();
                     robot->setCollisionBehavior(
                     	{{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}}, {{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}},
                     	{{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}}, {{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}},
@@ -320,7 +320,8 @@ void handle_udp_msg(int fd)
                 else if(cmd == "get_pose" && init_flag==1)
                 {
                     std::string pose_str;
-                    std::array<double, 16> pose= robot->get_pose();
+                    robot_state = robot->readOnce();
+                    std::array<double, 16> pose= robot_state.O_T_EE;
                     for (int i = 0; i < 16; ++i)
                     {
                         pose_str = pose_str+" "+doubletostr(pose[i]);
@@ -346,7 +347,7 @@ void handle_udp_msg(int fd)
                 }
                 else if(cmd == "recover" && init_flag==1)
                 {
-                    robot->recover();
+                    robot->automaticErrorRecovery();
                     return_buf[0] = '0';
                 }
                 else if(cmd == "gripper_init")
