@@ -17,7 +17,7 @@ from modules.localization.random_seg import RandomSeg
 from modules.grasp_planning.random_planner import RandomPlanner
 from modules.localization.contour_filter import ContourFilter
 
-crop_box = [450,300,950,650]
+crop_box = [200,550,450,850]
 class cv2ClawMachine(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
         super(cv2ClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
@@ -91,7 +91,7 @@ class cv2ClawMachine(Task):
         time.sleep(2)
 
         start = time.time()
-        img = color_image_1 [300:700,450:950]
+        img = color_image_1 [crop_box[0]:crop_box[1],crop_box[2]:crop_box[3]]
         contour_filter = ContourFilter(area_threshold = [50,150000],minAreaBox = True)
         bounding_boxes, mask, centers = contour_filter.display(img)
         end = time.time()
@@ -122,7 +122,7 @@ class cv2ClawMachine(Task):
 
         # motion planning
         start = time.time()
-        position,z = self.arm.uvd2xyz(x+450,y+300,frame_1.depth_image[0],self.camera.get_intrinsics())
+        position,z = self.arm.uvd2xyz(x+crop_box[2],y+crop_box[0],frame_1.depth_image[0],self.camera.get_intrinsics())
         grasp_pose = [position[0],position[1],self.Pick_z,-3.14,0,best_theta*3.14/180]
         print(grasp_pose)
         #pick
