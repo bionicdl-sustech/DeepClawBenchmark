@@ -3,6 +3,8 @@ import os
 import sys
 import time
 import copy
+import numpy as np
+
 
 _root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(_root_path)
@@ -29,6 +31,7 @@ class Jigsaw(Task):
         self.experiment_name = "experiment_" + str(time_s.tm_mon) + str(time_s.tm_mday) + \
                                str(time_s.tm_hour) + str(time_s.tm_min) + str(time_s.tm_sec)
         self.data_path = _root_path+"/data/"+os.path.basename(__file__).split(".")[0]+"/"+self.experiment_name+"/"
+        print("self.data_path:",self.data_path)
         # ymin,ymax,xmin,xmax
         self.args = {"WorkSpace": [[350, 550], [450, 850]]}
         self.publisher = Publisher("publisher")
@@ -50,17 +53,18 @@ class Jigsaw(Task):
         self.time_monitor.csv_name = self.experiment_name+"_CostTime.csv"
         self.data_monitor.dir = self.data_path
         self.data_monitor.csv_name = self.experiment_name+"_JigsawData.csv"
+        self.image_monitor.dir = self.data_path
 
         # task begin
         # in this task, we only take one picture and complete the task.
-        # the tray area [120:650,470:1150] ymin:ymax,min:xmax
         # home Joint [-65.29,-56.93,-139.39,-73.65,89.48,24.57]
-        # home position  [0.00,-262.68,251.71,3.1328,0.0131,0.0110]
-        works_box = [470,120,850,650] # [xmin,ymin,xmax,ymax] , in image coordinate
-        place_box = [850,120,1150,650] # [xmin,ymin,xmax,ymax] , in image coordinate
+        home_position=[0.30, -0.000, 0.15, -3.141361394425562, 0, 0]
+        pick_box = [390,200,655,510] # [xmin,ymin,xmax,ymax] , in image coordinate
+        place_box = [656,200,920,510] # [xmin,ymin,xmax,ymax] , in image coordinate
 
         # gohome
-        self.arm.go_home()
+        # self.arm.go_home()
+        self.arm.move_p(home_position)
         # ==================================== task begin ===================================================================
         # take a picture without objects
         frame= self.camera.get_frame()
@@ -69,8 +73,6 @@ class Jigsaw(Task):
         cidata = {"Image": color_image_background}
         self.image_monitor.img_name = "background_image.jpg"
         self.publisher.sendData(cidata)
-
-
         # place the pieces, start the task
         raw_input(' task begin\n press Enter:')
         # take a picture when objects are placed
@@ -86,7 +88,7 @@ class Jigsaw(Task):
 
         # ==================================== localization ground truth =====================================================
         #the groundTruth of object rect
-        rect_truth = Segment(works_box).DiffGround(color_image_background,color_image)
+        rect_truth = Segment(pick_box).DiffGround(color_image_background,color_image)
         showed_image = color_image.copy()
         for i in range(len(rect_truth)):
             cv2.rectangle(showed_image,(int(rect_truth[i][0]),int(rect_truth[i][1])),(int(rect_truth[i][2]),int(rect_truth[i][3])),(0,255,0),2)
@@ -95,13 +97,13 @@ class Jigsaw(Task):
         self.image_monitor.img_name = "groundTruth_image.jpg"
         self.publisher.sendData(cidata)
 
-        if True:
+        if self.is_debug:
             cv2.imshow('groundTrue',showed_image)
             cv2.waitKey()
         # ==================================== localization and recognition =====================================================
         # segmentation and recognition
         start = time.time()
-        sr = seg_rec(works_box)
+        sr = seg_rec(pick_box)
         sr.setCheckPoint(_root_path + '/modules/end2end/SSD/SSD-Tensorflow/checkpoints/model.ckpt-454522')
         rclasses, rscores, rect_seg = sr.display(color_image)
         end = time.time()
@@ -135,7 +137,7 @@ class Jigsaw(Task):
             # calibration,covert to robot base
             #x_p,y_p = hand_eye.cvt(temp[0],temp[1])
             #pick_pose_base.append([x_p,y_p,temp[2]])
-	        xyz, avoidz = self.arm.uvd2xyz(temp[0],temp[1], depth_image, self.camera.get_intrinsics())
+            xyz, avoidz = self.arm.uvd2xyz(temp[0],temp[1], depth_image, self.camera.get_intrinsics())
             pick_pose_base.append([xyz[0], xyz[1],temp[2]])
 
             end = time.time()
@@ -157,18 +159,19 @@ class Jigsaw(Task):
         # ==================================== place planning =====================================================
         # placed pose (x,y,angle) in robot base
         start = time.time()
-        place_pos = []
-        place_pos = self.PlacePlan(color_image,depth_image,place_box)
+        place_pose = []
+        place_pose = self.PlacePlan(color_image,depth_image,place_box)
         end = time.time()
         tdata = {"Time": ['place_planner', end - start]}
         self.publisher.sendData(tdata)
 
         # ==================================== execution =====================================================
         # corresponding pick and place position
-        for i in range (len(rclass)):
-            place_pos.append(place_pose[rclass[i]-1])
+        place_pos = []
+        for i in range (len(rclasses)):
+            place_pos.append(place_pose[rclasses[i]-1])
 
-        for i in range(len(pick_pos)):
+        for i in range(len(pick_pose_base)):
             start = time.time()
             self.subtask_display(pick_pose_base[i],pick_class[i],place_pos[i])
             end = time.time()
@@ -177,7 +180,7 @@ class Jigsaw(Task):
 
         #score
         score = self.Result()
-        cv2.putText(color_image,'Task score: ' + task_result, org=(10, 200), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        cv2.putText(color_image,'Task score: ' + score, org=(10, 200), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                     fontScale=0.8, color=(0, 0, 255), thickness=2)
         #save final result
         frame = self.camera.get_frame()
@@ -194,8 +197,8 @@ class Jigsaw(Task):
     # for pick and place, and assembly
     def Result(self):
         str_complete = raw_input("Enter the scores nmu: ")
-        sc = float(str_complete)
-        return sc
+        # sc = float(str_complete)
+        return str_complete
 
     #placed on the template
     # the place position is different in different tasks
@@ -222,11 +225,11 @@ class Jigsaw(Task):
             contours = result[1]
             hierarchy = result[2]
 
-        placed_pose = []
+        placed_pose_base = []
         placed_in_image= []
         for i in range(len(contours)):
             area = cv2.contourArea(contours[i])
-            if area < 20*20 or area > 200*200:
+            if area < 40*40 or area > 200*200:
                 continue
             else:
                 min_Box = cv2.minAreaRect(contours[i])
@@ -253,62 +256,68 @@ class Jigsaw(Task):
                 y_p = xyz[1]
                 angle = min_Box[2]
                 # return
-                placed_pose.append([x_p,y_p,angle*3.14/180.0])
+                placed_pose_base.append([x_p,y_p,angle*3.14/180.0])
                 placed_in_image.append([x,y,angle*3.14/180.0])
-        return placed_pose
+        cidata = {"Image": color_image}
+        self.image_monitor.img_name = "place_pose.jpg"
+        self.publisher.sendData(cidata)
+        return placed_pose_base
 
 
     def subtask_display(self,pick_pos,pick_class,place_pos):
         up_z = 0.04 #meter
-        pick_z = 0.078
-        place_z = 0.085
-        init_rpy = [3.14,0,-0.0*3.14/180.0]
+        pick_z = 0.005
+        place_z = 0.01
+        init_rpy = [-3.14,0,0]
         pick_rpy = init_rpy
         pick_rpy[2] = init_rpy[2]-pick_pos[2]
-
-        # euler to rotationVector
-        r = R.from_euler('xyz', [pick_rpy[0],pick_rpy[1],pick_rpy[2]], degrees=False)
-        Rx, Ry, Rz = r.as_rotvec()
+        #
+        print('==========================================================')
+        print(pick_pos)
+        print(place_pos)
 
         # go above the pick position
-        pick_up_pos =[pick_pos[0], pick_pos[1], pick_z+up_z, Rx, Ry, Rz]
-        self.arm.movep(pick_up_pos, 0.7, 1.6,False)
+        pick_up_pose =[pick_pos[0], pick_pos[1], pick_z+up_z, pick_rpy[0],pick_rpy[1],pick_rpy[2]]
+        self.arm.move_p(pick_up_pose, 0.7, 1.6,False)
 
         # go down and pick
-        pick_pos = [pick_pos[0],pick_pos[1],pick_z,Rx, Ry, Rz]
-        self.arm.movep(pick_pos, 0.5, 0.5)
+        pick_pose = [pick_pos[0],pick_pos[1],pick_z,pick_rpy[0],pick_rpy[1],pick_rpy[2]]
+        self.arm.move_p(pick_pose, 0.5, 0.5)
 
         # end-effector action
-        self.arm.set_io(0,False)
+        # self.arm.set_io(0,False)
+        self.ef_state(False)
         time.sleep(1.5)
         # go above the pick position
-        pick_up_pos = [pick_pos[0],pick_pos[1],pick_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(pick_up_pos, 0.7, 1.6,False)
+        pick_up_pos = [pick_pos[0],pick_pos[1],pick_z+up_z,pick_rpy[0],pick_rpy[1],pick_rpy[2]]
+        self.arm.move_p(pick_up_pos, 0.7, 1.6,False)
 
         # go above the place position
-        place_rpy = [3.14,0,-0.0*3.14/180.0]
+        place_rpy = [-3.14,0,0]
         place_rpy[2] = place_rpy[2] - place_pos[2]
         # rv_place = rpy2rotation(place_rpy[0],place_rpy[1],place_rpy[2])
         # euler to rotationVector
-        r = R.from_euler('xyz', [place_rpy[0],place_rpy[1],place_rpy[2]], degrees=False)
-        Rx, Ry, Rz = r.as_rotvec()
+        # r = R.from_euler('xyz', [place_rpy[0],place_rpy[1],place_rpy[2]], degrees=False)
+        # Rx, Ry, Rz = r.as_rotvec()
 
-        place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(place_up_pos, 0.7, 1.6,False)
+        place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,place_rpy[0],place_rpy[1],place_rpy[2]]
+        self.arm.move_p(place_up_pos, 0.7, 1.6,False)
         # go down and place
-        place_pos = [place_pos[0],place_pos[1],place_z,Rx, Ry, Rz]
-        self.arm.movep(place_pos, 0.7, 1.6,False)
+        place_pos = [place_pos[0],place_pos[1],place_z,place_rpy[0],place_rpy[1],place_rpy[2]]
+        self.arm.move_p(place_pos, 0.7, 1.6,False)
 
         # end-effector release
-        self.arm.set_io(0,True)
+        # self.arm.set_io(0,True)
+        self.ef_state(True)
         time.sleep(1.5)
 
         # go above the place position
-        place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,Rx, Ry, Rz]
-        self.arm.movep(place_up_pos, 0.7, 1.6,False)
+        place_up_pos = [place_pos[0],place_pos[1],place_z+up_z,place_rpy[0],place_rpy[1],place_rpy[2]]
+        self.arm.move_p(place_up_pos, 0.7, 1.6,False)
 
         # go home
-        self.arm.go_home()
+        # self.arm.go_home()
+        self.arm.move_p([0.30, -0.000, 0.15, -3.141361394425562, 0, 0])
 
 
     def PickPlan(self,rect,color_image):
@@ -325,3 +334,9 @@ class Jigsaw(Task):
         x = (xmin+xmax)/2.0
         y = (ymin+ymax)/2.0
         return x,y,angle
+
+    def ef_state(self,swith=True):
+        if swith==True:
+            pass # grasp
+        else:
+            pass # release
