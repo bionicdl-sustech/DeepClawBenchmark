@@ -7,7 +7,7 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 sys.path.append(_root_path)
-
+#print(_root_path)
 import time
 from urdf_parser_py.urdf import URDF
 import socket
@@ -55,10 +55,6 @@ class franka():
 		command = "kill -9 $(netstat -nlp|grep ''':8080'''|awk '{print $6}'|awk -F '[/]' '{print $1}')"
 		os.system(command)
 
-	
-	def set_calibration_H(self,filename):
-		self.calibration_H = np.load(filename)
-
 	def euler_to_quat(self,r, p, y):
 		sr, sp, sy = np.sin(r/2.0), np.sin(p/2.0), np.sin(y/2.0)
 		cr, cp, cy = np.cos(r/2.0), np.cos(p/2.0), np.cos(y/2.0)
@@ -66,63 +62,6 @@ class franka():
 		        cr*sp*cy + sr*cp*sy,
 		        cr*cp*sy - sr*sp*cy,
 		        cr*cp*cy + sr*sp*sy]
-
-	def euler_matrix(self,ai, aj, ak, axes='sxyz'):
-
-		_AXES2TUPLE = {
-		'sxyz': (0, 0, 0, 0), 'sxyx': (0, 0, 1, 0), 'sxzy': (0, 1, 0, 0),
-		'sxzx': (0, 1, 1, 0), 'syzx': (1, 0, 0, 0), 'syzy': (1, 0, 1, 0),
-		'syxz': (1, 1, 0, 0), 'syxy': (1, 1, 1, 0), 'szxy': (2, 0, 0, 0),
-		'szxz': (2, 0, 1, 0), 'szyx': (2, 1, 0, 0), 'szyz': (2, 1, 1, 0),
-		'rzyx': (0, 0, 0, 1), 'rxyx': (0, 0, 1, 1), 'ryzx': (0, 1, 0, 1),
-		'rxzx': (0, 1, 1, 1), 'rxzy': (1, 0, 0, 1), 'ryzy': (1, 0, 1, 1),
-		'rzxy': (1, 1, 0, 1), 'ryxy': (1, 1, 1, 1), 'ryxz': (2, 0, 0, 1),
-		'rzxz': (2, 0, 1, 1), 'rxyz': (2, 1, 0, 1), 'rzyz': (2, 1, 1, 1)}
-
-		_NEXT_AXIS = [1, 2, 0, 1]
-
-		try:
-		    firstaxis, parity, repetition, frame = _AXES2TUPLE[axes]
-		except (AttributeError, KeyError):
-		    _ = _TUPLE2AXES[axes]
-		    firstaxis, parity, repetition, frame = axes
-
-		i = firstaxis
-		j = _NEXT_AXIS[i+parity]
-		k = _NEXT_AXIS[i-parity+1]
-
-		if frame:
-		    ai, ak = ak, ai
-		if parity:
-		    ai, aj, ak = -ai, -aj, -ak
-
-		si, sj, sk = math.sin(ai), math.sin(aj), math.sin(ak)
-		ci, cj, ck = math.cos(ai), math.cos(aj), math.cos(ak)
-		cc, cs = ci*ck, ci*sk
-		sc, ss = si*ck, si*sk
-
-		M = np.identity(4)
-		if repetition:
-		    M[i, i] = cj
-		    M[i, j] = sj*si
-		    M[i, k] = sj*ci
-		    M[j, i] = sj*sk
-		    M[j, j] = -cj*ss+cc
-		    M[j, k] = -cj*cs-sc
-		    M[k, i] = -sj*ck
-		    M[k, j] = cj*sc+cs
-		    M[k, k] = cj*cc-ss
-		else:
-		    M[i, i] = cj*ck
-		    M[i, j] = sj*sc-cs
-		    M[i, k] = sj*cc+ss
-		    M[j, i] = cj*sk
-		    M[j, j] = sj*ss+cc
-		    M[j, k] = sj*cs-sc
-		    M[k, i] = -sj
-		    M[k, j] = cj*si
-		    M[k, k] = cj*ci
-		return M
 
 	def urdf_pose_to_kdl_frame(self,pose):
 	    pos = [0., 0., 0.]
@@ -259,12 +198,10 @@ class franka():
 		r = R.from_euler(axes,[position[3],position[4],position[5]])
 		rot = r.as_dcm()
 		pos = np.array([[position[0]],[position[1]],[position[2]]])
-		if self.gripper == True:
-			H = np.hstack((rot,pos))
-			rot = np.vstack((H,np.array([0,0,0,1])))
-			rot = rot*self.gripper_H
-			pos = np.array([rot[0,3], rot[1,3], rot[2,3]])
-			print(rot)
+		H = np.hstack((rot,pos))
+		rot = np.vstack((H,np.array([0,0,0,1])))
+		rot = rot*self.gripper_H
+		pos = np.array([rot[0,3], rot[1,3], rot[2,3]])
 		q = self.ik(pos,rot)
 		return self.move_j(q,v=v)
 
@@ -395,3 +332,4 @@ class franka():
 if __name__ == '__main__':
 	robot = franka('/config/arms/franka.yaml',gripper=True)
 	robot.go_home()
+			
