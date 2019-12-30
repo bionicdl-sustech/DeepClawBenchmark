@@ -176,7 +176,6 @@ class UR5Controller(ArmController):
         timeGap = 0.25
         while(delay_time and cnt < 100):
             currentStatus = self.get_state()
-	    print(currentStatus)
             currentPose = currentStatus[variable_name]
             if currentPose is None:
                 print("Getting current value failed, please check variable name.")
@@ -215,7 +214,6 @@ class UR5Controller(ArmController):
                     return False
                 else:
                     pass
-	    print(dpose)
 
             if (max(dpose) < error):
                 delay_time = False

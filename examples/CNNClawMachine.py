@@ -17,9 +17,9 @@ from modules.success_label.success_label import success_label
 from modules.localization.random_seg import RandomSeg
 from modules.grasp_planning.random_planner import RandomPlanner
 
-NUM_BOXES = 20
+NUM_BOXES = 15
 WIDTH = 120
-crop_box = [400,70,850,480]
+crop_box = [480,200,850,600]
 class CNNClawMachine(Task):
     def __init__(self, perception_system, manipulation_system, is_debug=False):
         super(CNNClawMachine, self).__init__(perception_system, manipulation_system, is_debug)
@@ -35,7 +35,7 @@ class CNNClawMachine(Task):
         self.publisher.registerObserver(self.time_monitor)
         self.publisher.registerObserver(self.image_monitor)
         self.publisher.registerObserver(self.result_monitor)
-        self.network = Predictor(_root_path+"/data/checkpoint/2-Fingers_Guided(new)")
+        self.network = Predictor(_root_path+"/data/checkpoint/Toys")
         self.motion_planner = ''
         self.arm.load_calibration_matrix()
         self.localization_operator_pick = RandomSeg([[-0.2,0.2], [-0.76, -0.46], [0.25, 0.25]])
@@ -44,7 +44,7 @@ class CNNClawMachine(Task):
         self.grasp_planner = RandomPlanner([[3.14, 3.14],[0, 0],[-1.57, 1.57]])
         self.motion_planner = ''
         self.path=''
-        self.Pick_z = 0.41
+        self.Pick_z = 0.33
         self.uv_range = [7, 11]
     def task_display(self):
         # initialize robots
@@ -127,7 +127,7 @@ class CNNClawMachine(Task):
         img.save(self.path+'result_1.png')
         x = (boxes[best_idx][0]+boxes[best_idx][2])/2+crop_box[0]
         y = (boxes[best_idx][1]+boxes[best_idx][3])/2+crop_box[1]
-        best_theta = (-1.57 + (candidates_theta[best_idx]-0.5)*(1.57/9))
+        best_theta = ( (candidates_theta[best_idx]-0.5)*(1.57/9))
         # best_theta = -0.78
         # motion planning
         start = time.time()
@@ -149,7 +149,7 @@ class CNNClawMachine(Task):
         #verify success
         frame_2= self.camera.get_frame()
         color_image_2 = frame_2.color_image[0]
-        compare_space=[650,710,500,750]
+        compare_space=[0,100,500,750]
         compare_label,img1,img2 = success_label(color_image_1,color_image_2,compare_space)
 
         #publish data
@@ -191,7 +191,7 @@ class CNNClawMachine(Task):
         # grasp planning
         print('grasp planning')
         start = time.time()
-        grasp_pose = self.grasp_planner.display(centers)
+        grasp_pose = [0,-0.6,0.5,-3.14,0,0]
         end = time.time()
 
         tdata = {"Time": [subtask_name+' grasp_planning_time', end - start]}
