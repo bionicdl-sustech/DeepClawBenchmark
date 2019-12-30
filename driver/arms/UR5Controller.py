@@ -58,6 +58,7 @@ class UR5Controller(ArmController):
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
+	joint = [joint[0]*3.14159/180.0, joint[1]*3.14159/180.0, joint[2]*3.14159/180.0,joint[3]*3.14159/180.0, joint[4]*3.14159/180.0, joint[5]*3.14159/180.0]
         collosion_bool = self.verify_state("Joint", joint,error = 1,FT = False)
         # collosion_bool is True, means the collision is happended
         return collosion_bool

@@ -7,7 +7,7 @@ current_path = os.path.dirname(os.path.abspath(__file__))
 _root_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 sys.path.append(_root_path)
-
+#print(_root_path)
 import time
 from urdf_parser_py.urdf import URDF
 import socket
@@ -19,12 +19,12 @@ import warnings
 import copy
 import multiprocessing as mp
 from input_output.Configuration import readConfiguration
+from scipy.spatial.transform import Rotation as R
 
 class franka():
-	def __init__(self,configuration_path,gripper=True):
-		self._cfg = readConfiguration(configuration_path)
+	def __init__(self,configuration_path='/config/arms/franka.yaml',gripper=True):
 
-		# start server
+		self._cfg = readConfiguration(configuration_path)
 		command='gnome-terminal -e '+current_path+'/server'
 		os.system(command)
 		self.ip = self._cfg['robot_ip']
@@ -39,27 +39,21 @@ class franka():
 		self.chain = self.tree.getChain("panda_link0", "panda_link8")
 		self._fk_kdl = kdl.ChainFkSolverPos_recursive(self.chain)
 		self._ik_v_kdl = kdl.ChainIkSolverVel_pinv(self.chain)
-
-		self.gripper_H = np.matrix([[ 0.7071067811865476,-0.7071067811865476, 0, 0],
-									[ 0.7071067811865476, 0.7071067811865476, 0, 0],
-									[ 0					, 0                 , 1,-0.1034],
-									[ 0					, 0                 , 0, 1]])
-		self.calibration_H = []
-		
+		# Flange frame in gripper frame
+		self.gripper_H = np.matrix([[cos(pi/4),-sin(pi/4),0,0],
+									[sin(pi/4),cos(pi/4),0,0],
+									[0,0,1,-0.1034],
+									[0,0,0,1]])
 		# init
 		self.init_arm(self.ip)
 		self.gripper = gripper
 		if self.gripper == True:
 			self.init_gripper(self.ip)
 		self.recover()
-
+		
 	def __del__(self):
 		command = "kill -9 $(netstat -nlp|grep ''':8080'''|awk '{print $6}'|awk -F '[/]' '{print $1}')"
 		os.system(command)
-		pass
-	
-	def set_calibration_H(self,filename):
-		self.calibration_H = np.load(filename)
 
 	def euler_to_quat(self,r, p, y):
 		sr, sp, sy = np.sin(r/2.0), np.sin(p/2.0), np.sin(y/2.0)
@@ -68,63 +62,6 @@ class franka():
 		        cr*sp*cy + sr*cp*sy,
 		        cr*cp*sy - sr*sp*cy,
 		        cr*cp*cy + sr*sp*sy]
-
-	def euler_matrix(self,ai, aj, ak, axes='sxyz'):
-
-		_AXES2TUPLE = {
-		'sxyz': (0, 0, 0, 0), 'sxyx': (0, 0, 1, 0), 'sxzy': (0, 1, 0, 0),
-		'sxzx': (0, 1, 1, 0), 'syzx': (1, 0, 0, 0), 'syzy': (1, 0, 1, 0),
-		'syxz': (1, 1, 0, 0), 'syxy': (1, 1, 1, 0), 'szxy': (2, 0, 0, 0),
-		'szxz': (2, 0, 1, 0), 'szyx': (2, 1, 0, 0), 'szyz': (2, 1, 1, 0),
-		'rzyx': (0, 0, 0, 1), 'rxyx': (0, 0, 1, 1), 'ryzx': (0, 1, 0, 1),
-		'rxzx': (0, 1, 1, 1), 'rxzy': (1, 0, 0, 1), 'ryzy': (1, 0, 1, 1),
-		'rzxy': (1, 1, 0, 1), 'ryxy': (1, 1, 1, 1), 'ryxz': (2, 0, 0, 1),
-		'rzxz': (2, 0, 1, 1), 'rxyz': (2, 1, 0, 1), 'rzyz': (2, 1, 1, 1)}
-
-		_NEXT_AXIS = [1, 2, 0, 1]
-
-		try:
-		    firstaxis, parity, repetition, frame = _AXES2TUPLE[axes]
-		except (AttributeError, KeyError):
-		    _ = _TUPLE2AXES[axes]
-		    firstaxis, parity, repetition, frame = axes
-
-		i = firstaxis
-		j = _NEXT_AXIS[i+parity]
-		k = _NEXT_AXIS[i-parity+1]
-
-		if frame:
-		    ai, ak = ak, ai
-		if parity:
-		    ai, aj, ak = -ai, -aj, -ak
-
-		si, sj, sk = math.sin(ai), math.sin(aj), math.sin(ak)
-		ci, cj, ck = math.cos(ai), math.cos(aj), math.cos(ak)
-		cc, cs = ci*ck, ci*sk
-		sc, ss = si*ck, si*sk
-
-		M = np.identity(4)
-		if repetition:
-		    M[i, i] = cj
-		    M[i, j] = sj*si
-		    M[i, k] = sj*ci
-		    M[j, i] = sj*sk
-		    M[j, j] = -cj*ss+cc
-		    M[j, k] = -cj*cs-sc
-		    M[k, i] = -sj*ck
-		    M[k, j] = cj*sc+cs
-		    M[k, k] = cj*cc-ss
-		else:
-		    M[i, i] = cj*ck
-		    M[i, j] = sj*sc-cs
-		    M[i, k] = sj*cc+ss
-		    M[j, i] = cj*sk
-		    M[j, j] = sj*ss+cc
-		    M[j, k] = sj*cs-sc
-		    M[k, i] = -sj
-		    M[k, j] = cj*si
-		    M[k, k] = cj*ci
-		return M
 
 	def urdf_pose_to_kdl_frame(self,pose):
 	    pos = [0., 0., 0.]
@@ -253,31 +190,18 @@ class franka():
 			q_str = q_str +str(x)+' '
 		q_str = q_str[0:-1]
 		msg = 'movej,'+str(v)+':'+q_str
-		#print(q_str, msg) 
+		#print(q_str, msg)
 		self.send_recv_msg(msg)
 		return 1
 
-	def move_p(self,position,v=0.5,a=0,solve_space='L',axes = 'sxyz'):
-		rot = self.euler_matrix(position[3],position[4],position[5],axes)
-		pos = np.array([position[0],position[1],position[2]])
-		#print(rot,pos)
-		
-		if self.gripper == True:
-			rot[0,3] = pos[0]
-			rot[1,3] = pos[1]
-			rot[2,3] = pos[2]
-			rot = rot * self.gripper_H 
-			#H1 = np.hstack((rot,pos))
-			#a = np.append(pos,1)
-			#a = np.resize(a,(4,1))
-			#b = self.gripper_H * a
-			pos = np.array([rot[0,3], rot[1,3], rot[2,3]])
-			#print(rot,pos)
-		'''
-
-			pos = self.gripper_H * np.vstack((pos,np.array[(1)]))
-			
-		'''
+	def move_p(self,position,v=0.5,a=0,solve_space='L',axes = 'xyz'):
+		r = R.from_euler(axes,[position[3],position[4],position[5]])
+		rot = r.as_dcm()
+		pos = np.array([[position[0]],[position[1]],[position[2]]])
+		H = np.hstack((rot,pos))
+		rot = np.vstack((H,np.array([0,0,0,1])))
+		rot = rot*self.gripper_H
+		pos = np.array([rot[0,3], rot[1,3], rot[2,3]])
 		q = self.ik(pos,rot)
 		return self.move_j(q,v=v)
 
@@ -304,7 +228,7 @@ class franka():
 		pose_list = np.array(pose_list)
 		pose_list.resize((4,4))
 		pose = pose_list.T
-		pose[0:3,3] = pose[0:3,3]*1000.0
+		pose[0:3,3] = pose[0:3,3]
 		return pose
 
 	def getState(self):
@@ -327,12 +251,12 @@ class franka():
 		else:
 			self.gripper_move(0,0.1)
 	def gripper_grasp(self,width,speed=0.1,force=100):
-		width = width/1000.0
+		width = width
 		msg = 'gripper_grasp,'+str(width)+':'+str(speed)+':'+str(force)
 		self.send_recv_msg(msg)
 
 	def gripper_move(self,width,speed=0.1):
-		width = width/1000.0
+		width = width
 		msg = 'gripper_move,'+str(width)+':'+str(speed)
 		self.send_recv_msg(msg)
 
@@ -382,7 +306,7 @@ class franka():
 		fy = intrinsics[1]
 		cx = intrinsics[2]
 		cy = intrinsics[3]
-		camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5])) / 1000.0
+		camera_z = np.mean(np.mean(depth_image[v - 5:v + 5, u - 5:u + 5]))
 		camera_x = np.multiply(u - cx, camera_z / fx)
 		camera_y = np.multiply(v - cy, camera_z / fy)
 
@@ -392,7 +316,7 @@ class franka():
 
 		avoid_v = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[0][0] + v - 5
 		avoid_u = np.where(depth_image[v - 30:v + 30, u - 30:u + 30] == avoid_z)[1][0] + u - 5
-		avoid_z = avoid_z / 1000.0
+		avoid_z = avoid_z
 		avoid_x = np.multiply(avoid_u - cx, avoid_z / fx)
 		avoid_y = np.multiply(avoid_v - cy, avoid_z / fy)
 
@@ -406,6 +330,6 @@ class franka():
 	#	real_time_back_funtion recive robot_state and duration send control data via UDP 
 	
 if __name__ == '__main__':
-
-	robot = franka('192.168.31.159',gripper=True)
+	robot = franka('/config/arms/franka.yaml',gripper=True)
 	robot.go_home()
+			

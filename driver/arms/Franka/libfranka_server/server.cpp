@@ -27,16 +27,6 @@
 #define BUFF_LEN 1024
 #define SERVER_IP "127.0.0.1"
 
-void setDefaultBehavior(franka::Robot& robot) {
-  robot.setCollisionBehavior(
-      {{20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0}}, {{20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 20.0}},
-      {{10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0}}, {{10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0}},
-      {{20.0, 20.0, 20.0, 20.0, 20.0, 20.0}}, {{20.0, 20.0, 20.0, 20.0, 20.0, 20.0}},
-      {{10.0, 10.0, 10.0, 10.0, 10.0, 10.0}}, {{10.0, 10.0, 10.0, 10.0, 10.0, 10.0}});
-  robot.setJointImpedance({{3000, 3000, 3000, 2500, 2500, 2000, 2000}});
-  robot.setCartesianImpedance({{3000, 3000, 3000, 300, 300, 300}});
-}
-
 class MotionGenerator {
  public:
 
@@ -183,101 +173,6 @@ franka::JointPositions MotionGenerator::operator()(const franka::RobotState& rob
   return output;
 }
 
-
-class Robot: public franka::Robot
-{
-private:
-public:
-    std::string ip;
-    std::array<double, 7> q_home = {{0, -M_PI_4, 0, -3 * M_PI_4, 0, M_PI_2, M_PI_4}};
-    Robot(std::string in_ip):franka::Robot(in_ip)
-    {
-        for (size_t i = 0; i < 5; i++)
-        {
-            ip = in_ip;
-            try
-            {
-                this->setCollisionBehavior(
-                    {{20.0, 20.0, 18.0, 18.0, 16.0, 14.0, 12.0}}, {{20.0, 20.0, 18.0, 18.0, 16.0, 14.0, 12.0}},
-                    {{20.0, 20.0, 18.0, 18.0, 16.0, 14.0, 12.0}}, {{20.0, 20.0, 18.0, 18.0, 16.0, 14.0, 12.0}},
-                    {{20.0, 20.0, 20.0, 25.0, 25.0, 25.0}}, {{20.0, 20.0, 20.0, 25.0, 25.0, 25.0}},
-                    {{20.0, 20.0, 20.0, 25.0, 25.0, 25.0}}, {{20.0, 20.0, 20.0, 25.0, 25.0, 25.0}});
-                this->setJointImpedance({{3000, 3000, 3000, 2500, 2500, 2000, 2000}});
-                this->setCartesianImpedance({{3000, 3000, 3000, 300, 300, 300}});
-                franka::RobotState state = this->readOnce();
-                //franka::Model model(this->loadModel());
-            }
-            catch (franka::Exception const& e) 
-            {
-                std::cout << e.what() << std::endl;
-            }
-        }        
-    };
-    ~Robot(){};
-    std::array<double, 16> get_pose();
-    std::string get_ip();
-    void move(std::array<double, 16> desire_pose, double desire_duration);
-    void movej(double speed_factor,std::array<double, 7> q_goal);
-    std::array<double, 16> mat2array(Eigen::Matrix4d mat);
-    void recover();
-    Eigen::Matrix3d euler_to_Mat(Eigen::Vector3d euler);
-    Eigen::Quaterniond slerp(double t, Eigen::Quaterniond start_q,Eigen::Quaterniond end_q);
-};
-
-std::string Robot::get_ip()
-{
-    return ip;
-}
-
-std::array<double, 16> Robot::get_pose()
-{
-    franka::RobotState state = this->readOnce();
-    return state.O_T_EE;
-}
-
-std::array<double, 16> Robot::mat2array(Eigen::Matrix4d mat)
-{
-    const int mat_size = 16;
-    std::array<double, mat_size> arr;
-    for (size_t i = 0; i < mat_size; i++){
-        arr[i] = *(mat.data()+i);
-    }
-    return arr;
-}
-
-void Robot::recover()
-{
-    this->automaticErrorRecovery();
-}
-
-Eigen::Matrix3d Robot::euler_to_Mat(Eigen::Vector3d euler)
-{
-    //y=h, z=a, x=b
-    // y -> z -> x
-    Eigen::Matrix3d Mat;
-    double h = euler[0];
-    double a = euler[1];
-    double b = euler[2];
-    Mat <<
-        cos(h)*cos(a), -cos(h)*sin(a)*cos(b) + sin(h)*sin(b), cos(h)*sin(a)*sin(b) + sin(h)*cos(b),
-        sin(a), cos(a)*cos(b), -cos(a)*sin(b),
-        sin(h)*cos(a), sin(h)*sin(a)*cos(b) + cos(h)*sin(b), -sin(h)*sin(a)*sin(b) + cos(h)*cos(b);
-    return Mat;
-}
-
-Eigen::Quaterniond Robot::slerp(double t, Eigen::Quaterniond start_q,Eigen::Quaterniond end_q)
-{
-    Eigen::Quaterniond res;
-    res = start_q.slerp(t,end_q);
-    std::cout << res.x() << "\n" << res.y() << "\n" << res.z() << "\n" << res.w();
-}
-
-void Robot::movej(double speed_factor, std::array<double, 7> q_goal)
-{
-    MotionGenerator motion_generator(0.5, q_goal);
-    this->control(motion_generator);
-}
-
 std::vector<std::string> split(const std::string &s, const std::string &seperator){
     std::vector<std::string> result;
     typedef std::string::size_type string_size;
@@ -356,7 +251,7 @@ void handle_udp_msg(int fd)
     std::array<double, 7> q, q_get;
     std::string buf_str, cmd, args, ip;
     std::vector<std::string> str_v, args_v, q_v, grasp_v, gripper_move_v;
-    Robot * robot;
+    franka::Robot * robot;
     franka::Gripper * gripper;
     franka::RobotState robot_state;
     franka::GripperState gripper_state;
@@ -390,7 +285,15 @@ void handle_udp_msg(int fd)
                 {
                     ip = args;
                     init_flag = 1;
-                    robot = new Robot(ip);
+                    robot = new franka::Robot(ip);
+                    robot->automaticErrorRecovery();
+                    robot->setCollisionBehavior(
+                    	{{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}}, {{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}},
+                    	{{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}}, {{40.0, 40.0, 36.0, 36.0, 32.0, 28.0, 24.0}},
+                    	{{40.0, 40.0, 40.0, 50.0, 50.0, 50.0}}, {{40.0, 40.0, 40.0, 50.0, 50.0, 50.0}},
+                    	{{40.0, 40.0, 40.0, 50.0, 50.0, 50.0}}, {{40.0, 40.0, 40.0, 50.0, 50.0, 50.0}});
+                    robot->setJointImpedance({{3000, 3000, 3000, 2500, 2500, 2000, 2000}});
+                	robot->setCartesianImpedance({{3000, 3000, 3000, 300, 300, 300}});
                     std::cout << "Init good! [ip = "<< ip << "]"<<std::endl;
                     return_buf[0] = '0';
                 }
@@ -408,7 +311,8 @@ void handle_udp_msg(int fd)
                         {
                             q[i] = strtodouble(q_v[i]);
                         }
-                        robot->movej(speed_factor,q);
+                        MotionGenerator motion_generator(speed_factor, q);
+                        robot->control(motion_generator);
                         return_buf[0] = '0';
                     }
                     else{std::cout << "number of joints = 7!" <<std::endl;}
@@ -416,7 +320,8 @@ void handle_udp_msg(int fd)
                 else if(cmd == "get_pose" && init_flag==1)
                 {
                     std::string pose_str;
-                    std::array<double, 16> pose= robot->get_pose();
+                    robot_state = robot->readOnce();
+                    std::array<double, 16> pose= robot_state.O_T_EE;
                     for (int i = 0; i < 16; ++i)
                     {
                         pose_str = pose_str+" "+doubletostr(pose[i]);
@@ -442,7 +347,7 @@ void handle_udp_msg(int fd)
                 }
                 else if(cmd == "recover" && init_flag==1)
                 {
-                    robot->recover();
+                    robot->automaticErrorRecovery();
                     return_buf[0] = '0';
                 }
                 else if(cmd == "gripper_init")
