@@ -105,7 +105,7 @@ def gripper_close():
   end
 
   def rq_close_and_wait(gripper_socket="1"):
-  	rq_move_and_wait(180, gripper_socket)
+  	rq_move_and_wait(255, gripper_socket)
         #rq_move_and_wait(180, gripper_socket)
   end
 
@@ -654,7 +654,7 @@ def gripper_close():
   current_speed = [-1,-1,-1,-1]
   current_force = [-1,-1,-1,-1]
 
-  rq_close_new()
-#  rq_close_and_wait()
+#  rq_close_new()
+  rq_close_and_wait()
 
 end

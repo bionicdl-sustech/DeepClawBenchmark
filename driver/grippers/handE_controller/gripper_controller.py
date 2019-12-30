@@ -57,11 +57,11 @@ class HandEController:
         s.close()
 
 if __name__ == '__main__':
-    ip = "192.168.31.10"
+    ip = "192.168.1.10"
     port = 30003
     gripper_controller = HandEController(ip,port)
-    gripper_controller.activeGripper()
-    time.sleep(2)
-    gripper_controller.closeGripper()
+    # gripper_controller.active_gripper()
     # time.sleep(2)
-    # gripper_controller.openGripper()
+    gripper_controller.close_gripper()
+    time.sleep(2)
+    gripper_controller.open_gripper()
