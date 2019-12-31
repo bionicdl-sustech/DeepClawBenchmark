@@ -32,6 +32,20 @@ class UR5Controller(ArmController):
         self._R = None
         self._t = None
 
+        # Default joint speed configuration
+        self.joint_acc = self._cfg['JOINT_ACC']
+        self.joint_vel = self._cfg['JOINT_VEL']
+
+        # Joint tolerance in radian for blocking program
+        self.joint_tolerance = [0.01,0.01,0.01,0.01,0.01,0.01]
+
+        # Default tool speed configuration
+        self.tool_acc = 0.5 # Safe: 0.5
+        self.tool_vel = 0.2 # Safe: 0.2
+
+        # Tool pose tolerance for blocking program
+        self.tool_pose_tolerance = [0.001,0.001,0.001,0.01,0.01,0.01]
+
         # self.load_calibration_matrix()
 
     def go_home(self):
@@ -40,7 +54,7 @@ class UR5Controller(ArmController):
         self.move_j(joint)
 
         #the unit of joint is degrees
-    def move_j(self, joint, velocity=2, accelerate=1, solution_space="Joint"):
+    def move_j(self, joint, velocity=self.joint_vel, accelerate=self.joint_acc, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
@@ -49,21 +63,20 @@ class UR5Controller(ArmController):
             # move_command = f"movej([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
             move_command = "movej([{},{},{},{},{},{}],a={},v={})\n".format(joint[0]*3.14159/180.0, joint[1]*3.14159/180.0, joint[2]*3.14159/180.0,
                                                                            joint[3]*3.14159/180.0, joint[4]*3.14159/180.0, joint[5]*3.14159/180.0,
-                                                                           accelerate, velocity)
+                                                                           self.joint_acc, self.joint_vel)
         else:
             # move_command = f"movel([{joint[0]},{joint[1]},{joint[2]},{joint[3]},{joint[4]},{joint[5]}],a={accelerate},v=v{velocity})\n"
             move_command = "movel([{},{},{},{},{},{}],a={},v={})\n".format(joint[0]*3.14159/180.0, joint[1]*3.14159/180.0, joint[2]*3.14159/180.0,
                                                                            joint[3]*3.14159/180.0, joint[4]*3.14159/180.0, joint[5]*3.14159/180.0,
-                                                                           accelerate, velocity)
+                                                                           self.tool_acc, self.tool_vel)
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-	joint = [joint[0]*3.14159/180.0, joint[1]*3.14159/180.0, joint[2]*3.14159/180.0,joint[3]*3.14159/180.0, joint[4]*3.14159/180.0, joint[5]*3.14159/180.0]
-        collosion_bool = self.verify_state("Joint", joint,error = 1,FT = False)
+        collosion_bool = self.verify_state("Joint", joint, FT = False)
         # collosion_bool is True, means the collision is happended
         return collosion_bool
 
-    def move_p(self, position, velocity=0.5, accelerate=0.6, solution_space="Joint"):
+    def move_p(self, position, velocity=self.joint_vel, accelerate=self.joint_acc, solution_space="Joint"):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(10)
         s.connect((self._robot_ip, self._port))
@@ -75,16 +88,16 @@ class UR5Controller(ArmController):
             # move_command = f"movej([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
             move_command = "movej(p[{},{},{},{},{},{}],a={},v={})\n".format(position[0], position[1], position[2],
                                                                             Rx, Ry, Rz,
-                                                                            accelerate, velocity)
+                                                                            self.joint_acc, self.joint_vel)
         else:
             # move_command = f"movel([p{position[0]},{position[1]},{position[2]},{position[3]},{position[4]},{position[5]}],a={accelerate},v=v{velocity})\n"
             move_command = "movel(p[{},{},{},{},{},{}],a={},v={})\n".format(position[0], position[1], position[2],
                                                                             Rx, Ry, Rz,
-                                                                            accelerate, velocity)
+                                                                            self.tool_acc, self.tool_vel)
         # move_command = bytes(move_command, encoding='utf-8')
         s.send(move_command)
         s.close()
-        collosion_bool = self.verify_state("Position", position, error=0.01,FT = False)
+        collosion_bool = self.verify_state("Position", position[:3]+[Rx, Ry, Rz], FT = False)
         return collosion_bool
 
     def set_io(self, port, value):
@@ -170,60 +183,65 @@ class UR5Controller(ArmController):
         # error: the precision
         # FT: use force sensor or not
         '''
-    def verify_state(self, variable_name, target_value,error=0.002,FT = False):
+    def verify_state(self, variable_name, target_value, FT = False):
         delay_time = True
         cnt = 0
-        timeGap = 0.25
-        while(delay_time and cnt < 100):
-            currentStatus = self.get_state()
-            currentPose = currentStatus[variable_name]
-            if currentPose is None:
-                print("Getting current value failed, please check variable name.")
-                return False
-            dpose = np.zeros(6)
-            dpose[0] = abs(currentPose[0]-target_value[0])
-            dpose[1] = abs(currentPose[1]-target_value[1])
-            dpose[2] = abs(currentPose[2]-target_value[2])
-            dpose[3] = abs(currentPose[3]-target_value[3])
-            if dpose[3]>6:
-                dpose[3] = dpose[3] - 2* 3.141592653589793
-            elif dpose[3]<-6:
-                dpose[3] = dpose[3] + 2* 3.141592653589793
-            else:
-                pass
-            dpose[4] = abs(currentPose[4]-target_value[4])
-            if dpose[4]>6:
-                dpose[4] = dpose[4] - 2* 3.141592653589793
-            elif dpose[4]<-6:
-                dpose[4] = dpose[4] + 2* 3.141592653589793
-            else:
-                pass
-            dpose[5] = abs(currentPose[5]-target_value[5])
-            if dpose[5]>6:
-                dpose[5] = dpose[5] - 2* 3.141592653589793
-            elif dpose[5]<-6:
-                dpose[5] = dpose[5] + 2* 3.141592653589793
-            else:
-                pass
+        timeGap = 0.01
 
-            if(FT == True):
-                # import ft mudules
-                from driver.sensors.FT.getFT_Data import detectCollision
-                collosion_bool = detectCollision()
-                if collosion_bool==True:
+        if variable_name == "Joint":
+            error = self.joint_tolerance
+            while(delay_time and cnt < 1000):
+                currentStatus = self.get_state()
+                currentPose = currentStatus[variable_name]
+                if currentPose is None:
+                    print("Getting current value failed, please check variable name.")
                     return False
-                else:
-                    pass
-
-            if (max(dpose) < error):
-                delay_time = False
-                return True
-            else:
+                dpose = abs(np.array(currentPose) - np.array(target_value))/180*3.1415
+                if(FT == True):
+                    # import ft mudules
+                    from driver.sensors.FT.getFT_Data import detectCollision
+                    collosion_bool = detectCollision()
+                    if collosion_bool==True:
+                        return False
+                    else:
+                        pass
+                if (all( [dpose[j] < error[j] for j in range(6)] )):
+                    delay_time = False
+                    return True
                 time.sleep(timeGap)
                 cnt = cnt + 1
-            if(cnt*timeGap >= 20):
-                print("Time Out!")
-                return False
+            print("Time Out 10 seconds!")
+            return False
+        else:
+            error = self.tool_pose_tolerance
+            while(delay_time and cnt < 1000):
+                currentStatus = self.get_state()
+                currentPose = currentStatus[variable_name]
+                if currentPose is None:
+                    print("Getting current value failed, please check variable name.")
+                    return False
+                dpose = abs(np.array(currentPose) - np.array(target_value))
+                for a in [3,4,5]:
+                    if dpose[a]>6:
+                        dpose[a] = dpose[a] - 2* 3.141592653589793
+                    if dpose[3]<-6:
+                        dpose[a] = dpose[a] + 2* 3.141592653589793
+                if(FT == True):
+                    # import ft mudules
+                    from driver.sensors.FT.getFT_Data import detectCollision
+                    collosion_bool = detectCollision()
+                    if collosion_bool==True:
+                        return False
+                    else:
+                        pass
+                if (all( [dpose[j] < error[j] for j in range(6)] )):
+                    delay_time = False
+                    return True
+                time.sleep(timeGap)
+                cnt = cnt + 1
+            print("Time Out 10 seconds!")
+            return False
+
     # def collsion_detection(self,t=2,gap=0.1):
     #     cnt = 0
     #     while(cnt*gap<t):

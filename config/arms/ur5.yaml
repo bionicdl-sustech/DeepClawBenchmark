@@ -18,7 +18,12 @@ HOME_POSE:
   - 3.14
   - 0
   - 0
+
+JOINT_ACC:
+  - 0.7
+JOINT_VEL:
+  - 1.6
+
 PICK_Z: 0.34
 PLACE_Z: 0.40
 CALIBRATION_DIR: "/data/calibration_data/ur5-realsense.npz"
-
