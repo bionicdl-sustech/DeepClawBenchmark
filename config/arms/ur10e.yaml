@@ -19,10 +19,8 @@ HOME_POSE:
   - 0
   - 0
 
-JOINT_ACC:
-  - 1.6
-JOINT_VEL:
-  - 0.7
+JOINT_ACC: 1.6
+JOINT_VEL: 0.7
 
 PICK_Z: 0.
 PLACE_Z: 0.08
