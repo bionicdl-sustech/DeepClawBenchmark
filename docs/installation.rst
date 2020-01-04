@@ -36,7 +36,7 @@ Activate or retreat from virtual environment.
 
 Requirements
 ------------
-The supported hardware of this framework are franka panda,ur10e,ur5;hande,rg6,suction cup,franka gripper;realsense,kinect azre,photoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel.
+The supported hardware of this framework are franka panda,ur10e,ur5;hande,rg6,suction cup,franka gripper;realsense,kinect azre,photoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel. The install flow is showed in install folder.
 
 
 
