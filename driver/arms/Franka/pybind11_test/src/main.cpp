@@ -19,14 +19,47 @@
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
-struct myModel {
-    myModel(const std::string &ip){
-        robot = new franka::Robot(ip);
-        model = new franka::Model(robot->loadModel());
-    }
-    
+class myRobot: public franka::Robot
+{
+public:
     franka::Model * model;
-    franka::Robot * robot;
+    myRobot(const std::string ip):franka::Robot(ip){
+        model = new franka::Model(this->loadModel());
+    };
+    ~myRobot();
+    void reloadModel(){
+        model = new franka::Model(this->loadModel());
+    }
+    const std::array<double, 16> pose(franka::Frame frame, const franka::RobotState& robot_state) const { 
+        return model->pose(frame,robot_state); 
+    }
+    const std::array<double, 42> bodyJacobian(franka::Frame frame, const franka::RobotState& robot_state) const{
+        return model->bodyJacobian(frame,robot_state);
+    }
+
+    const std::array<double, 42> zeroJacobian(franka::Frame frame, const franka::RobotState& robot_state) const{
+        return model->zeroJacobian(frame,robot_state);
+    }
+    const std::array<double, 49> mass(const franka::RobotState& robot_state) const noexcept
+    {
+        return model->mass(robot_state);
+    }
+    const std::array<double, 7> coriolis(const franka::RobotState& robot_state) const noexcept{
+        return model->coriolis(robot_state);
+    }
+    const std::array<double, 7> gravity(const franka::RobotState& robot_state,
+                                 const std::array<double, 3>& gravity_earth = {{0., 0., -9.81}}) const noexcept{
+        return model->gravity(robot_state,gravity_earth);
+    }
+};
+/*
+struct myModel {
+    myModel(franka::Robot& model_){
+        //model = new franka::Model(robot.loadModel());
+        model = &model_;
+    }
+
+    franka::Model * model;
 
     const std::array<double, 16> &pose(franka::Frame frame, const franka::RobotState& robot_state) const { 
         return model->pose(frame,robot_state); 
@@ -51,7 +84,7 @@ struct myModel {
         return model->gravity(robot_state,gravity_earth);
     }
 };
-    
+*/
 PYBIND11_MODULE(franka_, m) {
     m.doc() = "Python3 Franka library"; // optional module docstring
     
@@ -205,97 +238,104 @@ PYBIND11_MODULE(franka_, m) {
         .def_readonly("robot_mode", &franka::RobotState::robot_mode)
         .def_readonly("time", &franka::RobotState::time);
 
-    py::class_<franka::Robot>(m, "Robot")
+    py::class_<myRobot>(m, "Robot")
         .def(py::init<const std::string &>())
         //read
-        .def("readOnce", &franka::Robot::readOnce)
-        .def("loadModel",&franka::Robot::loadModel)
-        .def("serverVersion",&franka::Robot::serverVersion)
+        .def("readOnce", &myRobot::readOnce)
+        .def("loadModel",&myRobot::loadModel)
+        .def("serverVersion",&myRobot::serverVersion)
         
-        .def("control",(void (franka::Robot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>, 
-                bool, double)) &franka::Robot::control,
+        .def("control",(void (myRobot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>, 
+                bool, double)) &myRobot::control,
             py::arg("control_callback"),
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
         
-        .def("control",(void (franka::Robot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
+        .def("control",(void (myRobot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
                 std::function< franka::JointPositions(const franka::RobotState &, franka::Duration)>,
-                bool, double)) &franka::Robot::control,
+                bool, double)) &myRobot::control,
             py::arg("control_callback"),
             py::arg("motion_generator_callback"),
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
         
-        .def("control",(void (franka::Robot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
+        .def("control",(void (myRobot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
                 std::function< franka::JointVelocities(const franka::RobotState &, franka::Duration)>,
-                bool, double)) &franka::Robot::control,
+                bool, double)) &myRobot::control,
             py::arg("control_callback"),
             py::arg("motion_generator_callback"),
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
+        .def("control",(void (myRobot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
                 std::function< franka::CartesianPose(const franka::RobotState &, franka::Duration)>,
-                bool, double)) &franka::Robot::control,
+                bool, double)) &myRobot::control,
             py::arg("control_callback"),
             py::arg("motion_generator_callback"),
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
+        .def("control",(void (myRobot::*)(std::function<franka::Torques(const franka::RobotState&, franka::Duration)>,
                 std::function< franka::CartesianVelocities(const franka::RobotState &, franka::Duration)>,
-                bool, double)) &franka::Robot::control,
+                bool, double)) &myRobot::control,
             py::arg("control_callback"),
             py::arg("motion_generator_callback"),
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::JointPositions(const franka::RobotState&, franka::Duration)>, 
-                franka::ControllerMode, bool, double)) &franka::Robot::control,
+        .def("control",(void (myRobot::*)(std::function<franka::JointPositions(const franka::RobotState&, franka::Duration)>, 
+                franka::ControllerMode, bool, double)) &myRobot::control,
             py::arg("motion_generator_callback"),
             py::arg("controller_mode") = franka::ControllerMode::kJointImpedance, 
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::JointVelocities(const franka::RobotState&, franka::Duration)>, 
-                franka::ControllerMode, bool, double)) &franka::Robot::control,
+        .def("control",(void (myRobot::*)(std::function<franka::JointVelocities(const franka::RobotState&, franka::Duration)>, 
+                franka::ControllerMode, bool, double)) &myRobot::control,
             py::arg("motion_generator_callback"),
             py::arg("controller_mode") = franka::ControllerMode::kJointImpedance, 
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::CartesianPose(const franka::RobotState&, franka::Duration)>, 
-                franka::ControllerMode, bool, double)) &franka::Robot::control,
+        .def("control",(void (myRobot::*)(std::function<franka::CartesianPose(const franka::RobotState&, franka::Duration)>, 
+                franka::ControllerMode, bool, double)) &myRobot::control,
             py::arg("motion_generator_callback"),
             py::arg("controller_mode") = franka::ControllerMode::kJointImpedance, 
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
 
-        .def("control",(void (franka::Robot::*)(std::function<franka::CartesianVelocities(const franka::RobotState&, franka::Duration)>, 
-                franka::ControllerMode, bool, double)) &franka::Robot::control,
+        .def("control",(void (myRobot::*)(std::function<franka::CartesianVelocities(const franka::RobotState&, franka::Duration)>, 
+                franka::ControllerMode, bool, double)) &myRobot::control,
             py::arg("motion_generator_callback"),
             py::arg("controller_mode") = franka::ControllerMode::kJointImpedance, 
             py::arg("limit_rate") = true, 
             py::arg("cutoff_frequency") = 100.0)
         
-        .def("setCollisionBehavior", (void (franka::Robot::*)(const std::array<double, 7ul>&,
+        .def("setCollisionBehavior", (void (myRobot::*)(const std::array<double, 7ul>&,
             const std::array<double, 7ul>&, const std::array<double, 7ul>&, const std::array<double, 7ul>&, 
             const std::array<double, 6ul>&, const std::array<double, 6ul>&, const std::array<double, 6ul>&, 
-            const std::array<double, 6ul>&))&franka::Robot::setCollisionBehavior)
+            const std::array<double, 6ul>&))&myRobot::setCollisionBehavior)
 
-        .def("setCollisionBehavior", (void (franka::Robot::*)(const std::array<double, 7ul>&, 
+        .def("setCollisionBehavior", (void (myRobot::*)(const std::array<double, 7ul>&, 
             const std::array<double, 7ul>&, const std::array<double, 6ul>&, const std::array<double, 6ul>&))
-            &franka::Robot::setCollisionBehavior)
+            &myRobot::setCollisionBehavior)
 
-        .def("setJointImpedance", &franka::Robot::setJointImpedance)
-        .def("setCartesianImpedance", &franka::Robot::setCartesianImpedance)
-        .def("setGuidingMode", &franka::Robot::setGuidingMode)
-        .def("setK", &franka::Robot::setK)
-        .def("setEE", &franka::Robot::setEE)
-        .def("setLoad", &franka::Robot::setLoad)
+        .def("setJointImpedance", &myRobot::setJointImpedance)
+        .def("setCartesianImpedance", &myRobot::setCartesianImpedance)
+        .def("setGuidingMode", &myRobot::setGuidingMode)
+        .def("setK", &myRobot::setK)
+        .def("setEE", &myRobot::setEE)
+        .def("setLoad", &myRobot::setLoad)
         .def("setFilters", &franka::lowpassFilter)
-        .def("automaticErrorRecovery", &franka::Robot::automaticErrorRecovery)
-        .def("stop", &franka::Robot::stop);
+        .def("automaticErrorRecovery", &myRobot::automaticErrorRecovery)
+        .def("stop", &myRobot::stop)
+        .def("reloadModel", &myRobot::reloadModel)
+        .def("pose", &myRobot::pose)
+        .def("bodyJacobian", &myRobot::bodyJacobian)
+        .def("zeroJacobian", &myRobot::zeroJacobian)
+        .def("mass", &myRobot::mass)
+        .def("coriolis", &myRobot::coriolis)
+        .def("gravity", &myRobot::gravity);
     
     py::class_<franka::Gripper>(m,"Gripper")
         .def(py::init<const std::string &>())
@@ -333,7 +373,7 @@ PYBIND11_MODULE(franka_, m) {
     py::register_exception<franka::ProtocolException>(m, "ProtocolException");
     py::register_exception<franka::RealtimeException>(m, "RealtimeException");
 
-    
+    /*
     py::class_<myModel>(m, "Model")
         .def(py::init<const std::string &>())
         .def("pose", &myModel::pose)
@@ -341,5 +381,5 @@ PYBIND11_MODULE(franka_, m) {
         .def("zeroJacobian", &myModel::zeroJacobian)
         .def("mass", &myModel::mass)
         .def("coriolis", &myModel::coriolis)
-        .def("gravity", &myModel::gravity);
+        .def("gravity", &myModel::gravity);*/
 }
