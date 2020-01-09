@@ -9,8 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 include_directories(${EIGEN3_INCLUDE_DIRS})
 include_directories(${FRANKA_INCLUDE_DIRS})
-include_directories(/home/bionicdl-Mega/libfranka-0.5.0/libfranka/src)
-include_directories(include)
 
 add_library(libfranka SHARED
   src/examples_common.cpp

@@ -13,8 +13,6 @@
 #include <franka/control_types.h>
 #include <franka/robot_state.h>
 #include <franka/model.h>
-#include "examples_common.h"
-#include "network.h"
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
