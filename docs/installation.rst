@@ -38,14 +38,14 @@ Requirements
 ------------
 The supported hardware of this framework are franka panda, ur10e, ur5; Robotiq handE, RG6, suction cup, Franka gripper; realsense, Kinect Azure, PhotoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel and libfranka, and the details are showed in https://frankaemika.github.io/docs/libfranka.html. 
 The depenences of DeepClaw are showed below:
-1. ROS http://wiki.ros.org/kinetic/Installation/Ubuntu
-2. python-pip
-3. install numpy==1.16.2
-4. opencv-python==3.3.1.11
-5. scipy==1.2.2
-6. tensorflow==1.12.0
-7. open3d
-8. RealSense SDK (https://www.intelrealsense.com/developers/), pyrealsense2
+* ROS http://wiki.ros.org/kinetic/Installation/Ubuntu
+* python-pip
+* install numpy==1.16.2
+* opencv-python==3.3.1.11
+* scipy==1.2.2
+* tensorflow==1.12.0
+* open3d
+* RealSense SDK (https://www.intelrealsense.com/developers/), pyrealsense2
 
 
 
