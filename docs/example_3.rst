@@ -1,7 +1,7 @@
 Example: Jigsaw Puzzle
 ======================
 
-.. figure:: _static/deepclaw-framework.png
+.. figure:: _static/fig-ExpJigsaw-Design.png
     :align: center
     :figclass: align-center
 
@@ -23,40 +23,13 @@ Configuration
       * ...
 
  #. Robots/Hardware Setup
-      * Robot arm
-      * Robot gripper
-      * Computing platform
-      * ...
-
-Procedure
----------
-
- #. Task1
-      Crucial parameters: P1, P2, ...
-      Pseudo-code::
-
-         task_display(p1, p2, ...):
-           input_0 = [p1, p2, ...]
-           main_loop:
-             results = subtask_display(input_0)
-             metrics_record(results)
-          return
-        subtask_display(input_0):
-          results_0 = localization(input_0)
-          results_1 = identification(results_0)
-          results_2 = multiple_points_motion_planning(results_1)
-          results_3 = execution(results_2)
-          return results_3
-
-
- #. Task2
-      Crucial parameters: P1, P2, ...
+      * UR10e, UR5, Franka Panda
+      * Suction cup
 
 Metrics
 -------
+IoU and average precision for segmentation and recognition.
 
- #. Experiment 1
-      Table of results.
+Grasp success rate for grasp planning.
 
- #. Experiment 2
-      Table of results.
+Area ratio for task completion.

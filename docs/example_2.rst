@@ -1,65 +1,31 @@
 Example: Claw Machine
 =====================
 
-.. figure:: _static/deepclaw-framework.png
+.. figure:: _static/fig-ExpClaw-Design.png
     :align: center
     :figclass: align-center
 
 
 Tasks Description
 -----------------
-Description of this task family, such as name of tasks, organization of tasks and so on.
+This is a bin clearing task similar to the claw machine. The robot arm transport soft toys from a bin full of soft toys to another bin.
 
 Configuration
 --------------
  #. Manipulation Environment Description
-      * Workspace size
-      * Functions of regions
-      * Constrains
-      * ...
+      * A table top in front of the robot base
+      * Camera mounted about 1 meter above the table top and looking downward.
+      * gripper always kept vertically.
 
  #. Objects Information
-      * List of objects and their descriptions
-      * Initial poses of objects
-      * ...
+      * The grasping objects in this task are 8 soft toys.
+      * At the start of the task, 8 soft toys are randomly place in a shallow bin.
 
  #. Robots/Hardware Setup
       * UR5
       * Onrobot RG6
-      * Computing platform
-      * ...
-
-Procedure
----------
-
- #. Task1
-      Crucial parameters: P1, P2, ...
-      Pseudo-code::
-
-         task_display(p1, p2, ...):
-           input_0 = [p1, p2, ...]
-           main_loop:
-             results = subtask_display(input_0)
-             metrics_record(results)
-          return
-        subtask_display(input_0):
-          results_0 = localization(input_0)
-          results_1 = identification(results_0)
-          results_2 = multiple_points_motion_planning(results_1)
-          results_3 = execution(results_2)
-          return results_3
-
-
- #. Task2
-      Crucial parameters: P1, P2, ...
+      * Realsense 435
 
 Metrics
 -------
-
- #. Experiment 1
-      Table of results.
-
- #. Experiment 2
-      Table of results.
-
-...
+Time cost of each functionality step and success rate of grasp.

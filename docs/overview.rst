@@ -9,10 +9,10 @@ Overview
     Schematic overview.
 
 The DeepClaw benchmark is a framework for establishing a reproducible and shareable benchmarking for dexterous manipulation.
-DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four subtasks: **localization, recognition, grasp planning, and motion planning**.
+DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four functionalities: **localization, recognition, grasp planning, and motion planning**.
 It also provide necessary components to benchmark manipulations including hardware drivers, data I/O utilities, baseline algorithm modules and evaluation metrics.
 
-The DeepClaw has been used extensively to benchmark a series of manipulation tasks including claw machine, jigsaw game and TicTacToe. The source codes of these experiments
+The DeepClaw has been used extensively to benchmark a series of manipulation tasks including **claw machine**, **jigsaw game** and **Tic-Tac-Toe**. The source codes of these experiments
 are placed under /examples.
 
 .. _drivers:
@@ -53,7 +53,7 @@ Modular functionality
 
 Task pipeline
 -------------
-A benchmark task in DeepClaw is decomposed into repetitive subtask and each subtask is defined by a pipeline of functionality modules as shown below.
+A benchmark task in DeepClaw is decomposed into repetitive subtasks and each subtask is defined by a pipeline of functionality modules as shown below.
 
 .. figure:: _static/fig-FunctionPipeline.png
     :align: center

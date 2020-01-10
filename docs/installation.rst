@@ -36,7 +36,7 @@ Activate or retreat from virtual environment.
 
 Requirements
 ------------
-The supported hardware of this framework are franka panda, ur10e, ur5; Robotiq handE, RG6, suction cup, Franka gripper; realsense, Kinect Azure, PhotoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel and libfranka, and the details are showed in https://frankaemika.github.io/docs/libfranka.html. 
+The supported hardware of this framework are franka panda, ur10e, ur5; Robotiq handE, RG6, suction cup, Franka gripper; realsense, Kinect Azure, PhotoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel and libfranka, and the details are showed in https://frankaemika.github.io/docs/libfranka.html.
 The depenences of DeepClaw are showed below:
 
  * ROS http://wiki.ros.org/kinetic/Installation/Ubuntu
@@ -54,4 +54,4 @@ The depenences of DeepClaw are showed below:
 Notes
 -----
  * RG6 Driver: uncheck the ``Enable RG`` box under Installation/RG Configuration tab in UR5's teach pendent.
- 
+ * HandE: activate the gripper in the teach pendant of UR10e. The force and speed of HandE are default settings in our benchmark

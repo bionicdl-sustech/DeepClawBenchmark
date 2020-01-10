@@ -1,65 +1,31 @@
-Example: TicTacToe
-==================
+Example: Tic-Tac-Toe
+====================
 
-.. figure:: _static/deepclaw-framework.png
+.. figure:: _static/fig-TicTacToePipeline.png
     :align: center
     :figclass: align-center
 
 
 Tasks Description
 -----------------
-Description of this task family, such as name of tasks, organization of tasks and so on.
+ Tic-Tac-Toe game is a temporal reasoning related task, which required two players moving pieces alternately.
+ To simplify this game as a baseline, the two players use the same placing strategy, namely the Minimax algorithm with depth 3, and are both executed by the robot arm..
 
 Configuration
 --------------
  #. Manipulation Environment Description
-      * Workspace size
-      * Functions of regions
-      * Constrains
-      * ...
+      * A table top in front of the robot base
+      * Camera mounted about 1 meter above the table top and looking downward.
+      * gripper always kept vertically.
 
  #. Objects Information
-      * List of objects and their descriptions
-      * Initial poses of objects
-      * ...
+      * Green and blue cubes from YCB objects set as two types of pieces
+      * At the start of the task, checkerboard is placed on the middle of table top and pieces are place on two sides of the checkerboard
 
  #. Robots/Hardware Setup
-      * Robot arm
-      * Robot gripper
-      * Computing platform
-      * ...
-
-Procedure
----------
-
- #. Task1
-      Crucial parameters: P1, P2, ...
-      Pseudo-code::
-
-         task_display(p1, p2, ...):
-           input_0 = [p1, p2, ...]
-           main_loop:
-             results = subtask_display(input_0)
-             metrics_record(results)
-          return
-        subtask_display(input_0):
-          results_0 = localization(input_0)
-          results_1 = identification(results_0)
-          results_2 = multiple_points_motion_planning(results_1)
-          results_3 = execution(results_2)
-          return results_3
-
-
- #. Task2
-      Crucial parameters: P1, P2, ...
+      * UR10e
+      * HandE
 
 Metrics
 -------
-
- #. Experiment 1
-      Table of results.
-
- #. Experiment 2
-      Table of results.
-
-...
+ Time cost of each functionality step and whether the game can be completed with an end.
