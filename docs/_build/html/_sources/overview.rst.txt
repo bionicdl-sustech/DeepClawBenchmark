@@ -35,8 +35,8 @@ Drivers
 
 .. _baseline-algorithms:
 
-Baseline algorithms
--------------------
+Modular functionality
+---------------------
 +---------------------------------------------------------+
 | Baseline algorithms for manipulation pipeline           |
 +===================+=====================================+
@@ -48,13 +48,25 @@ Baseline algorithms
 | Grasp planning    | Centroid and Principle axis         |
 +-------------------+-------------------------------------+
 | End-to-end methods| SSD, Maskrcnn, SD-maskrcnn[3],      |
-|                   | DeepClaw                            |
+|                   | Fully convolutional AlexNet         |
 +-------------------+-------------------------------------+
+
+Task pipeline
+-------------
+A benchmark task in DeepClaw is decomposed into repetitive subtask and each subtask is defined by a pipeline of functionality modules as shown below.
+
+.. figure:: _static/fig-FunctionPipeline.png
+    :align: center
+    :figclass: align-center
+
+
+    Pipeline of a task.
 
 Examples
 --------
 Robot can learning skills that applicable for the similar tasks, called the task familiy[1].
 We have implemented several manipulation tasks in three task families representing assembly tasks, reasoning tasks and bin-picking tasks separately.
+Please refer to the website for each example for more details.
 
 [1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning for manipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
 
