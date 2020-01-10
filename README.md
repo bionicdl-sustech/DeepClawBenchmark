@@ -63,10 +63,6 @@ The second argument specifies the installation mode:
 - **aubo**: AUBO arm support (update later).
 - **denso**: DENSO Cobotta arm support (update later).
 
-There are some test cases for testing your installation and calibration.
-
-[Test cases](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/TestCases.md)
-
 ## <a name="tasks">Tasks</a>
 We have implemented some task families with DeepClaw:
 - Task Family 1: Jigsaw puzzle
