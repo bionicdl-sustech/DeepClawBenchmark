@@ -85,12 +85,15 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="requirements.html">Minimum system setup</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation on Linux</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#virtual-environment">Virtual Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_1.html">Example: TicTacToe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example: Claw Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example: Jigsaw Puzzle</a></li>
 </ul>
 
             
@@ -158,25 +161,39 @@
   <div class="section" id="installation-on-linux">
 <h1>Installation on Linux<a class="headerlink" href="#installation-on-linux" title="Permalink to this headline">¶</a></h1>
 <p>This chapter describes how to install <code class="docutils literal notranslate"><span class="pre">DeepClaw</span></code> from source.
-DeepClaw framework has only been tested with Python 3.5 and Ubuntu 16.04 LTS.</p>
+DeepClaw framework has only been tested with Python 2.7 and Ubuntu 16.04 LTS.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The following instructions are exemplary for Ubuntu 16.04 LTS system and <cite>Python 2.7</cite>.
+<p class="first admonition-title">Note</p>
+<p class="last">The following instructions are exemplary for Ubuntu 16.04 LTS system and <cite>Python 2.7</cite>.
 They only work in the supported environments.</p>
 </div>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="virtual-environment">
+<h2>Virtual Environment<a class="headerlink" href="#virtual-environment" title="Permalink to this headline">¶</a></h2>
 <p>We recommend using a virtual environment (such as virtualenv) to manage DeepClaw.</p>
 <p>Install virtualenv.</p>
-<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>pip install -U virtualenv
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ pip install -U virtualenv
 </pre></div>
 </td></tr></table></div>
+<p>Create a new virtual environment.</p>
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre>$ virtualenv -p /usr/bin/python2.7 ~/DCvenv
+</pre></div>
+</td></tr></table></div>
+<p>Activate or retreat from virtual environment.</p>
+<div class="highlight-shell notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre>$ <span class="nb">source</span> ~/DCvenv/bin/activate <span class="c1"># activate virtual environment</span>
+$ deactivate <span class="c1"># retreat from virtual environment</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>The supported hardware of this framework are franka panda,ur10e,ur5;hande,rg6,suction cup,franka gripper;realsense,kinect azre,photoNeo M. As franka needs a realtime kernel, if you use a franka, you need install a realtime kernel. The install flow is showed in install folder.</p>
 </div>
 <div class="section" id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>RG6 Driver: uncheck the <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">RG</span></code> box under Installation/RG Configuration tab in UR5’s teach pendent.</p></li>
+<li>RG6 Driver: uncheck the <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">RG</span></code> box under Installation/RG Configuration tab in UR5’s teach pendent.</li>
 </ul>
 </div></blockquote>
 </div>

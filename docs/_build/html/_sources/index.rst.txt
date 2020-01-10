@@ -18,3 +18,5 @@ We welcome contributions and suggestions for improvements.
    installation
    getting_started
    example_1
+   example_2
+   example_3

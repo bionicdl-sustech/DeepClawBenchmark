@@ -1,20 +1,21 @@
-Example: Jigsaw Puzzle
-======================
+Example: Claw Machine
+=====================
 
 .. figure:: _static/deepclaw-framework.png
     :align: center
     :figclass: align-center
 
+
 Tasks Description
 -----------------
-The jigsaw tasks contain 3 tasks, which evaluate the different performance of the robot manipulation.
+Description of this task family, such as name of tasks, organization of tasks and so on.
 
 Configuration
 --------------
  #. Manipulation Environment Description
-      * Workspace size: 600 mm * 700 mm
-      * Functions of regions: the objects are placed on the pick space in the begining, and putted on the place space in the end.
-      * Constrains: the face with texture is upside
+      * Workspace size
+      * Functions of regions
+      * Constrains
       * ...
 
  #. Objects Information
@@ -23,8 +24,8 @@ Configuration
       * ...
 
  #. Robots/Hardware Setup
-      * Robot arm
-      * Robot gripper
+      * UR5
+      * Onrobot RG6
       * Computing platform
       * ...
 
@@ -60,3 +61,5 @@ Metrics
 
  #. Experiment 2
       Table of results.
+
+...

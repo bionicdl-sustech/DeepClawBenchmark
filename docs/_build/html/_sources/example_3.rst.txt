@@ -1,7 +1,7 @@
 Example: Jigsaw Puzzle
-==================
+======================
 
-.. figure:: _static/deepclaw-framew
+.. figure:: _static/deepclaw-framework.png
     :align: center
     :figclass: align-center
 

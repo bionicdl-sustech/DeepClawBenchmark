@@ -92,6 +92,8 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation on Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="example_1.html">Example: TicTacToe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_2.html">Example: Claw Machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_3.html">Example: Jigsaw Puzzle</a></li>
 </ul>
 
             
@@ -160,7 +162,7 @@
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <div class="align-center figure" id="id3">
 <img alt="_images/DeepClawOverview.png" src="_images/DeepClawOverview.png" />
-<p class="caption"><span class="caption-text">Schematic overview.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text">Schematic overview.</span></p>
 </div>
 <p>The DeepClaw benchmark is a framework for establishing a reproducible and shareable benchmarking for dexterous manipulation.
 DeepClaw benchmark provides a standardized dexterous manipulation pipeline consisting of four subtasks: <strong>localization, recognition, grasp planning, and motion planning</strong>.
@@ -169,58 +171,58 @@ It also provide necessary components to benchmark manipulations including hardwa
 are placed under /examples.</p>
 <div class="section" id="drivers">
 <span id="id1"></span><h2>Drivers<a class="headerlink" href="#drivers" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 66%" />
+<col width="34%" />
+<col width="66%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head" colspan="2"><p>Supporting Hardwares</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Supporting Hardwares</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>Robot arms</p></td>
-<td><p>UR5, UR10, Franka Panda</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>Robot arms</td>
+<td>UR5, UR10, Franka Panda</td>
 </tr>
-<tr class="row-odd"><td><p>Grippers</p></td>
-<td><p>RG6, Robotiq HandE</p></td>
+<tr class="row-odd"><td>Grippers</td>
+<td>RG6, Robotiq HandE</td>
 </tr>
-<tr class="row-even"><td><p>Cameras</p></td>
-<td><p>Realsense, Azure Kinect, Photoneo</p></td>
+<tr class="row-even"><td>Cameras</td>
+<td>Realsense, Azure Kinect, Photoneo</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition hint">
-<p class="admonition-title">Hint</p>
-<p>The driver modules provides a base python class for each type of hardware. The functionality of each type have been standardized.
+<p class="first admonition-title">Hint</p>
+<p class="last">The driver modules provides a base python class for each type of hardware. The functionality of each type have been standardized.
 The users are encouraged to follow the <a class="reference external" href="https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/docs/_static/Driver_functionaity_requirement.docx">guidelines</a> to add new hardwares.</p>
 </div>
 </div>
 <div class="section" id="baseline-algorithms">
 <span id="id2"></span><h2>Baseline algorithms<a class="headerlink" href="#baseline-algorithms" title="Permalink to this headline">¶</a></h2>
-<table class="docutils align-default">
+<table border="1" class="docutils">
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 66%" />
+<col width="34%" />
+<col width="66%" />
 </colgroup>
-<thead>
-<tr class="row-odd"><th class="head" colspan="2"><p>Baseline algorithms for manipulation pipeline</p></th>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Baseline algorithms for manipulation pipeline</th>
 </tr>
 </thead>
-<tbody>
-<tr class="row-even"><td><p>Localization</p></td>
-<td><p>Image edge detection,
-DBSCAN[2]</p></td>
+<tbody valign="top">
+<tr class="row-even"><td>Localization</td>
+<td>Image edge detection,
+DBSCAN[2]</td>
 </tr>
-<tr class="row-odd"><td><p>Recognition</p></td>
-<td><p>SIFT feature detection, AlexNet</p></td>
+<tr class="row-odd"><td>Recognition</td>
+<td>SIFT feature detection, AlexNet</td>
 </tr>
-<tr class="row-even"><td><p>Grasp planning</p></td>
-<td><p>Centroid and Principle axis</p></td>
+<tr class="row-even"><td>Grasp planning</td>
+<td>Centroid and Principle axis</td>
 </tr>
-<tr class="row-odd"><td><p>End-to-end methods</p></td>
-<td><p>SSD, Maskrcnn, SD-maskrcnn[3],
-DeepClaw</p></td>
+<tr class="row-odd"><td>End-to-end methods</td>
+<td>SSD, Maskrcnn, SD-maskrcnn[3],
+DeepClaw</td>
 </tr>
 </tbody>
 </table>
