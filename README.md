@@ -65,7 +65,7 @@ The second argument specifies the installation mode:
 
 ## <a name="tasks">Tasks</a>
 We have implemented some task families with DeepClaw:
-- Task Family 1: Jigsaw puzzle
+- Task Family 1: [Jigsaw puzzle](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/documents/Jigsaw_task/task_description.md)
 - Task Family 2: Tictactoe Game
 - Task Family 3: Claw Machine
 
