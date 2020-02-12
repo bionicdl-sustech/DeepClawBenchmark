@@ -23,34 +23,24 @@ We designed 3 tasks: pick and place task, 4-piece tiling task, 5-piece assembly 
 <p align="center"><img src="./fig-task&jigsaw.png" width="40%"/></p>
 <p align="center">Figure 3. The tasks sets</p> 
 
+Tasks are also implemented in different platforms.
 <p align="center"><img src="./fig-TaskWorkflow.png" width="40%"/></p>
 <p align="center">Figure 4. The hardware sets</p> 
 
-
-
-
 # Result
-In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
+In each experiment, we record the results of the functions and task. Each task we repeat 10 times, and the metrics of each function and full task are showed below.   
 
-<p align="center"><img src="./fig-Panda.png.png" width="40%"/></p>
-<p align="center">Figure 3. Metrics</p> 
+<p align="center"><img src="./fig-Panda.png" width="40%"/></p>
+<p align="center">Figure 5. an example of results</p> 
 
-- **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.
-
-<p align="center"><img src="./IoU_calculate.png" width="60%" height="60%"/></p>
-<p align="center">Figure 1. IoU</p>         
+- **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.       
 
 　　_Recall_: TP/(TP+FN) = True position /(All real positive)   
 　　_Precision_: TP/(TP+FP) = True position /(All predicted positive)   
 　　where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
 
-<!--- **AP**: The AP summarises the shape of the precision/recall curve, and is defined as the mean precision at a set of eleven equally spaced recall levels [0,0.1,...,1],here r is recall:
 
-<p align="center"><img src="./AP.png" width="40%"/></p>
-<p align="center">Figure 2. AP</p> 
--->
-
-- **precision**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right. For example, we predict 5 objects, and 4 is correct, so precision equals 4/5(示意图)
+- **AP**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right. For example, we predict 5 objects, and 4 is correct, so precision equals 4/5(示意图)
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
@@ -60,8 +50,9 @@ In each experiment, we record the results of the functions and task. The metrics
 <p align="center"><img src="./area rate.png" width="50%"/></p>
 <p align="center">Figure 4. area rate</p> 
 
-
-For each task, we repeat 12 times and record the results. And finilally calculate the result.
+<!-- You can not see the following comment. -->
+<!--
+For each task, we repeat 10 times and record the results. And finilally calculate the result.
 
 trial|IoU|seg time|precisiom|recog time|success rate|pick plan time|area rate|time(s)
 :-----:|---|--------|--|----------|------------|--------------|------------|-------
@@ -70,6 +61,7 @@ trial|IoU|seg time|precisiom|recog time|success rate|pick plan time|area rate|ti
 ...|---|--------|--|----------|------------|--------------|------------|-------
 12|---|--------|--|----------|------------|--------------|------------|-------
 reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(AP<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(success rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(area rate<sub>i</sub>)/10|sum(time<sub>i</sub>)/10
+-->
 
 # Demo Videos
 Demo videos of a real robot in action can be found here.
