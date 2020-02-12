@@ -7,24 +7,27 @@ The robot work cell is showed in figure.1
 - Arm: A suction cup mounted on the tool flange, and the end of suction cup is 0.15 meters above the table, 0.3 meters away from the center of the workspace, and the pose is vertical downward.    
 - The camera is mounted on the base and is 1m above the table. The accurate position is got by calibration.
 - The rectangle workspace is front of the robot, the width is 300mm, the lenth is 400mm. 
-- the objects are placed in the workspace. 
+- the jigsaw pieces are placed in the workspace. 
 
-In this example, the robot is UR5, the camera is realsense D435 and the end-effector is a suction cup.   
+In this example, the robot is Franka Emika Panda, the camera is realsense D435i and the end-effector is a suction cup.   
 The configration of three tasks followed are similar, and the different is where and how to place the jigsaw pieces.
 
 # Procedure
-With the same jigsaw puzzle, 3 tasks are implemented.
-## pick and place task
-（增加初始状态示意图,一张初始，一张放置）4 pieces is placed on the **XXX space**, (将pick区域分成四块，四片分别放置在四个区域，这样使得整个任务运行的轨迹距离基本一致)(以放置区域中心为基点，4 block模板放在正中)
-## 4-piece tiling task
-task descrption (以放置区域中心为基点，完成拼图时，拼图中心与基点重合)
-## 5-piece assembly task
-task descrption (以放置区域中心为基点，拼图基板与中心重合)
+With the same jigsaw puzzle, 3 tasks are implemented: pick and place task, 4-piece tiling task, 5-piece assembly task.
+<p align="center"><img src="./fig-task&jigsaw.png" width="40%"/></p>
+<p align="center">Figure 2. The tasks sets</p> 
+
+Each task followed a standard workflow for implementment.
+<p align="center"><img src="./fig-workflow.png" width="40%"/></p>
+<p align="center">Figure 3. The tasks sets</p> 
+
+
+
 
 # Result
 In each experiment, we record the results of the functions and task. The metrics of each function and full task are showed below.   
 
-<p align="center"><img src="./metrics.png" width="40%"/></p>
+<p align="center"><img src="./fig-Panda.png.png" width="40%"/></p>
 <p align="center">Figure 3. Metrics</p> 
 
 - **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.
