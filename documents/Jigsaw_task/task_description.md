@@ -31,7 +31,7 @@ Tasks are also implemented in different platforms.
 In each experiment, we record the results of the functions and task. Each task we repeat 10 times, and the metrics of each function and full task are showed below.   
 
 <p align="center"><img src="./fig-Panda.png" width="40%"/></p>
-<p align="center">Figure 5. an example of results</p> 
+<p align="center">Table 1. an example of results</p> 
 
 - **IoU**: Intersection over Union, an overlap ratio between the predicted bounding box and ground truth bounding box. To calculate this metric, we print jigsaw shape templates of each piece and place the jigsaw piece on the corresponding jigsaw shape template. We get the ground truth using templates,and calculate the IoU.       
 
@@ -40,7 +40,7 @@ In each experiment, we record the results of the functions and task. Each task w
 　　where TP is Ture positive, TN is True negative, FP is False positive,FN is False negative 
 
 
-- **AP**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right. For example, we predict 5 objects, and 4 is correct, so precision equals 4/5(示意图)
+- **AP**: True position /(All predicted positive). For this task, we predict all the object in the **ws space**, and judge which is right. For example, we predict 4 objects, and 3 is correct, so precision equals 3/4.
 
 - **success rate**: this metric evaluates the physical performance of the picking, equals success picking/total picking.
 
@@ -48,7 +48,7 @@ In each experiment, we record the results of the functions and task. Each task w
 - **area rate**: standard area/real area
 
 <p align="center"><img src="./area rate.png" width="50%"/></p>
-<p align="center">Figure 4. area rate</p> 
+<p align="center">Figure 5. area rate</p> 
 
 <!-- You can not see the following comment. -->
 <!--
