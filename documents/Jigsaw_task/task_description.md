@@ -13,13 +13,18 @@ In this example, the robot is Franka Emika Panda, the camera is realsense D435i 
 The configration of three tasks followed are similar, and the different is where and how to place the jigsaw pieces.
 
 # Procedure
-With the same jigsaw puzzle, 3 tasks are implemented: pick and place task, 4-piece tiling task, 5-piece assembly task.
-<p align="center"><img src="./fig-task&jigsaw.png" width="40%"/></p>
-<p align="center">Figure 2. The tasks sets</p> 
+With the same jigsaw puzzle, we proposed a standard workflow for manipulation task implementation. 
 
-Each task followed a standard workflow for implementment.
+The functional metrics are general, and the full task metrics are designed according to actual tasks.
 <p align="center"><img src="./fig-workflow.png" width="40%"/></p>
+<p align="center">Figure 2. The workflow</p> 
+
+We designed 3 tasks: pick and place task, 4-piece tiling task, 5-piece assembly task, and the details showed below:
+<p align="center"><img src="./fig-task&jigsaw.png" width="40%"/></p>
 <p align="center">Figure 3. The tasks sets</p> 
+
+<p align="center"><img src="./fig-TaskWorkflow.png" width="40%"/></p>
+<p align="center">Figure 4. The hardware sets</p> 
 
 
 
