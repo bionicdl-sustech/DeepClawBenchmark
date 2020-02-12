@@ -64,8 +64,8 @@ reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(AP<sub>i</sub>
 -->
 
 # Demo Videos
-Demo videos of a real robot in action can be found here.
-(此处放置三个任务的视频)
+The whole video is here [video]("https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/master/documents/Jigsaw_task/Video_Jigsaw.mp4")
+
 
 # Contact
 If you have any questions or find any bugs, please let me know: 11930807@mail.sustech.edu
