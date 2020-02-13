@@ -64,7 +64,9 @@ reault|IoU = sum(IoU<sub>i</sub>)/10|sum(time<sub>i</sub>)/10|sum(AP<sub>i</sub>
 -->
 
 # Demo Videos
-The whole video is here [video]("https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/master/documents/Jigsaw_task/")
+The video is here [video](https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/master/documents/Jigsaw_task/Video_Jigsaw.mp4)
+
+
 
 
 
