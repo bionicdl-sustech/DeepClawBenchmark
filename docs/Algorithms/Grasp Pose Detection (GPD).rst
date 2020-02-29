@@ -24,29 +24,23 @@ The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly
   
   Figure 1. Overview of the GPD Algorithm
 
-****
+&&&&
 Grasp Pose Generator
-****
+&&&&
 Before the algorithm starting, we need preprocess the point cloud such as denoising, subsampling, segmentaion .etc.
 
-*ss
-
- | /src/gpd/candidate/candidates_generator.cpp  
+ | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
  |
- | point cloud preprocession: CandidatesGenerator::preprocessPointCloud
+ | the implement is in src/gpd/util/cloud.cpp
  
- | CandidatesGenerator::preprocessPointCloud
- 
-*ss 
+Then we simple the grasp candidators in the point cloud.
 
  | ssssssssssss   
  |
  | ssssssssssss
   
 
-~~~~
-S
-~~~~
+
 
 
 
