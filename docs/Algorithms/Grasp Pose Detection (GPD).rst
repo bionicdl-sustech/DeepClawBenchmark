@@ -11,9 +11,19 @@ Details
 ----
 Overview
 ----
-The whole procedue of the algorithm is showed in Fig.1
+The whole procedue of the algorithm is showed in Fig.1.
 
-.. image:: images/1.png
+
+.. .. figure:: _static/DeepClawOverview.png
+    :align: center
+    :figclass: align-center
+
+.. figure:: ./figure-GPD-overview.PNG
+  :scale: 30 %
+  :alt: alternate text
+  :align: center
+  
+  Figure 1. Overview of the GPD Algorithm
 
 
 ****
