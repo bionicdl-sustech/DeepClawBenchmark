@@ -11,8 +11,7 @@ Details
 ----
 Overview
 ----
-The whole procedue of the algorithm is showed in Fig.1.
-
+The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly consists of 2 part: generate a grasp pose candidator; select or score a pose.
 
 .. .. figure:: _static/DeepClawOverview.png
     :align: center
@@ -24,7 +23,6 @@ The whole procedue of the algorithm is showed in Fig.1.
   :align: center
   
   Figure 1. Overview of the GPD Algorithm
-
 
 ****
 Sample
