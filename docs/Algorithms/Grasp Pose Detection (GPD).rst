@@ -30,7 +30,6 @@ Grasp Pose Generator
 Before the algorithm starting, we need preprocess the point cloud such as denoising, subsampling, segmentaion .etc.
 
  | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
- |
  | the implement is in src/gpd/util/cloud.cpp
  
 Then we simple the grasp candidators in the point cloud.
