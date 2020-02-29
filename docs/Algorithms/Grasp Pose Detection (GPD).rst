@@ -25,8 +25,16 @@ The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly
   Figure 1. Overview of the GPD Algorithm
 
 ****
-Sample
+Grasp Pose Generator
 ****
+Before the algorithm starting, we need preprocess the point cloud such as denoising, reducing resolution, segmentaion .etc.
+
+ | ssssssssssss. 
+ |
+ | ssssssssssss   
+ |
+ | ssssssssssss
+  
 
 ~~~~
 S
