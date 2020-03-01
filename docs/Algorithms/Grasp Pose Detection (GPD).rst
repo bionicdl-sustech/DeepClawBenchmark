@@ -21,11 +21,14 @@ The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly
   :scale: 30 %
   :alt: alternate text
   :align: center
+  :figclass: align-center
   
   Figure 1. Overview of the GPD Algorithm
 
 &&&&
 Grasp Pose Generator
+ | ./detect_grasps ../cfg/eigen_params.cfg ../tutorials/krylon.pcd
+
 &&&&
 Before the algorithm starting, we need **preprocess** the point cloud such as denoising, subsampling, segmentaion .etc.
 
@@ -34,15 +37,27 @@ Before the algorithm starting, we need **preprocess** the point cloud such as de
  
 Then we **uniformly randomly simple** the grasp candidators in the point cloud. In each point p, we calculate a darboux frame (F(p)), and generate a pose with the closing plane of the hand is parallel to the cutting plane at p.
 
-.. figure:: ./figure-GPD-F(p).PNG 
+ | the simpling is implemented in the preprocessing as subsamples.
+ |
+ | the API of pose candidators generation is std::vector<Grasp> CandidatesGenerator::generateGraspCandidates(const CloudCamera& cloud_cam)
+ |
+
+ 
+
+.. figure:: ./figure-GPD-F(p).PNG
   :scale: 30 %
   :alt: alternate text
   :align: center
+  :figclass: align-center
   
-  Figure2. (a)**Cutting plane**:the plane orthogonal to the direction of minimum principal curvature at point p; (b) Darboux frame (**F(p)**): a surface normal and two principal curvatures
-  
- | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
+  Figure2. (a) **Cutting plane**:the plane orthogonal to the direction of minimum principal curvature at point p; (b) Darboux frame (**F(p)**): a surface normal and two principal curvatures.
+
+The simple and frame calculation APIs are showed below:  
+ | The API is LocalFrame* FrameEstimator::calculateFrame in /src/gpd/candidate/candidates_generator.cpp  
  | the implement is in src/gpd/util/cloud.cpp
+ 
+the
+ | the API of hand is std::vector<std::unique_ptr<Hand>> CandidatesGenerator::generateGraspCandidates
   
 
 
