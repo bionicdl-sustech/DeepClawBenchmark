@@ -11,7 +11,7 @@ Details
 ----
 Overview
 ----
-The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly consists of 2 part: generate a grasp pose candidator; select or score a pose.
+The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly consists of 2 part: generate a grasp pose candidate; select or score a pose.
 
 .. .. figure:: _static/DeepClawOverview.png
     :align: center
@@ -25,11 +25,18 @@ The whole procedue of the algorithm is showed in Fig.1. The GPD algorithm mainly
   
   Figure 1. Overview of the GPD Algorithm
 
+A qiuck start
+
+ | ./detect_grasps ../cfg/eigen_params.cfg ../tutorials/krylon.pcd
+ 
 &&&&
 Grasp Pose Generator
- | ./detect_grasps ../cfg/eigen_params.cfg ../tutorials/krylon.pcd
-
 &&&&
+
+
+ | The API of pose generation is std::vector<Grasp> CandidatesGenerator::generateGraspCandidates(const CloudCamera& cloud_cam) in /src/gpd/candidate/candidates_generator.cpp  
+
+
 Before the algorithm starting, we need **preprocess** the point cloud such as denoising, subsampling, segmentaion .etc.
 
  | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
@@ -38,11 +45,8 @@ Before the algorithm starting, we need **preprocess** the point cloud such as de
 Then we **uniformly randomly simple** the grasp candidators in the point cloud. In each point p, we calculate a darboux frame (F(p)), and generate a pose with the closing plane of the hand is parallel to the cutting plane at p.
 
  | the simpling is implemented in the preprocessing as subsamples.
- |
- | the API of pose candidators generation is std::vector<Grasp> CandidatesGenerator::generateGraspCandidates(const CloudCamera& cloud_cam)
- |
+ | the API of F(p) is LocalFrame* FrameEstimator::calculateFrame, implemented in src/gpd/candidate/local_frame.cpp
 
- 
 
 .. figure:: ./figure-GPD-F(p).PNG
   :scale: 30 %
@@ -52,18 +56,25 @@ Then we **uniformly randomly simple** the grasp candidators in the point cloud. 
   
   Figure2. (a) **Cutting plane**:the plane orthogonal to the direction of minimum principal curvature at point p; (b) Darboux frame (**F(p)**): a surface normal and two principal curvatures.
 
-The simple and frame calculation APIs are showed below:  
- | The API is LocalFrame* FrameEstimator::calculateFrame in /src/gpd/candidate/candidates_generator.cpp  
- | the implement is in src/gpd/util/cloud.cpp
- 
-the
- | the API of hand is std::vector<std::unique_ptr<Hand>> CandidatesGenerator::generateGraspCandidates
-  
+In each point, we generate a lot of candidates.
+
+ | The API is hand_set_list = HandSearch::searchHands.evalHands  in /src/gpd/candidate/hand_search.cpp
+ | the implement is in /src/gpd/candidate/hand_set.cpp
 
 
+&&&&
+Candidates Evaluation
+&&&&
+To reduce the number of hand candidates, the followed 2 constraints are used:
 
+ * The body of the hand is not in collision with the point cloud when the fingers are fully open.
+ * The hand closing plane contains p,  and closing plane is a section of the closing plane.
 
+ | the API is HandSearch::reevaluateHypothesis in /src/gpd/candidate/hand_search.cpp
 
+&&&&
+Candidates Classify
+&&&&
 
 ####################
 Additional Resources
