@@ -4,10 +4,6 @@ Pick Planning -- Grasp Pose Detection (GPD)
 Grasp Pose Detection (GPD) is a method to estimate the position and orientation (6D pose) of an object to be grasped in dense clutter.
 This algorithm can predicts grasping poses of a 2-finger parallel gripper in point clouds witout object's 3d models.
 
-####################
-Details
-####################
-
 ----
 Overview
 ----
@@ -34,7 +30,7 @@ Grasp Pose Generator
 &&&&
 
 
- | The API of pose generation is std::vector<Grasp> CandidatesGenerator::generateGraspCandidates(const CloudCamera& cloud_cam) in /src/gpd/candidate/candidates_generator.cpp  
+ |pose generation API: gpd::GraspDetector::detectGrasps.generateGraspCandidateSets(cloud) in src/detect_grasps.cpp
 
 
 Before the algorithm starting, we need **preprocess** the point cloud such as denoising, subsampling, segmentaion .etc.
@@ -49,14 +45,14 @@ Then we **uniformly randomly simple** the grasp candidators in the point cloud. 
 
 
 .. figure:: ./figure-GPD-F(p).PNG
-  :scale: 30 %
+  :scale: 40 %
   :alt: alternate text
   :align: center
   :figclass: align-center
   
   Figure2. (a) **Cutting plane**:the plane orthogonal to the direction of minimum principal curvature at point p; (b) Darboux frame (**F(p)**): a surface normal and two principal curvatures.
 
-In each point, we generate a lot of candidates.
+In each point, we generate a lot of candidates by searching two dimensional grid in Y axis and Θ axis (Yaw angle in the cutting plane) of the F(p) .
 
  | API: hand_set_list = HandSearch::searchHands.evalHands  in /src/gpd/candidate/hand_search.cpp
  | the implement is in /src/gpd/candidate/hand_set.cpp
@@ -85,9 +81,9 @@ Then, score the projects and choose the highest one
  | API: gpd::GraspDetector::detectGrasps.createImages.selectGrasps in src/detect_grasps.cpp
  
  
-####################
+----
 Additional Resources
-####################
+----
 ten Pas A, Gualtieri M, Saenko K, et al. Grasp pose detection in point clouds[J]. The International Journal of Robotics Research, 2017, 36(13-14): 1455-1473.
 
 https://github.com/atenpas/gpd
