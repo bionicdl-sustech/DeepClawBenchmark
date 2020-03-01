@@ -73,9 +73,18 @@ To reduce the number of hand candidates, the followed 2 constraints are used:
  | the API is HandSearch::reevaluateHypothesis in /src/gpd/candidate/hand_search.cpp
 
 &&&&
-Candidates Classify
+Candidates Classification
 &&&&
+In this part, a CNN (LeNet) method is used to classify the candites. As the input of a CNN is images, we first project the point clouds into images.
 
+ | API: gpd::GraspDetector::detectGrasps.createImages in src/detect_grasps.cpp
+ 
+Then, score the projects and choose the highest one
+
+ | API: gpd::GraspDetector::detectGrasps.createImages.classifyImages(images) in src/detect_grasps.cpp
+ | API: gpd::GraspDetector::detectGrasps.createImages.selectGrasps in src/detect_grasps.cpp
+ 
+ 
 ####################
 Additional Resources
 ####################
