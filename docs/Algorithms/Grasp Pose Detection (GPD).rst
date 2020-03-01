@@ -32,7 +32,12 @@ Before the algorithm starting, we need **preprocess** the point cloud such as de
  | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
  | the implement is in src/gpd/util/cloud.cpp
  
-Then we **uniformly randomly simple** the grasp candidators in the point cloud. In each point, we calculate a reff carssd, and generate a pose.
+Then we **uniformly randomly simple** the grasp candidators in the point cloud. In each point p, we calculate a darboux frame (F(p)), and generate a pose as the closing plane of the hand is parallel to the cutting plane at p.
+
+.. figure:: ./figure-GPD-F(p).PNG
+  :scale: 30 %
+  :alt: alternate text
+  :align: center
 
  | ssssssssssss   
  |
