@@ -39,7 +39,7 @@ Grasp Pose Generator
 
 Before the algorithm starting, we need **preprocess** the point cloud such as denoising, subsampling, segmentaion .etc.
 
- | The API is CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
+ | API: CandidatesGenerator::preprocessPointCloud in /src/gpd/candidate/candidates_generator.cpp  
  | the implement is in src/gpd/util/cloud.cpp
  
 Then we **uniformly randomly simple** the grasp candidators in the point cloud. In each point p, we calculate a darboux frame (F(p)), and generate a pose with the closing plane of the hand is parallel to the cutting plane at p.
@@ -58,7 +58,7 @@ Then we **uniformly randomly simple** the grasp candidators in the point cloud. 
 
 In each point, we generate a lot of candidates.
 
- | The API is hand_set_list = HandSearch::searchHands.evalHands  in /src/gpd/candidate/hand_search.cpp
+ | API: hand_set_list = HandSearch::searchHands.evalHands  in /src/gpd/candidate/hand_search.cpp
  | the implement is in /src/gpd/candidate/hand_set.cpp
 
 
