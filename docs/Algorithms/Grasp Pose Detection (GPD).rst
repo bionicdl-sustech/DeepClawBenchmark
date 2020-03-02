@@ -86,4 +86,8 @@ Additional Resources
 ----
 ten Pas A, Gualtieri M, Saenko K, et al. Grasp pose detection in point clouds[J]. The International Journal of Robotics Research, 2017, 36(13-14): 1455-1473.
 
+Gualtieri M, Ten Pas A, Saenko K, et al. High precision grasp pose detection in dense clutter[C]//2016 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). IEEE, 2016: 598-605.
+
+ten Pas A, Platt R. Using geometry to detect grasp poses in 3d point clouds[M]//Robotics Research. Springer, Cham, 2018: 307-324.
+
 https://github.com/atenpas/gpd
