@@ -2,155 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/DeepClawBenchmark.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/.nojekyll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Algorithms/Grasp Pose Detection (GPD).rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Algorithms/figure-GPD-F(p).PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Algorithms/figure-GPD-overview.PNG" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/example_1.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/example_2.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/example_3.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/getting_started.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/installation_linux.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/overview.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/doctrees/requirements.doctree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/.buildinfo" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/DeepClawOverview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/basic_screenshot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/deepclaw-framework.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/fig-ExpClaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/fig-ExpJigsaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/fig-FunctionPipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_images/fig-TicTacToePipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/example_1.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/example_2.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/example_3.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/getting_started.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/index.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/installation_linux.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/overview.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_sources/requirements.rst.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/DeepClawOverview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/Driver_functionaity_requirement.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/ajax-loader.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/basic.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/basic_screenshot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/comment-bright.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/comment-close.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/comment.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/css/badge_only.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/css/theme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/deepclaw-framework.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/doctools.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/documentation_options.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/down-pressed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/down.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fig-ExpClaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fig-ExpJigsaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fig-FunctionPipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fig-TicTacToePipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/file.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Inconsolata.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-bolditalic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-italic.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/Lato/lato-regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-bold.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/RobotoSlab/roboto-slab-v7-regular.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/fonts/fontawesome-webfont.woff2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/jquery-3.2.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/jquery-3.4.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/js/modernizr.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/js/theme.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/language_data.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/minus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/plus.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/pygments.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/searchtools.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/underscore-1.3.1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/underscore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/up-pressed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/up.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/_static/websupport.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/example_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/example_2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/example_3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/getting_started.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/installation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/installation_linux.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/overview.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/requirements.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/DeepClawOverview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/Driver_functionaity_requirement.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/basic_screenshot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/deepclaw-framework.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/fig-ExpClaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/fig-ExpJigsaw-Design.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/fig-FunctionPipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/_static/fig-TicTacToePipeline.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/conf.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/example_1.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/example_2.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/example_3.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/getting_started.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/installation.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/make.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/overview.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/requirements.rst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/Add New Module in Server.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/others/Add New Module in Server.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/fig-PaperOverview.png" beforeDir="false" afterPath="$PROJECT_DIR$/docs/figs/fig-PaperOverview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/driver/arms/FrankaController.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -191,29 +57,37 @@
       <option name="project" value="LOCAL" />
       <updated>1585534465178</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update documents">
+      <created>1585549753311</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585549753311</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="DeepClaw v2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="DeepClaw v2.0" />
+    <MESSAGE value="update documents" />
+    <option name="LAST_COMMIT_MESSAGE" value="update documents" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="460" y="0" key="CommitChangelistDialog2" timestamp="1585534452354">
+    <state x="460" y="0" key="CommitChangelistDialog2" timestamp="1585551573924">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="460" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585534452354" />
+    <state x="460" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585551573924" />
     <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1585535230699">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585535230699" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1585534471213">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1585549755801">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585534471213" />
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585534653799">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585549755801" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585550615712">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585534653799" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585550615712" />
   </component>
 </project>
