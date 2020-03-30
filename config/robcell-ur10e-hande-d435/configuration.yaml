@@ -1,0 +1,49 @@
+# the units of the parameters is m, rad, m/s, m/s^2, g, pixel
+#robot ip and port
+robot:
+  name: UR10e
+  ip: 192.168.1.27
+  port: 30003
+  velocity: 0.7
+  acceleration: 1.2
+  home_pose: [0.179,-0.615,0.404,3.14,0,0]
+  home_joint: [-1.095,-1.589,-2.122,-0.810,2.020,1.669]
+
+#camera parameters
+camera:
+  name: D435
+  serial_number: 12343424
+  width: 1080
+  height: 720
+  fps: 30
+  inner_matrix:
+  # [fx,s,cx;0,fy,cy;0,0,1]
+    - [500,0,300]
+    - [0,520,200]
+    - [0,0,1]
+  distortion_coefficients: [0,0,0,0,0]
+
+# gripper parameters
+# For different grippers, only parts of those parameters are used.
+# in other words, the parameters are redundant
+gripper:
+  name: handE
+  velocity: 50
+  force: 20
+  weight: 200
+  offset:
+  # refer to the tool flange
+    - [0,0,0,0.0]
+    - [0,0,0,0.0]
+    - [0,0,0,0.2]
+    - [0,0,0,1]
+
+
+# hand eye calibration
+# |R T |
+# |0 1 |
+calibration_matrix:
+      - [0.1, 0.2, 0.2, 0.4]
+      - [0.1, 0.2, 0.2, 0.4]
+      - [0.1, 0.2, 0.2, 0.4]
+      - [0,0,0,1]
