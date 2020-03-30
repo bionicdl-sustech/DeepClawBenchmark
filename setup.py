@@ -5,8 +5,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='deepclaw',
-    version='1.0',
+    name='DeepClaw',
+    version='1.0.1',
     description=(
         'a reconfigurable benchmark of robotic hardware and task hierarchy for robot learning'
     ),
