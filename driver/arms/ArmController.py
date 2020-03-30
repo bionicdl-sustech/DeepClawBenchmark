@@ -1,20 +1,25 @@
-# Copyright (c) 2019 by Hank. All Rights Reserved.
-# !/usr/bin/python
-# coding=utf-8
+# Copyright (c) 2020 by BionicDL Lab. All Rights Reserved.
+# -*- coding:utf-8 -*-
+"""
+@File: ArmController
+@Author: Haokun Wang
+@Date: 2020/3/16 15:25
+@Description:
+"""
 
 
 class ArmController(object):
     def __init__(self):
         pass
 
-    def move_j(self, joint, velocity, accelerate, solution_space):
+    def move_j(self, *args, **kwargs):
         raise NotImplementedError(' move joint function does not implement. ')
 
-    def move_p(self, position, velocity, accelerate, solution_space):
+    def move_p(self, *args, **kwargs):
         raise NotImplementedError(' move position function does not implement. ')
 
-    def get_state(self):
+    def get_state(self, *args, **kwargs):
         raise NotImplementedError(' get status function does not implement. ')
 
-    def verify_state(self, variable_name, target_value, error):
+    def verify_state(self, *args, **kwargs):
         raise NotImplementedError(' check status function does not implement. ')
