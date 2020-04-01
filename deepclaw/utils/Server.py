@@ -11,6 +11,7 @@
 from socket import *
 import struct
 import json
+from .IO import JsonEncoder
 
 
 class Server(object):
@@ -30,26 +31,28 @@ class Server(object):
         self.tcp_socket.listen(self.connections)  # the maximal connections
 
     def send(self, data: dir):
-        data_info = json.dumps(data)
+        data_info = json.dumps(data, cls=JsonEncoder)
         data_info_len = struct.pack('i', len(data_info))
         self.tcp_socket.send(data_info_len)
         self.tcp_socket.send(data_info.encode(self.code))
 
     def get_instance(self, instruction):
         exec(instruction[0])  # from modules.xxxx import xxxx
-        args = instruction[1]  # parameters in tuple
+        args = instruction[1]  # parameters in list
         if len(args) == 0:
             self.instance = eval(instruction[2] + '()')  # self.instance = xxxx(*args)
         elif len(args) == 1:
+            args = args[0]
             self.instance = eval(instruction[2] + '(args)')  # self.instance = xxxx(*args)
         else:
+            args = args[0]
             self.instance = eval(instruction[2]+'(*args)')  # self.instance = xxxx(*args)
 
     def handle(self, client):
         data_struct = client.recv(4)  #
         data_len = struct.unpack('i', data_struct)[0]
-        data = client.recv(data_len)
-        data_dir = json.loads(data.decode('utf-8'))
+        data = client.recv(data_len, MSG_WAITALL)
+        data_dir = json.loads(data.decode(self.code))
         if data_dir['type'] == 'instruction':
             self.get_instance(data_dir['data'])
         else:

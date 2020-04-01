@@ -8,6 +8,7 @@
 """
 
 import yaml
+import json
 import sys
 import os
 
@@ -18,3 +19,10 @@ sys.path.append(ROOT)
 def read_yaml(file_name):
     yaml_file = open(ROOT+file_name)
     return yaml.load(yaml_file)
+
+
+class JsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)

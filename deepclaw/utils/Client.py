@@ -11,6 +11,7 @@
 from socket import *
 import struct
 import json
+from .IO import JsonEncoder
 
 
 class Client(object):
@@ -26,7 +27,7 @@ class Client(object):
         self.client_socket.connect((self.host_ip, self.port))
 
     def send(self, data: dir):
-        data_info = json.dumps(data)
+        data_info = json.dumps(data, cls=JsonEncoder)
         data_info_len = struct.pack('i', len(data_info))
         self.client_socket.send(data_info_len)
         self.client_socket.send(data_info.encode(self.code))
@@ -34,8 +35,8 @@ class Client(object):
     def recv(self):
         data_struct = self.client_socket.recv(4)  #
         data_len = struct.unpack('i', data_struct)[0]
-        data = self.client_socket.recv(data_len)
-        data_dir = json.loads(data.decode('utf-8'))
+        data = self.client_socket.recv(data_len, MSG_WAITALL)
+        data_dir = json.loads(data.decode(self.code))
         return data_dir
 
     def close(self):
