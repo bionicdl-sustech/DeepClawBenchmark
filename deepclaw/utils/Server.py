@@ -36,6 +36,12 @@ class Server(object):
         self.tcp_socket.send(data_info_len)
         self.tcp_socket.send(data_info.encode(self.code))
 
+    def send2client(self, data: dir, client: socket):
+        data_info = json.dumps(data, cls=JsonEncoder)
+        data_info_len = struct.pack('i', len(data_info))
+        client.send(data_info_len)
+        client.send(data_info.encode(self.code))
+
     def get_instance(self, instruction):
         exec(instruction[0])  # from modules.xxxx import xxxx
         args = instruction[1]  # parameters in list
@@ -57,7 +63,7 @@ class Server(object):
             self.get_instance(data_dir['data'])
         else:
             if self.instance is not None:
-                self.send({'feedback': self.instance.run(data_dir['data'])})
+                self.send2client({'feedback': self.instance.run(data_dir['data'])}, client)
 
     def run(self):
         print('Server starting...')
