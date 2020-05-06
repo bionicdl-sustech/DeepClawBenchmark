@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Overview - DeepClaw</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Overview";
+    var mkdocs_page_input_path = "overview.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> DeepClaw</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Home</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Overview</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#version-history">Version History</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mechanical-design-of-the-deepclaw-station">Mechanical Design of the DeepClaw Station</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#supported-robotic-hardware">Supported Robotic Hardware</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pipeline-of-integration">Pipeline of Integration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#architecture-of-integration">Architecture of Integration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#game-based-objects-for-manipulation">Game-based Objects for Manipulation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#citation">Citation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#project-layout">Project layout</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Manual</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pipeline/">DeepClaw Pipeline</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../robot/">Robot Library</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../model/">Model Zoo</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../task/">Task Family</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data/">Common Dataset</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../code-api/">deepclaw</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Notes</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../devnote/">For Developers</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">DeepClaw</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Home &raquo;</li>
+        
+      
+    
+    <li>Overview</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><img alt="DeepClawLogo" src="../asset/fig-DeepClaw.png" /></p>
+<h1 id="deepclaw-documentation">DeepClaw Documentation</h1>
+<p>The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. Modern systems for robotic manipulation has gradually evolved to a common configuration of a cell station where multiple hardware and software are usually integrated to perform programmable tasks, such as object manipulation, human-robot interaction, and industrial collaboration. The challenge behind most manipulation-based robotic research and application is usually hidden by the growing complexity when integrating related hardware, such as manipulators, grippers, sensors, and environment with objects for manipulation, as well as software, such as algorithms, APIs, drivers, etc., towards a functional robot system. It is widely recognized among industrial robotics that the total cost of integration is usually at the same level as the price tage of the hardware itself, and may become even higher at many scenarios, where the market of robotic integration is actually slightly higher than the selling of robotic hardware itself. </p>
+<p>For academic research, there are several alternative solutions before DeepClaw.</p>
+<ul>
+<li><strong>Commercial service providers for robotic integration</strong>: This is a common solution that may require the least of effort at the beginning. But in the end, may not be suitable for research purpose at some point where further developement may not be possible or just too expensive. </li>
+<li><strong>Robot Operating System (ROS)</strong>: The development of ROS contributed significantly to the growing adoption of robotic technologies in research and applications, which provides a standardized interface for communication among various robotic devices and software. However, the scope of the ROS is so broad with a relatively steep learning curve for most users, learners, and practioners to get started. </li>
+<li><strong>Do-it-yourself (DIY)</strong>: This is also a common solution which usually starts with the dedicated software provided by the hardware supplier, or if the robotic device is developed by the research team from the ground up. With the growing adoption of collaborative robotic devices, the barrier of usage becomes much lower than before. </li>
+</ul>
+<p>With a growing interest in robot learning, where learning-based methods are applied to robotic system to solve advanced manipulation tasks towards human-robot interaction. Several questions becomes imminent for researchers and practitioners:</p>
+<ul>
+<li>Is there a "common" setup of robotic manipulation station? </li>
+<li>By what "standard" should I pick the specific hardware to build my robot learning station?</li>
+<li>Is there a "pipeline" of intergration so that I can get the system up-and-running and perform real-world experiment?</li>
+</ul>
+<p>While there is no "correct" answers to questions such as above, these challenges are commonly faced by many researchers already in this field, or have the interest to experiement with robot learning, which give birth to the development of DeepClaw. Based on the existing collection of robotic hardware at the Bionic Design and Learning Lab at the Southern University of Science and Technology, we aim to develop a sharable and reproducible framework of Robot Manipulation System based on reviews of common setups of robot learning stations in recent research, aiming at building up a pool of hardware benchmarking system that facilitates a comparable metric for advanced robot learning algorithms, which is not yet explored in the current research (and also challenging). </p>
+<p>DeepClaw is hardware-centric model zoo towards a common design to benchmark robot stations through a Robotic Manipulation System, which involves a mechanical design of the DeepClaw Station, a growing collection of drivers that supports various robotic hardware, a cloud architecture that supports training and inference of robot learning experiments, and a collection of game objects for task representation.</p>
+<h2 id="version-history">Version History</h2>
+<ul>
+<li>v2.0: updated with server-client support.</li>
+<li>v1.5: early design used in XXX.</li>
+<li>v1.0: early design used in XXX.</li>
+</ul>
+<h2 id="mechanical-design-of-the-deepclaw-station">Mechanical Design of the DeepClaw Station</h2>
+<p>After reviewing the robot station designs presented in several recent publications on robot manipulation learning, we proposed the following design using a standardized 9090 extrusion from global supplier such as Misumi and a few parts that can be easily machined by local machine shops to build up the system. The design can be accessed interactively through here. Feel free to contact us if you experience trouble sourcing the design, or have any suggestions to improve.</p>
+<ul>
+<li><strong>AluExtru</strong>: 9090 series aluminium extrusion profiles from global supperlier such as Misumi.</li>
+<li>Misumi Part#: HFS8-9090-630-TPW, HFS8-9090-540-TPW, HFS8-9090-450-TPW.</li>
+<li><strong>AluPlate</strong>: simple design peg-hole style aluminium plate for reliable connection, can be easily machined by you local shop.</li>
+<li>S2x4, S2x5.</li>
+<li><strong>FlangeX</strong>: simple flange designs that supports heavy load connection, can be easily machined by your local shop.</li>
+<li>FlangeRobot: Supports Franka, UR, and AUBO in one design, as of now.</li>
+<li>FlangeFoot: Support the adjustable wheel.</li>
+<li>FlangeTube: Support RealSense D400 series, as of now. </li>
+<li><strong>Others</strong>: minimum accessories towards flexibility, robustness, and safety.</li>
+<li>Tube: where cameras are mounted, can be easily modified based on your camera needs.</li>
+<li>Handle (Part#: GHHD28-A): for ease of handling and safe usage.</li>
+<li>Adjustable Wheel (GD-80F): for sturdiness and mobility.</li>
+<li>TableTop (630x540): aluminium with CNC machined, threaded peg-holes, modify as you need.</li>
+</ul>
+<p><img alt="" src="docs/asset/fig-DeepClaw-MechDesign.PNG" /></p>
+<h2 id="supported-robotic-hardware">Supported Robotic Hardware</h2>
+<p>Here lists the robotic hardware that are currently supported by the DeepClaw station, all tested with a reasonable coverage of common adoption with a reasonable price range and functional support in most open-source repositories.</p>
+<p><img alt="" src="docs/asset/fig-DeepClaw-SupportedHardware.PNG" /></p>
+<h2 id="pipeline-of-integration">Pipeline of Integration</h2>
+<p>For further details, please refer to our recent publication at AIM 2020.</p>
+<p><img alt="" src="docs/asset/fig-DeepClaw-Pipeline.PNG" /></p>
+<h2 id="architecture-of-integration">Architecture of Integration</h2>
+<h2 id="game-based-objects-for-manipulation">Game-based Objects for Manipulation</h2>
+<h2 id="citation">Citation</h2>
+<p>arXiv</p>
+<hr />
+<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
+<h2 id="commands">Commands</h2>
+<ul>
+<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
+<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
+<li><code>mkdocs build</code> - Build the documentation site.</li>
+<li><code>mkdocs -h</code> - Print help message and exit.</li>
+</ul>
+<h2 id="project-layout">Project layout</h2>
+<pre><code>mkdocs.yml    # The configuration file.
+docs/
+    index.md  # The documentation homepage.
+    ...       # Other markdown pages, images and other files.
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../install/" class="btn btn-neutral float-right" title="Installation">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="../install/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

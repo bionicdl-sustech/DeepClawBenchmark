@@ -1,8 +1,4 @@
-# The DeepClaw Benchmark
-
-The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
-
-# Quick Start
+# Installation
 
 As of now, DeepClaw framework has been tested with Python 3.7 and Ubuntu 18.04 LTS.
 
@@ -18,7 +14,9 @@ Before using DeepClaw, please ensure you have installed all above packages.
 
 Install DeepClaw using pip in virtual environment.
 
-    $ python3 -m pip install DeepClaw
+```
+python3 -m pip install DeepClaw
+```
 
 ## Install using Docker
 
@@ -29,13 +27,13 @@ Update later.
 Clone repository from Github.
 
 ```
-$ git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
-$ cd DeepClawBenchmark
+git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
+cd DeepClawBenchmark
 ```
 
 Install DeepClaw.
 
 ```
-$ python3 setup.py install
+python3 setup.py install
 ```
 

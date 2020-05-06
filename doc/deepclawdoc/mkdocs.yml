@@ -1,17 +1,20 @@
 site_name: DeepClaw
 nav:
     - Home:
-      - Overview: index.md
+      - Overview: overview.md
       - Installation: install.md
     - Manual: 
       - DeepClaw Pipeline: pipeline.md
       - Robot Library: robot.md
       - Model Zoo: model.md
       - Task Family: task.md
+      - Common Dataset: data.md
       # - Sim-2-Real (TODO): sim2real.md
     - API:
       - deepclaw: code-api.md
     - Notes:
+      - Licence: licence.md
+      - Release Note: release.md
       - For Developers: devnote.md
       # - For Users (TODO): usenote.md
 theme: readthedocs
