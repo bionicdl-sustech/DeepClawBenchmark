@@ -2,9 +2,6 @@
 
 The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
 
-> NOTE: as of now, DeepClaw framework has been tested with Python 3.7 and Ubuntu 18.04 LTS.
->
-
 ## Requirements
 
 In the current release, support is provided for a baseline setup with UR10e, HandE, and RealSense D435. The dependencies of DeepClaw are showed below:
@@ -21,8 +18,9 @@ Before using DeepClaw, please ensure you have installed all above packages. The 
 
 Install DeepClaw using pip in virtual environment.
 
-    python3 -m pip install DeepClaw
-
+```
+python3 -m pip install DeepClaw
+```
 ## Install from source
 
 Clone repository from Github.
