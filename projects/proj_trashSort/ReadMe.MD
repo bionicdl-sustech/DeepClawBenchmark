@@ -1,2 +1,0 @@
-# DeepClaw Demonstration with trashSort
-

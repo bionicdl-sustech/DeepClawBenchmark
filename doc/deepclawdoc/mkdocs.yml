@@ -6,7 +6,7 @@ nav:
     - Manual: 
       - DeepClaw Pipeline: pipeline.md
       - Robot Library: robot.md
-      - Model Zoo: model.md
+      - Module Pool: module.md
       - Task Family: task.md
       - Common Dataset: data.md
       # - Sim-2-Real (TODO): sim2real.md
