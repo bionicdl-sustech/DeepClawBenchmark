@@ -76,3 +76,26 @@ class Calibration(object):
         root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         np.savez(os.path.dirname(root_path) + self.__cfg["CALIBRATION_DIR"], observed_pts, measured_pts)
 
+def load_calibration_matrix(file):
+    d = np.load(file)
+    observed_pts = d['arr_0']
+    measured_pts = d['arr_1']
+    R, t = get_rigid_transform(observed_pts, measured_pts)
+    H = np.concatenate([np.concatenate([R,t.reshape([3,1])],axis=1),np.array([0, 0, 0, 1]).reshape(1,4)])
+    return H
+
+def get_rigid_transform(A, B):
+    assert len(A) == len(B)
+    N = A.shape[0]  # Total points
+    centroid_A = np.mean(A, axis=0)
+    centroid_B = np.mean(B, axis=0)
+    AA = A - np.tile(centroid_A, (N, 1))  # Centre the points
+    BB = B - np.tile(centroid_B, (N, 1))
+    H = np.dot(np.transpose(AA), BB)  # Dot is matrix multiplication for array
+    U, S, Vt = np.linalg.svd(H)
+    R = np.dot(Vt.T, U.T)
+    if np.linalg.det(R) < 0:  # Special reflection case
+        Vt[2, :] *= -1
+        R = np.dot(Vt.T, U.T)
+    t = np.dot(-R, centroid_A.T) + centroid_B.T
+    return R, t
