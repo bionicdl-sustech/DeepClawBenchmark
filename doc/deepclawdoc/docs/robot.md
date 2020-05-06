@@ -4,16 +4,72 @@ The DeepClaw cell, shown on the bottom of the following figure, is a self-contai
 
 ![](asset/fig-DeepClaw-SupportedHardware.png)
 
-## FRANKA+Two-finger Gripper+Realsense D435
+## Arm (Manipulator)
 
-Update later.
+### Universal Robots: UR10e
 
-## UR5+RG6+Realsense D435
+### Universal Robots: UR5 (TODO)
 
-Update later.
+### Franka Emika: Panda (TODO)
 
-## UR10e-HandE-Kinect Azure
+### AUBO: i5 (TODO)
 
-Update later.
+### Denso: Cobotta (TODO)
+
+### Yaskawa: MotoMini (TODO)
+
+## Hand (Gripper)
+
+### Robotiq: HandE
+
+### OnRobot: RG6 (TODO)
+
+### Customized: Suction (TODO)
+
+## Eye (Camera)
+
+### Intel: Realsense D435
+
+### Intel: Realsense D435i (TODO)
+
+### Microsoft: Kinect Azure (TODO)
+
+### Microsoft: Kinect V2 (TODO)
+
+### Photoneo: Model M (TODO)
+
+## Accessory (Sensor)
+
+### OnRobot: Force-Torque Sensors (TODO)
+
+### ATI: nano17 (TODO)
+
+## DeepClaw Stations with UR10e (TODO)
+
+### UR10e+HandE+D435 (TODO)
+
+### UR10e+HandE+Azure (TODO)
+
+### UR10e+HandE+PhotoM (TODO)
+
+## DeepClaw Stations with UR5 (TODO)
+
+### UR5+RG6+D435 (TODO)
+
+## DeepClaw Stations with Franka (TODO)
+
+### Franka+2Finger+D435 (TODO)
+
+## DeepClaw Stations with MotoMini (TODO)
+
+### MotoMini+Suction+D435 (TODO)
+
+## DeepClaw Stations with Cobotta (TODO)
+
+### Cobotta+2Finger+D435 (TODO)
+
+## DeepClaw Stations with AUBOi5 (TODO)
+
+### AUBOi5+Suction+D435 (TODO)
 
 ![](asset/fig-DeepClawDesign.png)

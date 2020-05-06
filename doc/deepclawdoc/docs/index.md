@@ -6,8 +6,8 @@ The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robo
 
 ## Resources
 
-- Homepage: https://deepclaw.ancorasir.com/
-- Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html
+- Homepage: [https://deepclaw.ancorasir.com/](https://deepclaw.ancorasir.com/)
+- Documentation: **To-be-updated**
 
 ## Code Organization
 
