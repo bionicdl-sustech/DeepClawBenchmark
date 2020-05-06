@@ -12,7 +12,7 @@
 
 ## Classes
 
-./driver
+/driver
 
 - [**ArmController**]([])
 
