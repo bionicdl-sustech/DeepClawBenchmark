@@ -1,4 +1,4 @@
-# Copyright (c) 2020 by BionicLab. All Rights Reserved.
+# Copyright (c) 2020 by BionicDL Lab. All Rights Reserved.
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
