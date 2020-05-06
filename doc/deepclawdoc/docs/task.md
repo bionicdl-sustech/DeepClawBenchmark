@@ -1,3 +1,19 @@
 # Task Family
 
-XXXX
+In DeepClaw, a manipulation task involves three hierarchical concepts: task, sub-task, functionality module. A task protocol should clearly define the main purpose of the task, the target objects, the robot, and hardware setup, procedures to fulfill the task and execution constraints [19]. Each task may consist of several repetitive sub-tasks. A pipeline of functional modules can accomplish each sub-task. The most similarity between game and dexterous manipulations enable reproducible experiments in various environment. All of the game manipulation tasks can be classified from two different perspectives: spatial reasoning and temporal reasoning. Compared with human daily dexterous manipulations, game manipulations have a noticeable distinction in spatial and temporal dimensions. "Jigsaw Puzzle," for example, requires a meaningful pattern at finally by placing certain pieces in settled spatial position and orientation using robot cell. We can summarize that "Jigsaw Puzzle" focuses on spatial reasoning rather than temporal reasoning sine chronological operations to finish the puzzle are needless during the whole placing process. "Tic-tac-toe Game" is the contrary that emphasizes moving chess chronologically rather than its spatial position and orientation (distinguish the type of pieces rather than each piece individual). Claw machine is another popular game that involves picking and placing to clear the toy tray. We hypothesize that both robot cells and intelligent algorithms lead to performance differences when executing game manipulation tasks.  
+
+## Tic-Tac-Toe: Board Games as Adversarial Interaction
+
+Tic-Tac-Toe game is a temporal reasoning related task, which required two players moving pieces alternately. To simplify this game as a baseline, the two players use the same placing strategy, namely the Minimax algorithm with depth 3, and are both executed by the robot arm. We use green and blue cubes from Yale-CMU-Berkeley objects set [19] representing two types of pieces. At the start of the game, 3×3 checkerboards printed on an A4 paper is placed in front of the robot base, and the two types of pieces are lined on the left and right side of the chessboard as shown in Fig 4(a). The task is to pick a type of piece and place it on one of nine boxes on the checkerboard in turns until one player wins or ends with a tie.
+
+<img src="asset/TictactoeObject.jpg" style="zoom:10%;" />
+
+## Claw Machine: End-to-End Manipulation Benchmarking
+
+This benchmark measures the performance of a learned policy for predicting robust grasps over different robot cells. At the start of the task, a 60cm×70cm white bin stuffed by eight soft toys and an empty 30cm×40cm blue bin are placed side by side on the table top as shown in the following figure. The task is to transport the toys to the blue bin one by one until clearing the white bin. We restrict the gripper to grasp vertically, allowing only rotations along the z-axis of the robot base. 
+
+## Jigsaw Puzzle: Tiling Game for Modular Benchmarking
+
+A jigsaw puzzle is a tiling game that requires the assembly of often oddly shaped interlocking and tessellating pieces. The jigsaw set used in this paper contains four thin wooden pieces with an image printed on one side and can form a 10.2cm×10.2cm picture when they are correctly assembled. We use a suction cup to complete the task on all three robot cells as the jigsaw piece is only 5 mm thick and is too challenging for grippers. At the start of the task, the four pieces are randomly placed on the table top, as shown in Fig. 6(a). The task is to detect and pick one jigsaw piece at a time and place it at the required location according to its shape and texture information, and finally assemble all the four pieces into one whole piece. We restrict the gripper to pick vertically, allowing only rotations along the z-axis of the robot base. 
+
+![](asset/JigsawObject.jpg)

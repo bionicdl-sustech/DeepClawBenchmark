@@ -9,6 +9,8 @@ nav:
       - Model Zoo: model.md
       - Task Family: task.md
       # - Sim-2-Real (TODO): sim2real.md
+    - API:
+      - deepclaw: code-api.md
     - Notes:
       - For Developers: devnote.md
       # - For Users (TODO): usenote.md
