@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="fix a bug of data transmission">
+      <change afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/asset/JigsawObject.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/asset/TictactoeObject.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/asset/fig-FunctionPipeline.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/code-api.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deepclaw/utils/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepclaw/utils/Server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/install.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/install.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/pipeline.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/pipeline.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/robot.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/robot.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/task.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/task.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +26,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
