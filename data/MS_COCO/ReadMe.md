@@ -14,4 +14,7 @@ COCO is a large-scale object detection, segmentation, and captioning dataset. CO
 
 <p align="center">Figure 1. Dataset examples.</p>
 
-The [homepage](http://cocodataset.org/#home) of COCO dataset is ``http://cocodataset.org``, and you can also read the [article](https://arxiv.org/abs/1405.0312) to know the details.
+The [homepage](http://cocodataset.org/#home) of COCO dataset is http://cocodataset.org, and you can also read the [article](https://arxiv.org/abs/1405.0312) to know the details.
+
+## Reference
+Lin T Y, Maire M, Belongie S, et al. [Microsoft coco: Common objects in context](https://arxiv.org/abs/1405.0312)[C]//European conference on computer vision. Springer, Cham, 2014: 740-755.

@@ -1,9 +1,0 @@
-# the wireless_driver.sh is only adapted to rtl8821ce, if your wireless network card is not, choose the corresponding version.
-
-open terminal
-# covert the files to execution files
-tpye chmod +x *.sh
-#run the main file
-sudo ./deepClaw_install_franka_main.sh
-
-it maybe reboot several times.
