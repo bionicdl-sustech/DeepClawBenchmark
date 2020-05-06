@@ -20,3 +20,8 @@ Grasping planning aims to find the optimal pose for the robot arm and end-effect
 
 Motion planning utilizes information above, such as grasping pose, force sensor data, constrain of the robot system, and limitation of working space, to obtain collision-free trajectories. Currently, waypoint-based motion planning is used through our tasks. For UR5 and UR10e, we utilize the movej command implemented in UR’s controller to plan and execute a path between waypoints. For Franka, we utilize a fourthorder motion generator in the joint space provided by the libfranka software. 
 
+## End-to-End
+
+Actually, many learning algorithms may implement multiple functions, like SSD for both localization and recognition. So, the sub-task process may transforms to three or two, even only one stage process.
+
+> NOTE: DeepClaw provides several popular algorithm modules in `deepclaw/modules`, developers can implement a standardized sub-task by combining some modules. More details can be found at [Model Zoo]([])
