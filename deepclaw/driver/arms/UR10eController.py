@@ -41,8 +41,8 @@ class UR10eController(ArmController):
     '''
     @Description: go to the target joints positions
     @param[in]: joints_angle,target joint positions  of each joints;
-                velocity:joint acceleration of leading axis [rad/s^2]
-                accelerate: joint speed of leading axis [rad/s]
+                velocity:joint acceleration of leading axis [rad/s]
+                accelerate: joint speed of leading axis [rad/^2]
                 solution_space: move style, 'Joint' means it linear in joint-space,
                                 and 'Space' means linear in tool-space(forward kinematics is used to calculate the corresponding pose)
 
@@ -52,7 +52,7 @@ class UR10eController(ArmController):
                solution_space='Joint'):
         velocity = self._v if velocity is None else velocity
         acceleration = self._a if acceleration is None else acceleration
-        
+
         move_command = ""
         if solution_space == 'Joint':
             move_command = (f"movej([{joints_angle[0]},{joints_angle[1]},{joints_angle[2]},"
@@ -62,7 +62,7 @@ class UR10eController(ArmController):
             move_command = (f"movel([{joints_angle[0]},{joints_angle[1]},{joints_angle[2]},"
                             f"{joints_angle[3]},{joints_angle[4]},{joints_angle[5]}],"
                             f"a={acceleration},v={velocity})\n")
-        
+
         self._connector.start()
         self._connector.send(move_command)
         self._connector.close()
@@ -71,8 +71,8 @@ class UR10eController(ArmController):
     '''
     @Description: go to the target pose
     @param[in]: position,target pose [x,y,z,r,p,y];
-                velocity:joint acceleration of leading axis [rad/s^2]
-                accelerate: joint speed of leading axis [rad/s]
+                velocity:joint acceleration of leading axis [rad/s]
+                accelerate: joint speed of leading axis [rad/s^2]
                 solution_space: move style, 'Joint' means it linear in joint-space(inverse kinematics is used to calculate the corresponding joints),
                                 and 'Space' means linear in tool-space
 
@@ -87,13 +87,13 @@ class UR10eController(ArmController):
         # temp = RR.from_euler('xyz', [position[3], position[4], position[5]], degrees=False)
         # rx, ry, rz = temp.as_rotvec()
         rx, ry, rz = position[3], position[4], position[5]
-        
+
         move_command = ""
         if solution_space == 'Joint':
             move_command = f"movej(p[{x},{y},{z},{rx},{ry},{rz}],a={acceleration},v={velocity})\n"
         elif solution_space == 'Space':
             move_command = f"movel(p[{x},{y},{z},{rx},{ry},{rz}],a={acceleration},v={velocity})\n"
-        
+
         self._connector.start()
         self._connector.send(move_command)
         self._connector.close()
