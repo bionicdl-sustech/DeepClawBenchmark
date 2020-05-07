@@ -77,36 +77,54 @@ The Hardware Driver API is used for controling the Hardware.
 
 
 
-<!-- ## Functions
+## Modules API
 
-/utils
+#### deepclaw.modules.calibration.EyeOnBase.Calibration
 
-**read_yaml**
+*class* **deepclaw.modules.calibration.EyeOnBase.Calibration**(arm, camera, configuration_file)
+
+`Parameters`
+
+- arm
+- camera
+- configuration_file
+
+`Methods`
+
+- [run]([])(self): Calibrate robot arm and camera
 
 
 
+#### deepclaw.modules.end2end.effecientdet.efficientdet_predictor.efficientdet
+
+*class* **deepclaw.modules.end2end.effecientdet.efficientdet_predictor.efficientdet**(compound_coef=0, weight_path=None, num_classes=204)
+
+`Parameters`
+
+- compound_coef
+- weight_path
+- num_classes
+
+`Methods`
+
+- [run]([])(self, image_np)
+- [display]([])(self, preds, imgs, save_path, imshow=False, imwrite=True)
 
 
-## Classes
 
-./driver
+#### deepclaw.modules.segmentation.ContourDetector.ContourDetector
 
-- [**ArmController**]([])
+*class* **deepclaw.modules.segmentation.ContourDetector.ContourDetector**(mode=cv2.RETR_LIST, method=cv2.CHAIN_APPROX_NONE, binary_threshold=127, area_threshold=(80, 200), with_angle=False)
 
-  Base class for multiple arm controller extensions.
+`Parameters`
 
-- [**UR10eController**]([])
+- mode
+- method
+- binary_threshold
+- area_threshold
+- with_angle
 
-  Extends the ArmCotroller class with additional separate functions for Universal Robot Arm 10e.
+`Methods`
 
-- [**URConnector**]([])
+- [run]([])(self, color_image)
 
-  A wrapper of socket connection for UR arm.
-
-- [**Frame**]([])
-
-- [**Realsense**]([])
-
-/utils
-
-- [**JsonEncoder**]([]) -->
