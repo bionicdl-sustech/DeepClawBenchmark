@@ -6,8 +6,13 @@ The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robo
 
 ## Resources
 
-- Homepage: [https://deepclaw.ancorasir.com/](https://deepclaw.ancorasir.com/)
-- Documentation: **To-be-updated**
+- Homepage: https://deepclaw.ancorasir.com/
+- Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html
+- Paper explaining DeepClaw: [arXiv:2005.02588 [cs.RO]](https://arxiv.org/abs/2005.02588)
+- Papers using DeepClaw: 
+    - [arXiv:2003.01584 [cs.RO]](https://arxiv.org/abs/2003.01584)
+    - [arXiv:2003.01583 [cs.RO]](https://arxiv.org/abs/2003.01583)
+    - [arXiv:2003.01582 [cs.RO]](https://arxiv.org/abs/2003.01582)
 
 ## Code Organization
 
@@ -24,4 +29,13 @@ The DeepClaw code is organized as follows:
 
 ## Bibliography
 
-Please cite the following paper if you are also using DeepClaw in your project.
+```
+@misc{wan2020deepclaw,
+    title={DeepClaw: A Robotic Hardware Benchmarking Platform for Learning Object Manipulation},
+    author={Fang Wan and Haokun Wang and Xiaobo Liu and Linhan Yang and Chaoyang Song},
+    year={2020},
+    eprint={2005.02588},
+    archivePrefix={arXiv},
+    primaryClass={cs.RO}
+}
+```
