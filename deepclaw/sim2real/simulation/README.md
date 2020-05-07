@@ -1,15 +1,15 @@
-# Week 08 Introduction to CoppeliaSim (V-REP) and PyRep
+# Introduction to CoppeliaSim (V-REP) and PyRep
 
-In week 08, we will learn how to use CoppeliaSim and PyRep to complete your Project 1: Vision-guided Picking in PyRep.
+We use CoppeliaSim and PyRep for the simulation in deepclaw.
 
 The robot simulator CoppeliaSim, with integrated development environment, is based on a distributed control architecture: each object/model can be individually controlled via an embedded script, a plugin, a ROS or BlueZero node, a remote API client, or a custom solution. This makes CoppeliaSim very versatile and ideal for multi-robot applications. Controllers can be written in C/C++, Python, Java, Lua, Matlab or Octave.
 
 PyRep is a toolkit for robot learning research, built on top of CoppeliaSim (previously called V-REP).
 
-- [Week 08 Introduction to CoppeliaSim (V-REP) and PyRep](#week-08-introduction-to-coppeliasim-v-rep-and-pyrep)
+- [Introduction to CoppeliaSim (V-REP) and PyRep](#Introduction-to-coppeliasim-v-rep-and-pyrep)
   - [Install CoppeliaSim](#install-coppeliasim)
   - [Install PyRep](#install-pyrep)
-  - [Project 1: Kinematic Picking in PyRep](#project-1-kinematic-picking-in-pyrep)
+  - [File Structure](#File-Structure)
 
 ## Install CoppeliaSim
 
@@ -79,6 +79,10 @@ python example_panda_reach_target.py
 You should see the following window pop out:
 ![img](exmple_panda_reach_target.png)
 
-## Project 1: Kinematic Picking in PyRep
+## File Structure
 
-This project aims to build a robot arm with camera in simulation and complete a picking task based on pre-defined waypoints. Please go to the [Simulation](../Simulation) directory for the code and instructions.
+- [/scene](./scene): stores all the v-rep scene files ended with ".ttt"
+- [/src](./src): backend python code put here
+- [/tasks](./tasks):
+  - [/BaseScene_test](./tasks/BaseScene_test): test scene file and backend code
+  - [/Kine_picking](./tasks/Kine_picking): simulate kinematic picking
