@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/code-api.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/code-api.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/install.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/install.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +146,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588817676363</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="reformat gif to mp4">
+      <created>1588820460860</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1588820460860</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -156,38 +166,41 @@
     <MESSAGE value="update install and pipeline documentations" />
     <MESSAGE value="update index page and pipeline documentation" />
     <MESSAGE value="add modules api documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="add modules api documentation" />
+    <MESSAGE value="reformat gif to mp4" />
+    <option name="LAST_COMMIT_MESSAGE" value="reformat gif to mp4" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588820375858">
+    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588820458522">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727800605" />
-    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588820375858" />
+    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588820458522" />
     <state x="374" y="0" key="CommitChangelistDialog2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775441850" />
     <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1585709189482">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585709189482" />
     <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585535230699" />
-    <state x="218" y="69" key="MergeDialog" timestamp="1588773703478">
+    <state x="218" y="69" key="MergeDialog" timestamp="1588832504225">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
+    <state x="218" y="69" key="MergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504225" />
     <state x="218" y="69" key="MergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703478" />
-    <state x="457" y="80" key="MultipleFileMergeDialog" timestamp="1588773703504">
+    <state x="457" y="80" key="MultipleFileMergeDialog" timestamp="1588832504269">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
+    <state x="457" y="80" key="MultipleFileMergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504269" />
     <state x="457" y="80" key="MultipleFileMergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703504" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588817678348">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588820462340">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727805196" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588817678348" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588820462340" />
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775444889" />
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588819522157">
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588832459780">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588819522157" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832459780" />
     <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775334519" />
   </component>
 </project>

@@ -10,6 +10,8 @@ nav:
       - Task Family: task.md
       - Common Dataset: data.md
       - Sim-2-Real: sim2real.md
+    - Tutorial:
+      - Calibration: tutorial-calibration.md
     - API:
       - deepclaw: code-api.md
     - Notes:
