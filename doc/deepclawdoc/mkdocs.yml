@@ -3,7 +3,7 @@ nav:
     - Home:
       - Overview: overview.md
       - Installation: install.md
-    - Manual: 
+    - Manual:
       - DeepClaw Pipeline: pipeline.md
       - Robot Library: robot.md
       - Module Pool: module.md
@@ -18,3 +18,28 @@ nav:
       - For Developers: devnote.md
       # - For Users (TODO): usenote.md
 theme: readthedocs
+
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+      linenums: false
+  - toc:
+      permalink: true
+  - footnotes
+  - meta
+  - def_list
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.tilde
