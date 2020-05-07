@@ -9,7 +9,7 @@ nav:
       - Module Pool: module.md
       - Task Family: task.md
       - Common Dataset: data.md
-      # - Sim-2-Real (TODO): sim2real.md
+      - Sim-2-Real: sim2real.md
     - API:
       - deepclaw: code-api.md
     - Notes:
