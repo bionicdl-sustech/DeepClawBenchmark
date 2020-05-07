@@ -1,6 +1,6 @@
-# data
+## data
 
-All kinds of public datasets for benchamrking purposes.
+Deepclaw maintains a collection of public datasets for benchamrking purposes.
 
 ## MNIST
 The MNIST database is a handwritten digits data set, has a training set of 60,000 examples, and a test set of 10,000 examples. The digits have been size-normalized and centered in a fixed-size image (28x28). There are 4 files in the dateset: training set images, training set labels, test set images, and test set labels. See more details and download in [here](http://yann.lecun.com/exdb/mnist/).
@@ -11,8 +11,6 @@ The MNIST database is a handwritten digits data set, has a training set of 60,00
 
 ## CIFAR
 The CIFAR-10 and CIFAR-100 are labeled subsets of the 80 million tiny images dataset. They were collected by Alex Krizhevsky, Vinod Nair, and Geoffrey Hinton. See more details and download in [here](https://www.cs.toronto.edu/~kriz/cifar.html).
-
-
 
 ## Haihua-Trash-Sorting
 The Dataset is provided by the 2020 Haihua AI Challenge·Garbage Classification. Please visit the [website](https://www.biendata.com/competition/haihua_wastesorting_task2/data/) for more information on the competition.
