@@ -7,10 +7,10 @@ The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robo
 In the current release, support is provided for a baseline setup with UR10e, HandE, and RealSense D435. The dependencies of DeepClaw are showed below:
 
 - RealSense SDK ([how to install]([https://www.intelrealsense.com/developers/]))
-
-- numpy
-- PyYAML
-- pyrealsense2
+  - Python packages
+    - numpy
+    - PyYAML
+    - pyrealsense2
 
 Before using DeepClaw, please ensure you have installed all above packages. The python packages `numpy`, `PyYaml`, and `pyrealsense2` will be installed when isntalling DeepClaw using pip.
 
