@@ -9,6 +9,8 @@ The deepclaw library API consists of following parts:
   - Arm
   - Hand
   - Camera
+- utils API
+  - JsonEncoder
 
 
 ## Hardware Driver API
@@ -23,12 +25,12 @@ The Hardware Driver API is used for controling the Hardware.
   - return: an instance of UR10e controller class
 
     _**Functions**_
-    >``` yaml
+    ``` yaml
     go_home()     
     Description: move to pre-defined joints, the home joints is defined in robot configuration file.
     ```
 
-    >``` yaml
+    ``` yaml
     move_j(joints_angle, velocity=None, acceleration=None, solution_space='Joint')   
     Description: go to the target joints positions    
     param[in]:
@@ -39,7 +41,7 @@ The Hardware Driver API is used for controling the Hardware.
     return: bool, reaching target or not
     ```
 
-    >``` yaml
+    ``` yaml
     move_p(position, velocity=None, acceleration=None,solution_space='Joint')   
     Description: go to the target pose(Rotation vector)    
     param[in]:
@@ -50,13 +52,13 @@ The Hardware Driver API is used for controling the Hardware.
     return: bool, reaching target or not
     ```
 
-    >``` yaml
+    ``` yaml
     get_state()   
     Description: get robot state    
     return: dictionary, the whole states of the UR10e
     ```
 
-    >``` yaml
+    ``` yaml
     verify_state(variable_name, target_value, error=0.0001, time_out=10)   
     Description: verify the robot reaching the target pose(joint or cartesian) or not    
     param[in]:
