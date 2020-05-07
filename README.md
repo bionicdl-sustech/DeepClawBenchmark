@@ -8,7 +8,7 @@ The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robo
 
 - Homepage: https://deepclaw.ancorasir.com/
 - Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html
-- Paper explaining DeepClaw: arXiv ([BibTex](#bibliography))
+- Paper explaining DeepClaw: [arXiv:2005.02588 [cs.RO]](https://arxiv.org/abs/2005.02588)
 - Papers using DeepClaw: 
   - [arXiv:2003.01584 [cs.RO]](https://arxiv.org/abs/2003.01584)
   - [arXiv:2003.01583 [cs.RO]](https://arxiv.org/abs/2003.01583)
@@ -18,23 +18,24 @@ The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robo
 
 The DeepClaw code is organized as follows:
 
-    configs/                configuration for robotic station for manipulation tasks.
-    deepclaw/drivers/       drivers for various robotic hardware, i.e. ur, franka, aubo.
-    deepclaw/models/        model zoo for segmentation, classification, pick planning, and motion planning.
-    deepclaw/utils/         server setup with dockers and client setup for laptops (x86) and jetson (arm).
-    projects/proj_trashSort a sample project to run deepclaw for sorting trash.
-    datasets/trash          description of trash sorting dataset
-    docs/                   description of this document as a manual.
-
-TODO list in the next update:
-
-    projects/proj_claw      a sample project to run deepclaw in arcade claw game.
-    projects/proj_jigsaw    a sample project to run deepclaw in jigsaw game.
-    projects/proj_oxTTT     a sample project to run deepclaw in tic-tac-toe game.
-    datasets/toys           description of the toy dataset
-    datasets/jigsaw         description of jigsaw game pieces dataset
-    datasets/mnist          description of mnist dataset
+    configs/                    configuration for robotic station for manipulation tasks.
+    deepclaw/drivers/           drivers for various robotic hardware, i.e. ur, franka, aubo.
+    deepclaw/models/            model zoo for segmentation, classification, pick planning, and motion planning.
+    deepclaw/utils/             server setup with dockers and client setup for laptops (x86) and jetson (arm).
+    projects/proj_TrashSorting  a sample project to run deepclaw for sorting trash.
+    datasets/trash              description of trash sorting dataset
+    docs/                       description of this document as a manual.
+    data/trash                  data on trash sorting
 
 ## Bibliography
 
-arXiv
+```
+@misc{wan2020deepclaw,
+    title={DeepClaw: A Robotic Hardware Benchmarking Platform for Learning Object Manipulation},
+    author={Fang Wan and Haokun Wang and Xiaobo Liu and Linhan Yang and Chaoyang Song},
+    year={2020},
+    eprint={2005.02588},
+    archivePrefix={arXiv},
+    primaryClass={cs.RO}
+}
+```
