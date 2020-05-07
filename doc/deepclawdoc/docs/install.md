@@ -1,6 +1,6 @@
 # Installation
 
-The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
+The DeepClaw is a benchmarking module pool that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
 
 ## Requirements
 
@@ -35,4 +35,3 @@ Install DeepClaw.
 ```
 python3 setup.py install
 ```
-
