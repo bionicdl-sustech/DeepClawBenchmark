@@ -61,7 +61,18 @@ A reasonable range of robotic hardware is supported by DeepClaw, with further in
 
 The overall integration of DeepClaw is generally divided into four stages, with further information explained in the [DeepClaw Pipeline](pipeline.md) section.
 
-![DeepClaw-WorkingPipeline](asset/fig-DeepClaw-Pipeline.PNG)
+![](asset/fig-DeepClaw-Pipeline.png)
+
+## Server-Client Structure
+
+In DeepClaw 2.0, we propose a new structure: the Server-Client Structure. This structure will benefit algorithm modules who require heavy computational resources by enabling GPUs in server.
+
+![](asset/fig-ServerClient.png)
+
+More details can be found here.
+
+- [how to add a new module in server]([])
+- [how to create a related module in client]([])
 
 ## Publication
 
