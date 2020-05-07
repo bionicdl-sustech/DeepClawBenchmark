@@ -1,16 +1,17 @@
 # API Reference
 The deepclaw library API consists of following parts:
+
 - Model Zoo API
-  - Segmentation
-  - Classification
-  - Pose Planning
-  - Motion Planning
+    - Segmentation
+    - Classification
+    - Pose Planning
+    - Motion Planning
 - Hardware Driver API
-  - Arm
-  - Hand
-  - Camera
+    - Arm
+    - Hand
+    - Camera
 - utils API
-  - JsonEncoder
+    - JsonEncoder
 
 
 ## Hardware Driver API
@@ -127,4 +128,3 @@ The Hardware Driver API is used for controling the Hardware.
 `Methods`
 
 - [run]([])(self, color_image)
-
