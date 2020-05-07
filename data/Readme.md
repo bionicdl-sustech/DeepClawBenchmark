@@ -6,7 +6,7 @@ All kinds of public datasets for benchamrking purposes.
 The MNIST database is a handwritten digits data set, has a training set of 60,000 examples, and a test set of 10,000 examples. The digits have been size-normalized and centered in a fixed-size image (28x28). There are 4 files in the dateset: training set images, training set labels, test set images, and test set labels. See more details and download in [here](http://yann.lecun.com/exdb/mnist/).
 
 
-# MNIST Fashion
+# Fashion-MNIST
  Fashion-MNIST is a fashion products data set from 10 categories,  consists of a training set of 60,000 examples and a test set of 10,000 examples. Go to the [github page](https://github.com/zalandoresearch/fashion-mnist#get-the-data) for more detailed information and downloading data set.
 
 # CIFAR
