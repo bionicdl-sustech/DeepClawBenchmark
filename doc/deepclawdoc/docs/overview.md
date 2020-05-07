@@ -30,26 +30,19 @@ After reviewing the robot station designs presented in several recent publicatio
 
 ![DeepClaw-MechDesign](asset/fig-DeepClaw-MechDesign.png)
 
-**AluExtru**: 9090 series aluminium extrusion profiles from global supperlier such as Misumi.
-
-* Misumi Part#: HFS8-9090-630-TPW, HFS8-9090-540-TPW, HFS8-9090-450-TPW.
-
-**AluPlate**: simple design peg-hole style aluminium plate for reliable connection, can be easily machined by you local shop.
-
-* S2x4, S2x5.
-
-**FlangeX**: simple flange designs that supports heavy load connection, can be easily machined by your local shop.
-
-* FlangeRobot: Supports Franka, UR, and AUBO in one design, as of now.
-* FlangeFoot: Support the adjustable wheel.
-* FlangeTube: Support RealSense D400 series, as of now. 
-
-**Others**: minimum accessories towards flexibility, robustness, and safety.
-
-* Tube: where cameras are mounted, can be easily modified based on your camera needs.
-* Handle (Part#: GHHD28-A): for ease of handling and safe usage.
-* Adjustable Wheel (GD-80F): for sturdiness and mobility.
-* TableTop (630x540): aluminium with CNC machined, threaded peg-holes, modify as you need.
+- **AluExtru**: 9090 series aluminium extrusion profiles from global supperlier such as Misumi.
+    - Misumi Part#: HFS8-9090-630-TPW, HFS8-9090-540-TPW, HFS8-9090-450-TPW.
+- **AluPlate**: simple design peg-hole style aluminium plate for reliable connection, can be easily machined by you local shop.
+    - S2x4, S2x5.
+- **FlangeX**: simple flange designs that supports heavy load connection, can be easily machined by your local shop.
+    - FlangeRobot: Supports Franka, UR, and AUBO in one design, as of now.
+    - FlangeFoot: Support the adjustable wheel.
+    - FlangeTube: Support RealSense D400 series, as of now. 
+- **Others**: minimum accessories towards flexibility, robustness, and safety.
+    - Tube: where cameras are mounted, can be easily modified based on your camera needs.
+    - Handle (Part#: GHHD28-A): for ease of handling and safe usage.
+    - Adjustable Wheel (GD-80F): for sturdiness and mobility.
+    - TableTop (630x540): aluminium with CNC machined, threaded peg-holes, modify as you need.
 
 ## Supported Robotic Hardware
 
