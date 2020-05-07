@@ -4,22 +4,21 @@ The deepclaw library API consists of following parts:
 
 - Hardware Driver API
     - Arm
-    
+
     - Hand
-    
+
     - Camera
-    
-- Modules API
+
+- Modules Pool API
     - Segmentation
-  
-    - Classification
-  
-    - Pose Planning
-  
+
+    - Recognition
+
+    - Grasp Planning
+
     - Motion Planning
 
 - utils API
-    - JsonEncoder
 
 ## Hardware Driver API
 
@@ -34,14 +33,14 @@ The Hardware Driver API is used for controling the Hardware.
 - parameters[in]: robot_configuration_file_path, the robot configuration file, and the file format is yaml.
 
 - return: an instance of UR10e controller class
-  
+
   _**Functions**_
-  
+
   ```yaml
   go_home()     
   Description: move to pre-defined joints, the home joints is defined in robot configuration file.
   ```
-  
+
   ```yaml
   move_j(joints_angle, velocity=None, acceleration=None, solution_space='Joint')   
   Description: go to the target joints positions    
@@ -52,7 +51,7 @@ The Hardware Driver API is used for controling the Hardware.
   - solution_space: move style, 'Joint' means it linear in joint-space(inverse kinematics is used to calculate the corresponding joints), and 'Space' means linear in tool-space   
   return: bool, reaching target or not
   ```
-  
+
   ```yaml
   move_p(position, velocity=None, acceleration=None,solution_space='Joint')   
   Description: go to the target pose(Rotation vector)    
@@ -63,13 +62,13 @@ The Hardware Driver API is used for controling the Hardware.
   - solution_space: move style, 'Joint' means it linear in joint-space,and 'Space' means linear in tool-space(forward kinematics is used to calculate the corresponding pose)    
   return: bool, reaching target or not
   ```
-  
+
   ```yaml
   get_state()   
   Description: get robot state    
   return: dictionary, the whole states of the UR10e
   ```
-  
+
   ```yaml
   verify_state(variable_name, target_value, error=0.0001, time_out=10)   
   Description: verify the robot reaching the target pose(joint or cartesian) or not    
@@ -82,10 +81,28 @@ The Hardware Driver API is used for controling the Hardware.
   ```
 
 ### Hand
-
 #### HandE
+> **class**  deepclaw.driver.grippers.handE_controller.**HandEController**(robot_ip = "192.168.1.10",port = 30003)
 
-## Modules API
+- parameters[in]: robot_ip, the UR ip which the gripper mounted on; port, the UR ip.
+
+- return: an instance of gripper controller class
+
+  _**Functions**_
+
+  ```yaml
+  close_gripper()     
+  Description: close the gripper.
+  ```
+
+  ```yaml
+  open_gripper()     
+  Description: open the gripper.
+  ```
+
+
+
+## Modules Pool API
 
 ### Calibration
 
