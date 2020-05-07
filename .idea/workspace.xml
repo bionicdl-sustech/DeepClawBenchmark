@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/code-api.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/code-api.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588775443098</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="add modules api documentation">
+      <created>1588817676363</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1588817676363</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -149,14 +155,15 @@
     <MESSAGE value="update developer documentation" />
     <MESSAGE value="update install and pipeline documentations" />
     <MESSAGE value="update index page and pipeline documentation" />
-    <option name="LAST_COMMIT_MESSAGE" value="update index page and pipeline documentation" />
+    <MESSAGE value="add modules api documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="add modules api documentation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588817633177">
+    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588820375858">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727800605" />
-    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588817633177" />
+    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588820375858" />
     <state x="374" y="0" key="CommitChangelistDialog2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775441850" />
     <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1585709189482">
       <screen x="78" y="0" width="1458" height="864" />
@@ -171,16 +178,16 @@
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="457" y="80" key="MultipleFileMergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703504" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588775444889">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588817678348">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727805196" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588768492845" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588817678348" />
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775444889" />
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588817635272">
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588819522157">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588817635272" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588819522157" />
     <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775334519" />
   </component>
 </project>
