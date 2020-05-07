@@ -34,7 +34,7 @@ The Hardware Driver API is used for controling the Hardware.
 
 - return: an instance of UR10e controller class
 
-  _**Functions**_
+  _**Methods**_
 
   ```yaml
   go_home()     
@@ -88,7 +88,7 @@ The Hardware Driver API is used for controling the Hardware.
 
 - return: an instance of gripper controller class
 
-  _**Functions**_
+  _**Methods**_
 
   ```yaml
   close_gripper()     
@@ -100,6 +100,27 @@ The Hardware Driver API is used for controling the Hardware.
   Description: open the gripper.
   ```
 
+### Camera
+#### Realsense D435
+> **class**  deepclaw.driver.sensors.cameras.**Realsense**(camera_configuration_file_path)
+
+- parameters[in]: camera_configuration_file_path, the camera configuration file, and the file format is yaml.
+
+- return: an instance of camera controller class
+
+  _**Methods**_
+
+  ```yaml
+  get_frame()     
+  Description: get images from a camera.
+  return: a tuple, includes color image, depth image, point cloud, and infrared images.
+  ```
+
+  ```yaml
+  get_intrinsics()     
+  Description: get intrinsics attributes of a camera.
+  return: a tuple, intrinsics parameters of the camera
+  ```
 
 
 ## Modules Pool API
