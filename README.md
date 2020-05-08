@@ -2,7 +2,7 @@
 
 # The DeepClaw Benchmark
 
-The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage can be found at [here](https://bionicdl-sustech.github.io/DeepClawBenchmark/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
+The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage can be found at [here](https://bionicdl-sustech.github.io/DeepClawBenchmark/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw.
 
 ## Resources
 
