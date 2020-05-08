@@ -1,4 +1,4 @@
-## data
+## Data
 
 Deepclaw maintains a collection of public datasets for benchamrking purposes.
 
