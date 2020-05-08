@@ -1,18 +1,17 @@
-![DeepClaw-Logo](doc/deepclawdoc/docs/asset/fig-DeepClaw.png)
+![DeepClaw-Logo](asset/fig-DeepClaw.png)
 
 # The DeepClaw Benchmark
 
-The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
+The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage can be found at [here](https://bionicdl-sustech.github.io/DeepClawBenchmark/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
 
 ## Resources
 
-- Homepage: https://deepclaw.ancorasir.com/
-- Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html
+- Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/
 - Paper explaining DeepClaw: [arXiv:2005.02588 [cs.RO]](https://arxiv.org/abs/2005.02588)
 - Papers using DeepClaw: 
-  - [arXiv:2003.01584 [cs.RO]](https://arxiv.org/abs/2003.01584)
-  - [arXiv:2003.01583 [cs.RO]](https://arxiv.org/abs/2003.01583)
-  - [arXiv:2003.01582 [cs.RO]](https://arxiv.org/abs/2003.01582)
+    - [arXiv:2003.01584 [cs.RO]](https://arxiv.org/abs/2003.01584)
+    - [arXiv:2003.01583 [cs.RO]](https://arxiv.org/abs/2003.01583)
+    - [arXiv:2003.01582 [cs.RO]](https://arxiv.org/abs/2003.01582)
 
 ## Code Organization
 

@@ -134,19 +134,19 @@
 <p>In DeepClaw, a sub-task is defined by a pipeline of modules, including segmentation, recognition, grasp planning, and motion planning, as shown in above figure. The pipeline takes color/depth images, force feedback, hardware limitation, and environment information as input and gives actions to the manipulation system and pushes data and results to data monitor. </p>
 <h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
 <p>Segmentation and recognition involve analyzing information gained from the perception system. Segmentation is the process that robot cell collecting environment information and representing spatial information of the target objects by using perception algorithms. The output of the segmentation module can be pixel-wise masks or bounding boxes. DeepClaw includes basic segmentation based on contour and edge detection in OpenCV.</p>
-<p><a href="[]">Code</a> | <a href="[]">Segmentation Module Pool</a></p>
+<p><a href="[ https://github.com/bionicdl-sustech/DeepClaw/tree/master/deepclaw/modules/segmentation ]">Code</a> | <a href="[https://bionicdl-sustech.github.io/DeepClaw/module/#segmentation]">Segmentation Module Pool</a></p>
 <h2 id="recognition">Recognition<a class="headerlink" href="#recognition" title="Permanent link">&para;</a></h2>
 <p>Recognition is the process of extracting features of the target object beyond location information. In this step, the robot cell infers the category of the target object by applying specific methods, such as support vector machine(SVM) and convolutional neural network. Some of the end-to-end  neural networks infer the location and category of the target object at the same time.</p>
-<p><a href="[]">Code</a> | <a href="[]">Recognition Module Pool</a></p>
+<p><a href="[ https://github.com/bionicdl-sustech/DeepClawBenchmark/tree/master/deepclaw/modules/recognition]">Code</a> | <a href="[https://bionicdl-sustech.github.io/DeepClaw/module/#recognition]">Recognition Module Pool</a></p>
 <h2 id="grasping-planning">Grasping Planning<a class="headerlink" href="#grasping-planning" title="Permanent link">&para;</a></h2>
 <p>Grasping planning aims to find the optimal pose for the robot arm and end-effect to approach the target objects, which is highly dependent on both the end-effector and the objects. Recent years, research interests have shifted from analytic methods to data-driven methods. DeepClaw has implemented an end-to-end grasp planning model based on fully convolutional AlexNet, which was trained on 5000 random grasps with labels. </p>
-<p><a href="[]">Code</a> | <a href="[]">Grasping Planning Module Pool</a></p>
+<p><a href="[ https://github.com/bionicdl-sustech/DeepClaw/tree/master/deepclaw/modules/grasp_planning]">Code</a> | <a href="[https://bionicdl-sustech.github.io/DeepClaw/module/#grasping_planning]">Grasping Planning Module Pool</a></p>
 <h2 id="motion-planning">Motion Planning<a class="headerlink" href="#motion-planning" title="Permanent link">&para;</a></h2>
 <p>Motion planning utilizes information above, such as grasping pose, force sensor data, constrain of the robot system, and limitation of working space, to obtain collision-free trajectories. Currently, waypoint-based motion planning is used through our tasks. For UR5 and UR10e, we utilize the movej command implemented in UR’s controller to plan and execute a path between waypoints. For Franka, we utilize a fourthorder motion generator in the joint space provided by the libfranka software. </p>
-<p><a href="[]">Code</a> | <a href="[]">Motion Planning Module Pool</a></p>
+<p><a href="[ https://github.com/bionicdl-sustech/DeepClaw/tree/master/deepclaw/modules/motion_planning]">Code</a> | <a href="[https://bionicdl-sustech.github.io/DeepClaw/module/#motion_planning]">Motion Planning Module Pool</a></p>
 <h2 id="end-to-end">End-to-End<a class="headerlink" href="#end-to-end" title="Permanent link">&para;</a></h2>
 <p>Actually, many learning algorithms may implement multiple functions, like SSD for both localization and recognition. So, the sub-task process may transforms to three or two, even only one stage process.</p>
-<p><a href="[]">Code</a> | <a href="[]">End-to-End</a></p>
+<p><a href="[ https://github.com/bionicdl-sustech/DeepClaw/tree/master/deepclaw/modules/end2end]">Code</a> | <a href="[https://bionicdl-sustech.github.io/DeepClaw/module/#end2end]">End-to-End</a></p>
               
             </div>
           </div>
