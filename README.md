@@ -1,20 +1,41 @@
-# DeepClaw <!-- omit in toc -->
+![DeepClaw-Logo](doc/deepclawdoc/docs/asset/fig-DeepClaw.png)
 
-paper | poster | video
+# The DeepClaw Benchmark
 
-![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/docs/figs/fig-PaperOverview.png)
+The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at [deepclaw.ancorasir.com](https://deepclaw.ancorasir.com/). This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.
 
-We present DeepClaw as a reconfigurable benchmark of robotic hardware and task hierarchy for robot learning. The DeepClaw benchmark aims at a mechatronics perspective of the robot learning problem, which features a minimum design of robot cell that can be easily reconfigured to host robot hardware from various vendors, including manipulators, grippers, cameras, desks, and objects, aiming at a streamlined collection of physical manipulation data and evaluation of the learned skills for hardware benchmarking. We provide a detailed design of the robot cell with readily available parts to build the experiment environment that can host a wide range of robotic hardware commonly adopted for robot learning. We also propose a hierarchical pipeline of software integration, including localization, recognition, grasp planning, and motion planning, to streamline learning-based robot control, data collection, and experiment validation towards shareability and reproducibility.
+## Resources
 
-DeepClaw is a benchmarking system for robot manipulation designed to be modularized, extendable, and easy to use on real robots and the environment. As shown in Fig.1, DeepClaw consists of four components:
+- Homepage: https://deepclaw.ancorasir.com/
+- Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html
+- Paper explaining DeepClaw: [arXiv:2005.02588 [cs.RO]](https://arxiv.org/abs/2005.02588)
+- Papers using DeepClaw: 
+  - [arXiv:2003.01584 [cs.RO]](https://arxiv.org/abs/2003.01584)
+  - [arXiv:2003.01583 [cs.RO]](https://arxiv.org/abs/2003.01583)
+  - [arXiv:2003.01582 [cs.RO]](https://arxiv.org/abs/2003.01582)
 
-1. A standardized robot cell design.
-2. A set of unified driver interfaces that serves as a connection layer between the benchmarking algorithms and the hardware, including robot arms, robot hands, visual sensors, tactile sensors.
-3. A collection of baseline algorithms for segmentation, recognition, grasp planning, and motion planning.
-4. A pipeline for task definition and functional integration.
+## Code Organization
 
-For a detailed decription of DeepClaw and benchmarking tasks, please visit the [website of DeepClaw](https://bionicdl-sustech.github.io/DeepClawBenchmark/)
+The DeepClaw code is organized as follows:
 
-# Quick Start <!-- omit in toc -->
+    configs/                    configuration for robotic station for manipulation tasks.
+    deepclaw/drivers/           drivers for various robotic hardware, i.e. ur, franka, aubo.
+    deepclaw/models/            model zoo for segmentation, classification, pick planning, and motion planning.
+    deepclaw/utils/             server setup with dockers and client setup for laptops (x86) and jetson (arm).
+    projects/proj_TrashSorting  a sample project to run deepclaw for sorting trash.
+    datasets/trash              description of trash sorting dataset
+    docs/                       description of this document as a manual.
+    data/trash                  data on trash sorting
 
-To be continued ... (the kind of code that anyone needs to get started with DeepClaw)
+## Bibliography
+
+```
+@misc{wan2020deepclaw,
+    title={DeepClaw: A Robotic Hardware Benchmarking Platform for Learning Object Manipulation},
+    author={Fang Wan and Haokun Wang and Xiaobo Liu and Linhan Yang and Chaoyang Song},
+    year={2020},
+    eprint={2005.02588},
+    archivePrefix={arXiv},
+    primaryClass={cs.RO}
+}
+```

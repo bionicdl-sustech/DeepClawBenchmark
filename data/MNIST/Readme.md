@@ -1,73 +1,14 @@
-# DeepClawBenchmark
+# [MNIST](http://yann.lecun.com/exdb/mnist/)
+The MNIST database is a handwritten digits data set, has a training set of 60,000 examples, and a test set of 10,000 examples. The digits have been size-normalized and centered in a fixed-size image (28x28).
 
-paper | poster | video
 
-Establishing a reproducible and shareable benchmarking for dexterous manipulation has been a significant challenge since the diversity of robot systems, the complexity of manipulation tasks, and a wide selection of metrics. To reduce the entry barrier, we propose **DeepClaw** - a standardized dexterous manipulation protocol, which comprises four common operations to streamline the manipulation process: *localization*, *recognition*, *grasp planning*, and *motion planning*. 
+Download the database from http://yann.lecun.com/exdb/mnist/, and the example is showed in figure.1.
 
-Robot can learning skills that applicable for the similar tasks, called the *task familiy*[1]. We have implemented several manipulation tasks in three task families representing assembly tasks, reasoning tasks and bin-picking tasks separately.
+<p align="center"><img src="./fig-example-MNIST.png" width="50%"/></p>
 
-For a detailed decription of DeepClaw and benchmarking tasks, please visit the [website of DeepClaw](https://bionicdl-sustech.github.io/DeepClawBenchmark/)
+<p align="center">Figure 1. Dataset examples.</p>
 
-![](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/Documents/Figs/deepclaw-framework.png)
 
-## Quick Start
 
-### Prerequisites
-
-DeepClaw framework has only been tested with *Python 2.7* and *Ubuntu 16.04 LTS*. We recommend using a virtual environment (such as virtualenv) to manage DeepClaw.
-
-Install virtualenv.
-
-```shell
-$ sudo pip install -U virtualenv
-```
-
-Create a new virtual environment.
-
-```shell
-$ virtualenv --system-site-packages -p python2.7 ./venv
-```
-
-Activate or retreat from virtual environment.
-
-```shell
-$ source ./venv/bin/activate # activate virtual environment
-$ deactivate # retreat from virtual environment
-```
-
-### Installation
-
-Clone or download DeepClaw from Github.
-
-```shell
-$ git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
-$ cd ./DeepClawBenchmark
-```
-
-Run the DeepClaw installation helper script:
-
-```shell
-$ sudo sh install.sh realsense ur
-```
-
-The brackets indicate optional arguments to switch installation methods.
-
-The first argument specifies the version:
-
-- **realsense**: RealSense D435 support.
-
-The second argument specifies the installation mode:
-
-- **ur**: UNIVERSAL ROBOT arm series support (UR5 and UR10e).
-- **franka**: FRANKA arm support.
-- **aubo**: AUBO arm support (update later).
-- **denso**: DENSO Cobotta arm support (update later).
-
-## <a name="tasks">Tasks</a>
-We have implemented some task families with DeepClaw:
-- Task Family 1: [Jigsaw puzzle](https://github.com/bionicdl-sustech/DeepClawBenchmark/blob/master/documents/Jigsaw_task/task_description.md)
-- Task Family 2: Tictactoe Game
-- Task Family 3: Claw Machine
-
-## References
-[1] O. Kroemer, S. Niekum, and G. Konidaris, “A review of robot learning for manipulation: Challenges, representations, and algorithms,”arXiv preprintarXiv:1907.03146, 2019.
+## Reference
+LeCun Y, Bottou L, Bengio Y, et al. [Gradient-based learning applied to document recognition](http://www.dengfanxin.cn/wp-content/uploads/2016/03/1998Lecun.pdf)[J]. Proceedings of the IEEE, 1998, 86(11): 2278-2324.

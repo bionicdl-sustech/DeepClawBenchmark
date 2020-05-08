@@ -1,0 +1,14 @@
+#camera parameters
+name: D435
+serial_number: 
+width: 1920
+height: 1080
+fps: 30
+inner_matrix:
+# [fx,s,cx;0,fy,cy;0,0,1]
+  - [500,0,300]
+  - [0,520,200]
+  - [0,0,1]
+distortion_coefficients: [0,0,0,0,0]
+
+

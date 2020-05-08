@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="fix a bug of data transmission">
+    <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deepclaw/utils/Server.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepclaw/utils/Server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +18,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
@@ -97,7 +102,77 @@
       <option name="project" value="LOCAL" />
       <updated>1585727802342</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update documentations">
+      <created>1588768489839</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1588768489840</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update developer documentation">
+      <created>1588771127924</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1588771127924</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update install and pipeline documentations">
+      <created>1588773765294</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1588773765294</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update index page and pipeline documentation">
+      <created>1588774874935</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1588774874935</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update index page and pipeline documentation">
+      <created>1588775443098</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1588775443098</updated>
+    </task>
+    <task id="LOCAL-00013" summary="add modules api documentation">
+      <created>1588817676363</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1588817676363</updated>
+    </task>
+    <task id="LOCAL-00014" summary="reformat gif to mp4">
+      <created>1588820460860</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1588820460860</updated>
+    </task>
+    <task id="LOCAL-00015" summary="update documentations">
+      <created>1588832524759</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1588832524759</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update documentations">
+      <created>1588850903870</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1588850903870</updated>
+    </task>
+    <task id="LOCAL-00017" summary="update documentations">
+      <created>1588920221748</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1588920221748</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -105,27 +180,46 @@
     <MESSAGE value="update documents" />
     <MESSAGE value="update release related" />
     <MESSAGE value="fix a bug of data transmission" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix a bug of data transmission" />
+    <MESSAGE value="update developer documentation" />
+    <MESSAGE value="update install and pipeline documentations" />
+    <MESSAGE value="update index page and pipeline documentation" />
+    <MESSAGE value="add modules api documentation" />
+    <MESSAGE value="reformat gif to mp4" />
+    <MESSAGE value="update documentations" />
+    <option name="LAST_COMMIT_MESSAGE" value="update documentations" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1585792948563">
+    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588921293967">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727800605" />
-    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585792948563" />
-    <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1585709189482">
+    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588921293967" />
+    <state x="374" y="0" key="CommitChangelistDialog2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775441850" />
+    <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1588908810172">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585709189482" />
-    <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585535230699" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1585727805196">
+    <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588908810172" />
+    <state x="218" y="69" key="MergeDialog" timestamp="1588832504225">
+      <screen x="78" y="0" width="1458" height="864" />
+    </state>
+    <state x="218" y="69" key="MergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504225" />
+    <state x="218" y="69" key="MergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703478" />
+    <state x="457" y="80" key="MultipleFileMergeDialog" timestamp="1588832504269">
+      <screen x="78" y="0" width="1458" height="864" />
+    </state>
+    <state x="457" y="80" key="MultipleFileMergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504269" />
+    <state x="457" y="80" key="MultipleFileMergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703504" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588921296654">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727805196" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585562278042" />
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585792803774">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588921296654" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775444889" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588901767150">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585792803774" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588901767150" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775334519" />
   </component>
 </project>

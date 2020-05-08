@@ -1,4 +1,4 @@
-# Copyright (c) 2020 by BionicLab. All Rights Reserved.
+# Copyright (c) 2020 by BionicDL Lab. All Rights Reserved.
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 
@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='DeepClaw',
-    version='1.0.1',
+    version='1.0.3',
     description=(
         'a reconfigurable benchmark of robotic hardware and task hierarchy for robot learning'
     ),
@@ -17,9 +17,8 @@ setup(
     license='MIT License',
     packages=find_packages(),
     platforms=["all"],
-    url='https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html',
+    url='https://bionicdl-sustech.github.io/DeepClawBenchmark/',
     classifiers=[
-        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.7',
@@ -27,6 +26,12 @@ setup(
         'Topic :: Software Development :: Libraries'
     ],
     install_requires=[
-        'numpy>=1.18'
+        'numpy==1.18.2',
+        'matplotlib==3.2.1',
+        'opencv_contrib_python==4.1.2.30',
+        'PyYAML==5.3.1',
+        'pyrealsense2==2.34.0.1470',
+        'scipy==1.4.1',
+        'tqdm==4.46.0'
     ],
 )
