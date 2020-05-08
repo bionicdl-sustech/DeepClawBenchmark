@@ -84,7 +84,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#adding-pages">Adding Pages</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#build-display">Build &amp; Display</a>
+    <li class="toctree-l2"><a class="reference internal" href="#build">Build</a>
     </li>
     </ul>
                     </li>
@@ -135,7 +135,7 @@
 </ul>
 <h2 id="adding-pages">Adding Pages<a class="headerlink" href="#adding-pages" title="Permanent link">&para;</a></h2>
 <p>Because the documentation will include some navigation headers, you may need to edit the configuration file first.</p>
-<p>The <code>mkdocs.yaml</code> configuration file looks like:</p>
+<p>The <code>websrc/mkdocs.yaml</code> configuration file looks like:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">site_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DeepClaw</span>
 <span class="nt">nav</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">Home</span><span class="p">:</span>
@@ -151,7 +151,7 @@
 <span class="nt">theme</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">readthedocs</span>
 </code></pre></div>
 
-<p>You can add a new markdown file into docs, like <code>docs/&lt;NEW_FILE_NAME&gt;.md</code>. Then edit this configuration file, insert the markdown file into the <code>nav</code> , for example:</p>
+<p>You can add a new markdown file into docs, like <code>websrc/docs/&lt;NEW_FILE_NAME&gt;.md</code>. Then edit this configuration file, insert the markdown file into the <code>nav</code> , for example:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">nav</span><span class="p">:</span>
     <span class="l l-Scalar l-Scalar-Plain">...</span>
@@ -161,21 +161,17 @@
     <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 
-<h2 id="build-display">Build &amp; Display<a class="headerlink" href="#build-display" title="Permanent link">&para;</a></h2>
-<p>CD into <code>DEEPCLAW_ROOT/doc/deepclawdoc/</code></p>
-<div class="highlight"><pre><span></span><code>$ cd doc/deepclawdoc/
+<h2 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
+<p>CD into <code>websrc</code></p>
+<div class="highlight"><pre><span></span><code>$ cd websrc
 </code></pre></div>
 
-<p>Then start MKDOCS serve</p>
-<div class="highlight"><pre><span></span><code>$ mkdocs serve
-INFO    -  Building documentation...
+<p>Then build web pages</p>
+<div class="highlight"><pre><span></span><code>$ mkdocs build -d ../docs --clean
 INFO    -  Cleaning site directory
-[I 160402 15:50:43 server:271] Serving on http://127.0.0.1:8000
-[I 160402 15:50:43 handlers:58] Start watching changes
-[I 160402 15:50:43 handlers:60] Start detecting changes
+INFO    -  Building documentation to directory: &lt;ROOT&gt;\DeepClawBenchmark\docs
+INFO    -  Documentation built in 0.xxx seconds
 </code></pre></div>
-
-<p>Open up <code>http:/127.0.0.1:8000/</code> in your browser, and you'll see the default home page being displayed.</p>
               
             </div>
           </div>
