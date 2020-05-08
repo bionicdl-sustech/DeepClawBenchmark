@@ -4,11 +4,6 @@
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/overview/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/overview/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/pipeline/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/pipeline/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/search/search_index.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/search/search_index.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/sitemap.xml.gz" beforeDir="false" afterPath="$PROJECT_DIR$/docs/sitemap.xml.gz" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -198,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588922113567</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update web pages">
+      <created>1588923479634</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1588923479634</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -217,11 +219,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="update web pages" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588922111995">
+    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588923478109">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727800605" />
-    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588922111995" />
+    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588923478109" />
     <state x="374" y="0" key="CommitChangelistDialog2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775441850" />
     <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1588908810172">
       <screen x="78" y="0" width="1458" height="864" />
@@ -238,11 +240,11 @@
     </state>
     <state x="457" y="80" key="MultipleFileMergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504269" />
     <state x="457" y="80" key="MultipleFileMergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703504" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588922115898">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588923481365">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727805196" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588922115898" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588923481365" />
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775444889" />
     <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588901767150">
       <screen x="78" y="0" width="1458" height="864" />

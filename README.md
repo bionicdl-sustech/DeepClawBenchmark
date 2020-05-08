@@ -1,4 +1,4 @@
-![DeepClaw-Logo](asset/fig-DeepClaw.png)
+![DeepClaw-Logo](docs/asset/fig-DeepClaw.png)
 
 # The DeepClaw Benchmark
 
