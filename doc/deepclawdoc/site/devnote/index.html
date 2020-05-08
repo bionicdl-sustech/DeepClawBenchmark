@@ -60,7 +60,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../robot/">Robot Library</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../model/">Model Zoo</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../module/">Module Pool</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../task/">Task Family</a>
                     </li>
@@ -74,8 +74,18 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Notes</span></p>
                 <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../licence/">Licence</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../release/">Release Note</a>
+                    </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">For Developers</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#commands">Commands</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-pages">Adding Pages</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#build-display">Build &amp; Display</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -115,8 +125,57 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="developer-note">Developer Note</h1>
-<p>This documentation is edited using <a href="https://www.mkdocs.org/">MkDocs</a>. Please install it before editing.</p>
+                <h1 id="developer-note">Developer Note<a class="headerlink" href="#developer-note" title="Permanent link">&para;</a></h1>
+<p>This documentation is edited using <a href="https://www.mkdocs.org/">MkDocs</a>. For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
+<li><code>mkdocs build</code> - Build the documentation site.</li>
+<li><code>mkdocs -h</code> - Print help message and exit.</li>
+</ul>
+<h2 id="adding-pages">Adding Pages<a class="headerlink" href="#adding-pages" title="Permanent link">&para;</a></h2>
+<p>Because the documentation will include some navigation headers, you may need to edit the configuration file first.</p>
+<p>The <code>mkdocs.yaml</code> configuration file looks like:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">site_name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">DeepClaw</span>
+<span class="nt">nav</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">Home</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">Overview</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">index.md</span>
+      <span class="p p-Indicator">-</span> <span class="nt">Installation</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">install.md</span>
+    <span class="p p-Indicator">-</span> <span class="nt">Manual</span><span class="p">:</span> 
+      <span class="p p-Indicator">-</span> <span class="nt">DeepClaw Pipeline</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">pipeline.md</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="p p-Indicator">-</span> <span class="nt">API</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">deepclaw</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">code-api.md</span>
+    <span class="p p-Indicator">-</span> <span class="nt">Notes</span><span class="p">:</span>
+      <span class="p p-Indicator">-</span> <span class="nt">For Developers</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">devnote.md</span>
+<span class="nt">theme</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">readthedocs</span>
+</code></pre></div>
+
+<p>You can add a new markdown file into docs, like <code>docs/&lt;NEW_FILE_NAME&gt;.md</code>. Then edit this configuration file, insert the markdown file into the <code>nav</code> , for example:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+<span class="nt">nav</span><span class="p">:</span>
+    <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="l l-Scalar l-Scalar-Plain">- Manual</span><span class="p p-Indicator">:</span> 
+      <span class="p p-Indicator">-</span> <span class="nt">&lt;NAVIGATION TAG&gt;</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;NEW_FILE_NAME&gt;.md</span>
+      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
+
+<h2 id="build-display">Build &amp; Display<a class="headerlink" href="#build-display" title="Permanent link">&para;</a></h2>
+<p>CD into <code>DEEPCLAW_ROOT/doc/deepclawdoc/</code></p>
+<div class="highlight"><pre><span></span><code>$ cd doc/deepclawdoc/
+</code></pre></div>
+
+<p>Then start MKDOCS serve</p>
+<div class="highlight"><pre><span></span><code>$ mkdocs serve
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+[I 160402 15:50:43 server:271] Serving on http://127.0.0.1:8000
+[I 160402 15:50:43 handlers:58] Start watching changes
+[I 160402 15:50:43 handlers:60] Start detecting changes
+</code></pre></div>
+
+<p>Open up <code>http:/127.0.0.1:8000/</code> in your browser, and you'll see the default home page being displayed.</p>
               
             </div>
           </div>
@@ -125,7 +184,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="../code-api/" class="btn btn-neutral" title="deepclaw"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../release/" class="btn btn-neutral" title="Release Note"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -151,7 +210,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href="../code-api/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../release/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
     </span>

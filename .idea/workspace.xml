@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="96d224b3-a4f2-4bf6-a049-cbb26790fd08" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/deepclaw/utils/Add New Module in Server.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deepclaw/utils/Create A New Client Module.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/asset/fig-ServerClient.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/overview.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/overview.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deepclaw/driver/arms/UR5Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepclaw/driver/arms/UR5Controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deepclaw/driver/sensors/camera/Realsense.py" beforeDir="false" afterPath="$PROJECT_DIR$/deepclaw/driver/sensors/camera/Realsense.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/licence.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/licence.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/deepclawdoc/docs/release.md" beforeDir="false" afterPath="$PROJECT_DIR$/doc/deepclawdoc/docs/release.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588832524759</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="update documentations">
+      <created>1588850903870</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1588850903870</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -179,17 +185,17 @@
     <option name="LAST_COMMIT_MESSAGE" value="update documentations" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588832524035">
+    <state x="78" y="0" key="CommitChangelistDialog2" timestamp="1588850902765">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727800605" />
-    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832524035" />
+    <state x="78" y="0" key="CommitChangelistDialog2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588850902765" />
     <state x="374" y="0" key="CommitChangelistDialog2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775441850" />
-    <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1585709189482">
+    <state x="538" y="131" key="FileChooserDialogImpl" timestamp="1588908810172">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585709189482" />
-    <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1585535230699" />
+    <state x="538" y="131" key="FileChooserDialogImpl/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588908810172" />
     <state x="218" y="69" key="MergeDialog" timestamp="1588832504225">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
@@ -200,16 +206,16 @@
     </state>
     <state x="457" y="80" key="MultipleFileMergeDialog/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832504269" />
     <state x="457" y="80" key="MultipleFileMergeDialog/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588773703504" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588832526189">
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2" timestamp="1588850905243">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/1920.-869.1080.1880/78.0.1458.864@78.0.1458.864" timestamp="1585727805196" />
-    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588832526189" />
+    <state x="300" y="101" key="Vcs.Push.Dialog.v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588850905243" />
     <state x="300" y="101" key="Vcs.Push.Dialog.v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775444889" />
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588833242226">
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1588901767150">
       <screen x="78" y="0" width="1458" height="864" />
     </state>
-    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588833242226" />
+    <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/3078.-15.1458.864/78.0.1458.864/1920.-869.1080.1880@78.0.1458.864" timestamp="1588901767150" />
     <state x="593" y="331" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/78.0.1458.864/1920.0.1920.1040@78.0.1458.864" timestamp="1588775334519" />
   </component>
 </project>

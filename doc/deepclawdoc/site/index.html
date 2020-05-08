@@ -60,7 +60,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="robot/">Robot Library</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="model/">Model Zoo</a>
+                    <li class="toctree-l1"><a class="reference internal" href="module/">Module Pool</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="task/">Task Family</a>
                     </li>
@@ -74,6 +74,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Notes</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="licence/">Licence</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="release/">Release Note</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="devnote/">For Developers</a>
                     </li>
                 </ul>
@@ -110,63 +114,43 @@
             <div class="section">
               
                 <p><img alt="DeepClaw-Logo" src="asset/fig-DeepClaw.png" /></p>
-<h1 id="the-deepclaw-benchmark">The DeepClaw Benchmark</h1>
+<h1 id="the-deepclaw-benchmark">The DeepClaw Benchmark<a class="headerlink" href="#the-deepclaw-benchmark" title="Permanent link">&para;</a></h1>
 <p>The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at <a href="https://deepclaw.ancorasir.com/">deepclaw.ancorasir.com</a>. This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.</p>
-<h1 id="resources">Resources</h1>
+<h2 id="resources">Resources<a class="headerlink" href="#resources" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Homepage: https://deepclaw.ancorasir.com/</li>
-<li>Documentation: https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html</li>
-<li>Paper explaining DeepClaw: arXiv (<a href="#bibliography">BibTex</a>)</li>
-<li>Papers using DeepClaw: </li>
+<li>Homepage: <a href="https://deepclaw.ancorasir.com/">https://deepclaw.ancorasir.com/</a></li>
+<li>Documentation: <a href="https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html">https://bionicdl-sustech.github.io/DeepClawBenchmark/_build/html/index.html</a></li>
+<li>Paper explaining DeepClaw: <a href="https://arxiv.org/abs/2005.02588">arXiv:2005.02588 [cs.RO]</a></li>
+<li>Papers using DeepClaw: <ul>
 <li><a href="https://arxiv.org/abs/2003.01584">arXiv:2003.01584 [cs.RO]</a></li>
 <li><a href="https://arxiv.org/abs/2003.01583">arXiv:2003.01583 [cs.RO]</a></li>
 <li><a href="https://arxiv.org/abs/2003.01582">arXiv:2003.01582 [cs.RO]</a></li>
 </ul>
-<h1 id="installation-from-source">Installation from Source</h1>
-<p>As of now, DeepClaw framework has been tested with Python 2.7 and Ubuntu 16.04 LTS, with a near-future plan to update to Python 3.x with Ubunti 18.04 LTS.</p>
-<h2 id="virtual-environment">Virtual Environment</h2>
-<p>We recommend using a virtual environment (such as virtualenv) to manage DeepClaw.</p>
-<p>Install virtualenv.</p>
-<pre><code>$ pip install -U virtualenv
-</code></pre>
-<p>Create a new virtual environment.</p>
-<pre><code>$ virtualenv -p /usr/bin/python2.7 ~/DCvenv
-</code></pre>
-<p>Activate or retreat from virtual environment.</p>
-<pre><code>$ source ~/DCvenv/bin/activate # activate virtual environment
-$ deactivate # retreat from virtual environment
-</code></pre>
-<h2 id="requirements">Requirements</h2>
-<p>In the current realse, support is provided for a baselone setup with UR10e, HandE, and RealSense D435. The depenences of DeepClaw are showed below:</p>
-<ul>
-<li>python-pip</li>
-<li>install numpy==1.16.2</li>
-<li>opencv-python==3.3.1.11</li>
-<li>scipy==1.2.2</li>
-<li>tensorflow==1.12.0</li>
-<li>open3d</li>
-<li>RealSense SDK (https://www.intelrealsense.com/developers/), pyrealsense2</li>
+</li>
 </ul>
-<h1 id="code-organization">Code Organization</h1>
+<h2 id="code-organization">Code Organization<a class="headerlink" href="#code-organization" title="Permanent link">&para;</a></h2>
 <p>The DeepClaw code is organized as follows:</p>
-<pre><code>configs/                configuration for robotic station for manipulation tasks.
-deepclaw/drivers/       drivers for various robotic hardware, i.e. ur, franka, aubo.
-deepclaw/models/        model zoo for segmentation, classification, pick planning, and motion planning.
-deepclaw/utils/         server setup with dockers and client setup for laptops (x86) and jetson (arm).
-projects/proj_trashSort a sample project to run deepclaw for sorting trash.
-datasets/trash          description of trash sorting dataset
-docs/                   description of this document as a manual.
-</code></pre>
-<p>TODO list in the next update:</p>
-<pre><code>projects/proj_claw      a sample project to run deepclaw in arcade claw game.
-projects/proj_jigsaw    a sample project to run deepclaw in jigsaw game.
-projects/proj_oxTTT     a sample project to run deepclaw in tic-tac-toe game.
-datasets/toys           description of the toy dataset
-datasets/jigsaw         description of jigsaw game pieces dataset
-datasets/mnist          description of mnist dataset
-</code></pre>
-<h1 id="bibliography">Bibliography</h1>
-<p>arXiv</p>
+<div class="codehilite"><pre><span></span><code>configs/                    configuration for robotic station for manipulation tasks.
+deepclaw/drivers/           drivers for various robotic hardware, i.e. ur, franka, aubo.
+deepclaw/models/            model zoo for segmentation, classification, pick planning, and motion planning.
+deepclaw/utils/             server setup with dockers and client setup for laptops (x86) and jetson (arm).
+projects/proj_TrashSorting  a sample project to run deepclaw for sorting trash.
+datasets/trash              description of trash sorting dataset
+docs/                       description of this document as a manual.
+data/trash                  data on trash sorting
+</code></pre></div>
+
+
+<h2 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>@misc{wan2020deepclaw,
+    title={DeepClaw: A Robotic Hardware Benchmarking Platform for Learning Object Manipulation},
+    author={Fang Wan and Haokun Wang and Xiaobo Liu and Linhan Yang and Chaoyang Song},
+    year={2020},
+    eprint={2005.02588},
+    archivePrefix={arXiv},
+    primaryClass={cs.RO}
+}
+</code></pre></div>
               
             </div>
           </div>
@@ -211,5 +195,5 @@ datasets/mnist          description of mnist dataset
 
 <!--
 MkDocs version : 1.1
-Build Date UTC : 2020-05-06 13:19:28
+Build Date UTC : 2020-05-08 06:43:09
 -->

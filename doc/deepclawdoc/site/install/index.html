@@ -53,6 +53,12 @@
                     </li>
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-using-pip">Install using pip</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-from-source">Install from source</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -62,7 +68,7 @@
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../robot/">Robot Library</a>
                     </li>
-                    <li class="toctree-l1"><a class="reference internal" href="../model/">Model Zoo</a>
+                    <li class="toctree-l1"><a class="reference internal" href="../module/">Module Pool</a>
                     </li>
                     <li class="toctree-l1"><a class="reference internal" href="../task/">Task Family</a>
                     </li>
@@ -76,6 +82,10 @@
                 </ul>
                 <p class="caption"><span class="caption-text">Notes</span></p>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../licence/">Licence</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../release/">Release Note</a>
+                    </li>
                     <li class="toctree-l1"><a class="reference internal" href="../devnote/">For Developers</a>
                     </li>
                 </ul>
@@ -115,31 +125,34 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="the-deepclaw-benchmark">The DeepClaw Benchmark</h1>
-<p>The DeepClaw is a benchmarking model zoo that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at <a href="https://deepclaw.ancorasir.com/">deepclaw.ancorasir.com</a>. This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.</p>
-<h1 id="quick-start">Quick Start</h1>
-<p>As of now, DeepClaw framework has been tested with Python 3.7 and Ubuntu 18.04 LTS.</p>
-<h2 id="pre-requirements">Pre-requirements</h2>
+                <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
+<p>The DeepClaw is a benchmarking module pool that functions as a Reconfigurable Robotic Manipulation System for Robot Learning. The main homepage for Julia can be found at <a href="https://deepclaw.ancorasir.com/">deepclaw.ancorasir.com</a>. This is the GitHub repository of DeepClaw source code, including instructions for installing and using DeepClaw, below.</p>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <p>In the current release, support is provided for a baseline setup with UR10e, HandE, and RealSense D435. The dependencies of DeepClaw are showed below:</p>
 <ul>
-<li>RealSense <a href="[https://www.intelrealsense.com/developers/]">SDK</a></li>
+<li>RealSense SDK (<a href="[https://www.intelrealsense.com/developers/]">how to install</a>)</li>
+<li>Python packages<ul>
+<li>numpy</li>
+<li>PyYAML</li>
+<li>pyrealsense2</li>
 </ul>
-<p>Before using DeepClaw, please ensure you have installed all above packages.</p>
-<h2 id="install-using-pip">Install using pip</h2>
+</li>
+</ul>
+<p>Before using DeepClaw, please ensure you have installed all above packages. The python packages <code>numpy</code>, <code>PyYaml</code>, and <code>pyrealsense2</code> will be installed when isntalling DeepClaw using pip.</p>
+<h2 id="install-using-pip">Install using pip<a class="headerlink" href="#install-using-pip" title="Permanent link">&para;</a></h2>
 <p>Install DeepClaw using pip in virtual environment.</p>
-<pre><code>$ python3 -m pip install DeepClaw
-</code></pre>
-<h2 id="install-using-docker">Install using Docker</h2>
-<p>Update later.</p>
-<h2 id="install-from-source">Install from source</h2>
+<div class="highlight"><pre><span></span><code>python3 -m pip install DeepClaw
+</code></pre></div>
+
+<h2 id="install-from-source">Install from source<a class="headerlink" href="#install-from-source" title="Permanent link">&para;</a></h2>
 <p>Clone repository from Github.</p>
-<pre><code>$ git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
-$ cd DeepClawBenchmark
-</code></pre>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/bionicdl-sustech/DeepClawBenchmark.git
+cd DeepClawBenchmark
+</code></pre></div>
 
 <p>Install DeepClaw.</p>
-<pre><code>$ python3 setup.py install
-</code></pre>
+<div class="highlight"><pre><span></span><code>python3 setup.py install
+</code></pre></div>
               
             </div>
           </div>

@@ -2,12 +2,20 @@
 
 ## v2.0
 
-updated with server-client support.
+DeepClaw with server-client support.
+- move to Python 3.7
+- update with server-client support
+- add trash sorting project
+- change the way loading configuration
+- fixed some bugs of drivers
 
 ## v1.5
 
-early design used in XXX.
+DeepClaw released version.
+- users can install DeepClaw by using pip
 
 ## v1.0
 
-early design used in XXX.
+The first version of DeepClaw
+- Based on Python 2.7
+- UR10e, UR5, Realsense D435, and Realsense D435i support

@@ -34,7 +34,7 @@ class Realsense(object):
         if self.serial_number != '' and self.serial_number is not None:
             print('Config for realsense %s'%self.serial_id)
 	
-	# the resolution of color image can be higher than depth image
+        # the resolution of color image can be higher than depth image
         config.enable_stream(rs.stream.infrared, 1, 1280, 720, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.infrared, 2, 1280, 720, rs.format.y8, self.fps)
         config.enable_stream(rs.stream.depth, 1280, 720, rs.format.z16, self.fps)
@@ -46,15 +46,15 @@ class Realsense(object):
 
         self.scale = self.get_depth_scale()
 
-        """
-        @Description: get images from a camera
-        @parameters[in]: None
-        @return:
-            color_image: color image
-            depth_image: depth image, unit:m
-            point_cloud: point cloud ,unit:m
-            infrared_L, infrared_R: left infrared image and right infrared image
-        """
+    """
+    @Description: get images from a camera
+    @parameters[in]: None
+    @return:
+        color_image: color image
+        depth_image: depth image, unit:m
+        point_cloud: point cloud ,unit:m
+        infrared_L, infrared_R: left infrared image and right infrared image
+    """
     def get_frame(self):
         frames = self.pipeline.wait_for_frames()
         aligned_frames = self.align.process(frames)
@@ -73,15 +73,15 @@ class Realsense(object):
 
         return Frame([color_image], [depth_image], [point_cloud], [infrared_L, infrared_R])
 
-        """
-        @Description: get intrinsics attributes of a camera
-        @parameters[in]: None
-        @return:
-            intrinsics.fx: focal length of the image in width(columns)
-            intrinsics.fy: focal length of the image in height(rows)
-            intrinsics.ppx: the pixel coordinates of the principal point (center of projection) in width
-            intrinsics.ppy: the pixel coordinates of the principal point (center of projection) in height
-        """
+    """
+    @Description: get intrinsics attributes of a camera
+    @parameters[in]: None
+    @return:
+        intrinsics.fx: focal length of the image in width(columns)
+        intrinsics.fy: focal length of the image in height(rows)
+        intrinsics.ppx: the pixel coordinates of the principal point (center of projection) in width
+        intrinsics.ppy: the pixel coordinates of the principal point (center of projection) in height
+    """
     def get_intrinsics(self):
         color_stream = self.profile.get_stream(rs.stream.color)
         intrinsics = color_stream.as_video_stream_profile().get_intrinsics()
