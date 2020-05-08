@@ -71,5 +71,3 @@ The DeepClaw cell, shown on the bottom of the following figure, is a self-contai
 ## DeepClaw Stations with AUBOi5 (TODO)
 
 ### AUBOi5+Suction+D435 (TODO)
-
-![](asset/fig-DeepClawDesign.png)

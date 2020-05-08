@@ -4,7 +4,7 @@ In DeepClaw, a manipulation task involves three hierarchical concepts: task, sub
 
 ## Waste Sorting: Detector of Daily Life Waste
 
-With the development of the economy, we are producing more daily life waste than ever in history. Waste sorting can help improve the recycling of renewable resources. The waste sorting task aims to train a waste detector and build a automatic waste sorting station using robot arms. The training dataset is from 2020 Haihua AI Challange - Garbage classification. A description can be found under DeepClawBenchmark/data/Haihua-Waste-Sorting. In the demo, we use a UR10e, a Realsense D435 camera, a HandE with self-designed soft fingers to build a automatic waste sorting station. Please refer to the project page (DeepClawBenchmark/projects/proj_WasteSorting) for more details.
+With the development of the economy, we are producing more daily life waste than ever in history. Waste sorting can help improve the recycling of renewable resources. The waste sorting task aims to train a waste detector and build a automatic waste sorting station using robot arms. The training dataset is from 2020 Haihua AI Challange - Garbage classification. A description can be found under DeepClawBenchmark/data/Haihua-Waste-Sorting. In the demo, we use a UR10e, a Realsense D435 camera, a HandE with self-designed soft fingers to build a automatic waste sorting station. Please refer to the [project code](https://github.com/bionicdl-sustech/DeepClaw/tree/master/deepclaw/projects/proj_TrashSorting) for more details.
 
 ## Tic-Tac-Toe: Board Games as Adversarial Interaction
 
