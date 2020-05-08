@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>DeepClaw Pipeline - DeepClaw</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "DeepClaw Pipeline";
+    var mkdocs_page_input_path = "pipeline.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> DeepClaw</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Home</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Manual</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">DeepClaw Pipeline</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#segmentation">Segmentation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recognition">Recognition</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#grasping-planning">Grasping Planning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#motion-planning">Motion Planning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#end-to-end">End-to-End</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../robot/">Robot Library</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../module/">Module Pool</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../task/">Task Family</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data/">Common Dataset</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../code-api/">deepclaw</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Notes</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../licence/">Licence</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../release/">Release Note</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../devnote/">For Developers</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">DeepClaw</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Manual &raquo;</li>
+        
+      
+    
+    <li>DeepClaw Pipeline</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <p><img alt="Function Pipeline" src="../asset/fig-FunctionPipeline.png" /></p>
+<h1 id="standardized-process-in-deepclaw">Standardized Process in DeepClaw<a class="headerlink" href="#standardized-process-in-deepclaw" title="Permanent link">&para;</a></h1>
+<p>In DeepClaw, a sub-task is defined by a pipeline of modules, including segmentation, recognition, grasp planning, and motion planning, as shown in above figure. The pipeline takes color/depth images, force feedback, hardware limitation, and environment information as input and gives actions to the manipulation system and pushes data and results to data monitor. </p>
+<h2 id="segmentation">Segmentation<a class="headerlink" href="#segmentation" title="Permanent link">&para;</a></h2>
+<p>Segmentation and recognition involve analyzing information gained from the perception system. Segmentation is the process that robot cell collecting environment information and representing spatial information of the target objects by using perception algorithms. The output of the segmentation module can be pixel-wise masks or bounding boxes. DeepClaw includes basic segmentation based on contour and edge detection in OpenCV.</p>
+<p><a href="[]">Code</a> | <a href="[]">Segmentation Module Pool</a></p>
+<h2 id="recognition">Recognition<a class="headerlink" href="#recognition" title="Permanent link">&para;</a></h2>
+<p>Recognition is the process of extracting features of the target object beyond location information. In this step, the robot cell infers the category of the target object by applying specific methods, such as support vector machine(SVM) and convolutional neural network. Some of the end-to-end  neural networks infer the location and category of the target object at the same time.</p>
+<p><a href="[]">Code</a> | <a href="[]">Recognition Module Pool</a></p>
+<h2 id="grasping-planning">Grasping Planning<a class="headerlink" href="#grasping-planning" title="Permanent link">&para;</a></h2>
+<p>Grasping planning aims to find the optimal pose for the robot arm and end-effect to approach the target objects, which is highly dependent on both the end-effector and the objects. Recent years, research interests have shifted from analytic methods to data-driven methods. DeepClaw has implemented an end-to-end grasp planning model based on fully convolutional AlexNet, which was trained on 5000 random grasps with labels. </p>
+<p><a href="[]">Code</a> | <a href="[]">Grasping Planning Module Pool</a></p>
+<h2 id="motion-planning">Motion Planning<a class="headerlink" href="#motion-planning" title="Permanent link">&para;</a></h2>
+<p>Motion planning utilizes information above, such as grasping pose, force sensor data, constrain of the robot system, and limitation of working space, to obtain collision-free trajectories. Currently, waypoint-based motion planning is used through our tasks. For UR5 and UR10e, we utilize the movej command implemented in UR’s controller to plan and execute a path between waypoints. For Franka, we utilize a fourthorder motion generator in the joint space provided by the libfranka software. </p>
+<p><a href="[]">Code</a> | <a href="[]">Motion Planning Module Pool</a></p>
+<h2 id="end-to-end">End-to-End<a class="headerlink" href="#end-to-end" title="Permanent link">&para;</a></h2>
+<p>Actually, many learning algorithms may implement multiple functions, like SSD for both localization and recognition. So, the sub-task process may transforms to three or two, even only one stage process.</p>
+<p><a href="[]">Code</a> | <a href="[]">End-to-End</a></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../robot/" class="btn btn-neutral float-right" title="Robot Library">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../install/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../install/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../robot/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Sim-2-Real - DeepClaw</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Sim-2-Real";
+    var mkdocs_page_input_path = "sim2real.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> DeepClaw</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <p class="caption"><span class="caption-text">Home</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../install/">Installation</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Manual</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../pipeline/">DeepClaw Pipeline</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../robot/">Robot Library</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../module/">Module Pool</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../task/">Task Family</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data/">Common Dataset</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">API</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../code-api/">deepclaw</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Notes</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../licence/">Licence</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../release/">Release Note</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../devnote/">For Developers</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">DeepClaw</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Sim-2-Real</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="sim-2-real">Sim-2-Real<a class="headerlink" href="#sim-2-real" title="Permanent link">&para;</a></h1>
+<h2 id="introduction-to-coppeliasim-v-rep-and-pyrep">Introduction to CoppeliaSim (V-REP) and PyRep<a class="headerlink" href="#introduction-to-coppeliasim-v-rep-and-pyrep" title="Permanent link">&para;</a></h2>
+<p>We use CoppeliaSim and PyRep for the simulation in deepclaw.</p>
+<p>The robot simulator CoppeliaSim, with integrated development environment, is based on a distributed control architecture: each object/model can be individually controlled via an embedded script, a plugin, a ROS or BlueZero node, a remote API client, or a custom solution. This makes CoppeliaSim very versatile and ideal for multi-robot applications. Controllers can be written in C/C++, Python, Java, Lua, Matlab or Octave.</p>
+<p>PyRep is a toolkit for robot learning research, built on top of CoppeliaSim (previously called V-REP).</p>
+<p>Please refer to the deepclaw/sim2real/simulation folder for installation instructions and usage examples.</p>
+<h2 id="project-1-kinematic-picking-in-pyrep">Project 1: Kinematic Picking in PyRep<a class="headerlink" href="#project-1-kinematic-picking-in-pyrep" title="Permanent link">&para;</a></h2>
+<p>The Kinematic picking project aims to build a simple pick and place scene in CoppeliaSim and complete the pick and place task without using any vision input. The project also demonstrates how to generate a predefined path and let the Franka arm go through the waypoints.</p>
+<p>Please refer to the deepclaw/sim2real/simulation/tasks folder for instructions.</p>
+<h2 id="project-2-simulated-robot-player">Project 2: Simulated Robot Player<a class="headerlink" href="#project-2-simulated-robot-player" title="Permanent link">&para;</a></h2>
+<p>The project aims to build a robot player of Tic-Tac-Toe in simulation.</p>
+<p>The V-rep Scene file is provided and for making robot move and play with human, we have to implement 3 basic elements:</p>
+<ul>
+<li>
+<p>Computer Vision</p>
+<p>Try to recognize the object on the desk, classify the category of object and calculate the real world position of object via depth image and the previous result you got. It is essential information you should know if you want your virtual robot put the chess on the correct position. </p>
+</li>
+<li>
+<p>The decision maker(Minmax or reinforcement learning method)</p>
+<p>The robot need to know where to put the chess that can lead it go to win. The classical method MINMAX is recommended and the reinforcement learning method that based on MDP is happily welcomed.</p>
+</li>
+<li>
+<p>Robot control</p>
+<p>Control robot to run on the trajectory that lead robot gripper grasp chess and release chess stable and robust.</p>
+</li>
+</ul>
+<h2 id="project-3-claw-machine">Project 3: Claw Machine<a class="headerlink" href="#project-3-claw-machine" title="Permanent link">&para;</a></h2>
+<p>The project aims to program a franka robot to claw the toys in front of the robot and put them to a box next to robot. Please use the graspNet model in DeepClaw, which is an end2end model that take an image as input and output the best position and pose to pick. Please read <a href="https://arxiv.org/abs/2003.01582">our paper</a> for a detailed explanation of the grasping neural network.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
